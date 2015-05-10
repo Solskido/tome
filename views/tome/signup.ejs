@@ -1,0 +1,121 @@
+<div class="site-wrapper">
+	<div class="site-wrapper-inner">
+		<div class="cover-container">
+			<div class="inner cover">
+				<h1 class="cover-heading">Tome</h1>
+
+				<div class="lead text-center">
+					<form id="signupForm" class="floatMid loginBox" role="form">
+						<input id="email" name="email" type="email" class="form-control" placeholder="Email address" required="" autofocus="">
+						<input id="name" name="name" type="text" class="form-control" placeholder="Your name" required="">
+						<input id="password" name="password" type="password" class="form-control" placeholder="Password" required="">
+						<input id="confirmPassword" name="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" required="">
+						<button id="loginButton" class="btn btn-lg btn-paper btn-block" type="submit">Sign up</button>
+					</form>
+
+					<hr class="hr" />
+
+					<div class="floatMid loginBox">
+						<p><small>Already have an account?</small></p>
+						<p><a class="btna" href="/"><button id="loginButton" class="btn btn-lg btn-paper btn-block" type="submit">Login</button></a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var emailInput = $("#email");
+	var nameInput = $("#name");
+	var passwordInput = $("#password");
+	var confirmPasswordInput = $("#confirmPassword");
+
+	function signup()
+	{
+		emailInput.removeClass("error");
+		nameInput.removeClass("error");
+		passwordInput.removeClass("error");
+		confirmPasswordInput.removeClass("error");
+
+		var email = emailInput.val();
+		var name = nameInput.val();
+		var password = passwordInput.val();
+		var confirmPassword = confirmPasswordInput.val();
+
+		if(!email
+		|| (email.trim() === ""))
+		{
+			emailInput.addClass("error");
+			return false;
+		}
+
+		if(!name
+		|| (name.trim() === ""))
+		{
+			nameInput.addClass("error");
+			return false;
+		}
+
+		if(!password
+		|| (password.trim() === ""))
+		{
+			passwordInput.addClass("error");
+			return false;
+		}
+
+		if(!confirmPassword
+		|| (confirmPassword.trim() === ""))
+		{
+			confirmPasswordInput.addClass("error");
+			return false;
+		}
+
+		if(password !== confirmPassword)
+		{
+			passwordInput.addClass("error");
+			confirmPasswordInput.addClass("error");
+			return false;
+		}
+
+		$.ajax({
+			url: "/me/signup",
+			method: "POST",
+			data: {
+				"email": email,
+				"name": name,
+				"password": password
+			},
+			success: function(data, jqXHR, textStatus)
+			{
+				console.log("great success");
+				window.location.href = "/";
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				console.log(jqXHR);
+				emailInput.addClass("error");
+				nameInput.addClass("error");
+				passwordInput.addClass("error");
+				confirmPasswordInput.addClass("error");
+			}
+		});
+	}
+
+	$(document).ready(function()
+	{
+		$("#signupForm").submit(function(e)
+		{
+			e.preventDefault();
+
+			signup();
+		});
+
+		$("#signupButton").click(function(e)
+		{
+			e.preventDefault();
+
+			signup();
+		});
+	});
+</script>

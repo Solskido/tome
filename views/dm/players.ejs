@@ -1,0 +1,81 @@
+<!-- Page Heading -->
+<div class="row heading page-header">
+	<div class="col-lg-12">
+		<h1>
+			Players
+		</h1>
+	</div>
+</div>
+<!-- /.row -->
+
+<div class="row">
+	<div class="col-xs-12">
+
+		<%
+		for(var p = 0; p < players.length; p++)
+		{
+		%>
+		<hr class="hr" />
+		<h2><span class="player"><%= players[p].name %></span> - <%= players[p].email %></h2>
+		<%
+			var chars = 0;
+			for(var i = 0; i < players[p].characters.length; i++)
+			{
+				if((players[p].characters[i].type === "ooc")
+				|| (players[p].characters[i].type === "dm"))
+				{
+					continue;
+				}
+				chars++;
+			%>
+			<div class="row character wide" data-id="<%= players[p].characters[i].id %>">
+				<div class="selector"></div>
+				<div class="col-md-3 col-sm-4 text-center">
+					<a href="#">
+						<img class="avatar" width="200" src="<%= players[p].characters[i].avatar %>" alt="">
+					</a>
+				</div>
+				<div class="col-md-9 col-sm-8">
+					<h3 class="name"><%= players[p].characters[i].name %></h3>
+					<h4 class="class"><%= players[p].characters[i].race %> &mdash; <%= players[p].characters[i].level %></h4>
+					<%
+					if(players[p].characters[i].bio)
+					{
+						var firstSentence = players[p].characters[i].bio.split(".")[0] + ".";
+						if(firstSentence.length > 200)
+						{
+							firstSentence = firstSentence.substr(0, 197) + "...";
+						}
+					%>
+						<h4 class="bio"><%= firstSentence %></h4>
+					<%
+					}
+					%>
+				</div>
+			</div>
+
+			<div class="spacer-80"></div>
+			<%
+			}
+			if(!chars)
+			{
+			%>
+				<h4>This player has no characters.</h4>
+			<%
+			}
+		}
+		%>
+	</div>
+</div>
+
+<hr />
+
+<script>
+	$(document).ready(function()
+	{
+		$(".character[data-id]").click(function(e)
+		{
+			window.location.href = "/char/" + $(e.currentTarget).data("id");
+		});
+	});
+</script>

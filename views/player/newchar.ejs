@@ -1,0 +1,2275 @@
+<!-- Page Heading -->
+<div class="row heading page-header">
+	<div class="col-lg-12">
+		<h1>
+			<span data-mirrored="name">Name</span>
+			<small>Character</small>
+		</h1>
+	</div>
+</div>
+<!-- /.row -->
+
+<div class="row">
+	<div class="col-xs-12">
+
+		<div class="row character wide editable">
+			<div class="charsheet col-md-12">
+				<div class="row profile">
+					<div class="col-md-12">
+						<h2 class="text-center">Profile</h2>
+						<hr />
+					</div>
+					<!------------------------------------>
+					<!--		Avatar					-->
+					<!------------------------------------>
+					<div class="col-md-3 text-center">
+						<a href="#">
+							<img id="image" class="avatar" width="200" src="/images/placeholder.jpg" alt="" data-id="">
+							<div class="uploadReminder">Click<br />to<br />Upload</div>
+							<div class="imageError"></div>
+						</a>
+						<form id="uploadAvatar">
+							<input id="imageUpload" class="hidden" type="file" accept="image/*" />
+						</form>
+					</div>
+					<div class="col-md-9">
+						<div class="row">
+							<div class="vspace-19"></div>
+							<!------------------------------------>
+							<!--		Name					-->
+							<!------------------------------------>
+							<div class="col-md-6">
+								<div><small>NAME <span id="secret_name" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="name" data-mirrored="name" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Alignment				-->
+							<!------------------------------------>
+							<div class="col-md-4">
+								<div><small>ALIGNMENT <span id="secret_alignment" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="alignment" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Gender					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<div><small>GENDER <span id="secret_gender" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="gender" contenteditable></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="vspace-19"></div>
+							<!------------------------------------>
+							<!--		Character Level			-->
+							<!------------------------------------>
+							<div class="col-md-4">
+								<div><small>CHARACTER CLASS/LEVEL <span id="secret_level" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="level" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Deity					-->
+							<!------------------------------------>
+							<div class="col-md-4">
+								<div><small>DEITY <span id="secret_deity" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="deity" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Homeland				-->
+							<!------------------------------------>
+							<div class="col-md-4">
+								<div><small>HOMELAND <span id="secret_homeland" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="homeland" contenteditable></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="vspace-19"></div>
+							<!------------------------------------>
+							<!--		Race					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<div><small>RACE <span id="secret_race" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="race" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Size					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<div><small>SIZE <span id="secret_size" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="size" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Age						-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<div><small>AGE <span id="secret_age" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="age" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Height					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<div><small>HEIGHT <span id="secret_height" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="height" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Weight					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<div><small>WEIGHT <span id="secret_weight" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="weight" contenteditable></div>
+							</div>
+							<!------------------------------------>
+							<!--		Eyes					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<div><small>EYES <span id="secret_eyes" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+								<div id="eyes" contenteditable></div>
+							</div>
+						</div>
+					</div>
+					<!------------------------------------>
+					<!--		Bio						-->
+					<!------------------------------------>
+					<div class="col-md-12">
+						<div><small>BIOGRAPHY <span id="secret_bio" class="secrecy"><i class="fa fa-circle-o"></i> Secret</span></small></div>
+						<div id="bio" class="expandable" contenteditable></div>
+					</div>
+					<!------------------------------------>
+					<!--		Notes					-->
+					<!------------------------------------>
+					<div class="col-md-12">
+						<div><small>NOTES (VISIBLE ONLY BY YOU)</small></div>
+						<div id="notes" class="expandable" contenteditable></div>
+					</div>
+				</div>
+				<div class="row sheet">
+					<div class="col-md-12">
+						<h2 class="text-center">Character Sheet</h2>
+						<hr />
+					</div>
+					<div class="col-md-7">
+						<div class="col-md-7 attrs">
+							<!------------------------------------>
+							<!--		Attributes				-->
+							<!------------------------------------>
+							<div class="col-md-3 attrcol">
+								<div class="attr left"><small>ABILITY NAME</small></div>
+								<div class="attr left legend">STR<br /><small>STRENGTH</small></div>
+								<div class="attr left legend">DEX<br /><small>DEXTERITY</small></div>
+								<div class="attr left legend">CON<br /><small>CONSTITUTION</small></div>
+								<div class="attr left legend">INT<br /><small>INTELLECT</small></div>
+								<div class="attr left legend">WIS<br /><small>WISDOM</small></div>
+								<div class="attr left legend">CHA<br /><small>CHARISMA</small></div>
+							</div>
+							<div class="col-md-9">
+								<div class="col-md-3 attrcol">
+									<div class="attr top"><small>ABILITY SCORE</small></div>
+									<div id="as_str" class="attr abilityscore" contenteditable></div>
+									<div id="as_dex" class="attr abilityscore" contenteditable></div>
+									<div id="as_con" class="attr abilityscore" contenteditable></div>
+									<div id="as_int" class="attr abilityscore" contenteditable></div>
+									<div id="as_wis" class="attr abilityscore" contenteditable></div>
+									<div id="as_cha" class="attr abilityscore" contenteditable></div>
+								</div>
+								<div class="col-md-3 attrcol">
+									<div class="attr top"><small>ABILITY MODIFIER</small></div>
+									<div id="am_str" class="attr calculated"></div>
+									<div id="am_dex" class="attr calculated"></div>
+									<div id="am_con" class="attr calculated"></div>
+									<div id="am_int" class="attr calculated"></div>
+									<div id="am_wis" class="attr calculated"></div>
+									<div id="am_cha" class="attr calculated"></div>
+								</div>
+								<div class="col-md-3 attrcol">
+									<div class="attr top"><small>TEMP ADJUST.</small></div>
+									<div id="ta_str" class="attr tempas" contenteditable></div>
+									<div id="ta_dex" class="attr tempas" contenteditable></div>
+									<div id="ta_con" class="attr tempas" contenteditable></div>
+									<div id="ta_int" class="attr tempas" contenteditable></div>
+									<div id="ta_wis" class="attr tempas" contenteditable></div>
+									<div id="ta_cha" class="attr tempas" contenteditable></div>
+								</div>
+								<div class="col-md-3 attrcol">
+									<div class="attr top"><small>TEMP MODIFIER</small></div>
+									<div id="tm_str" class="attr calculated"></div>
+									<div id="tm_dex" class="attr calculated"></div>
+									<div id="tm_con" class="attr calculated"></div>
+									<div id="tm_int" class="attr calculated"></div>
+									<div id="tm_wis" class="attr calculated"></div>
+									<div id="tm_cha" class="attr calculated"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<!------------------------------------>
+							<!--		Hit Points				-->
+							<!------------------------------------>
+							<div class="row attrrow">
+								<div class="col-md-4 attrcol">
+									<div class="hp left legend">HP<br /><small>HIT POINTS</small></div>
+								</div>
+								<div class="col-md-8 attrcol">
+									<div class="row attrrow">
+										<div class="col-md-7 attrcol">
+											<div id="maxhp" contenteditable></div>
+											<span class="inputbuddy">TOTAL</span>
+										</div>
+										<div class="col-md-5 attrcol">
+											<div id="dr" contenteditable></div>
+											<span class="inputbuddy">DR</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row attrrow">
+								<div class="col-md-12 attrcol">
+									<div><small>WOUNDS / CURRENT HP</small></div>
+									<div id="currhp" contenteditable></div>
+								</div>
+							</div>
+							<div class="row attrrow">
+								<div class="col-md-12 attrcol">
+									<div><small>NONLETHAL DAMAGE</small></div>
+									<div id="nlhp" contenteditable></div>
+								</div>
+							</div>
+							<!------------------------------------>
+							<!--		Initiative				-->
+							<!------------------------------------>
+							<div class="row attrrow">
+								<div class="col-md-5 attrcol">
+									<div class="vspace-38"></div>
+									<div class="ini left legend">INITIATIVE<br /><small>MODIFIER</small></div>
+								</div>
+								<div class="col-md-7 attrcol">
+									<div class="row attrrow">
+										<div class="col-md-1"></div>
+										<div class="col-md-3 attrcol">
+											<div class="text-center"><small><br />TOTAL</small></div>
+										</div>
+										<div class="col-md-1"></div>
+										<div class="col-md-3 attrcol">
+											<div class="text-center"><small>DEX<br />MOD</small></div>
+										</div>
+										<div class="col-md-1"></div>
+										<div class="col-md-3 attrcol">
+											<div class="text-center"><small>MISC<br />MOD</small></div>
+										</div>
+									</div>
+									<div class="row attrrow">
+										<div class="col-md-1 attrcol"></div>
+										<div class="col-md-3 attrcol">
+											<div id="ini" class="calculated"></div>
+										</div>
+										<div class="col-md-1 attrcol">
+											<div class="math">=</div>
+										</div>
+										<div class="col-md-3 attrcol">
+											<div id="dexini" class="calculated"></div>
+										</div>
+										<div class="col-md-1 attrcol">
+											<div class="math">+</div>
+										</div>
+										<div class="col-md-3 attrcol">
+											<div id="miscini" contenteditable></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Armor Class				-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+						</div>
+						<div class="row attrrow" style="margin-bottom: 1px;">
+							<div class="col-md-3 attrcol">
+								<div class="vspace-38"></div>
+								<div class="left legend">AC<br /><small>ARMOR CLASS</small></div>
+								<div class="left legend">TOUCH<br /><small>ARMOR CLASS</small></div>
+								<div class="left legend">FLAT-FOOTED<br /><small>ARMOR CLASS</small></div>
+							</div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small><br />TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>ARMOR BONUS</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>SHIELD BONUS</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>DEX<br />MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>SIZE MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>NATURAL ARMOR</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>DEFLECT. MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>MISC MOD</small></div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ac">
+										<div id="ac" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div class="calculated">10</div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_armor" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_shield" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_size" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_natural" data-mirrored="natural_ac" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_deflection" data-mirrored="deflection_ac" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_misc" contenteditable></div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div class="calculated">10</div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac_size" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac_deflection" data-mirrored="deflection_ac" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac_misc" contenteditable></div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div class="calculated">10</div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_armor" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_shield" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_size" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_natural" data-mirrored="natural_ac" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_deflection" data-mirrored="deflection_ac" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_misc" contenteditable></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Base Attack Bonus		-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+							<div class="col-md-6 attrcol">
+								<div class="left cmlabel">BASE ATTACK BONUS</div>
+							</div>
+							<div class="col-md-6 attrcol">
+								<div id="bab" data-mirrored="bab" contenteditable></div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Spell Resistance		-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+							<div class="col-md-6 attrcol">
+								<div class="left cmlabel">SPELL RESISTANCE</div>
+							</div>
+							<div class="col-md-6 attrcol">
+								<div id="sr" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+							<div class="col-md-4 attrcol"></div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ab">
+										<div class="text-center"><br /><small>TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ab">
+										<div class="text-center"><small>BASE ATTACK BONUS</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ab">
+										<div class="text-center"><br /><small>ABILITY MODIFIER</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ab">
+										<div class="text-center"><br /><small>SIZE MODIFIER</small></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Melee					-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="col-md-4 attrcol">
+								<div class="left legend">MELEE<br /><small>ATTACK BONUS</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ab">
+										<div id="mab" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="mab_bab" data-mirrored="bab" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="mab_str" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="mab_size" class="calculated"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Ranged					-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+							<div class="col-md-4 attrcol">
+								<div class="left legend">RANGED<br /><small>ATTACK BONUS</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ab">
+										<div id="rab" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="rab_bab" data-mirrored="bab" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="rab_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="rab_size" class="calculated"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Attacks/Weapons			-->
+						<!------------------------------------>
+						<div class="row">
+							<div class="vspace-19"></div>
+							<div class="col-md-6">
+								<div><small>SPECIAL ATTACK</small></div>
+							</div>
+							<div class="col-md-3">
+								<div><small>ATTACK BONUS</small></div>
+							</div>
+							<div class="col-md-3">
+								<div><small>CRITICAL</small></div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Special					-->
+						<!------------------------------------>
+						<div class="row special">
+							<div class="col-md-6">
+								<div id="special" contenteditable></div>
+							</div>
+							<div class="col-md-3">
+								<div id="special_ab" contenteditable></div>
+							</div>
+							<div class="col-md-3">
+								<div id="special_crit" contenteditable></div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Weapons					-->
+						<!------------------------------------>
+						<div class="row">
+							<div class="vspace-19"></div>
+							<h4 class="text-center">WEAPONS</h4>
+						</div>
+						<div class="gear">
+							<div class="row">
+								<div class="col-md-6">
+									<div><small>WEAPON</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>ATTACK BONUS</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>CRITICAL</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div id="weapon1" contenteditable></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon1_ab" contenteditable></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon1_crit" contenteditable></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div><small>TYPE</small></div>
+								</div>
+								<div class="col-md-2">
+									<div><small>RANGE</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>AMMUNITION</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>DAMAGE</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div id="weapon1_type" contenteditable></div>
+								</div>
+								<div class="col-md-2">
+									<div id="weapon1_range" contenteditable></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon1_ammo" contenteditable></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon1_dmg" contenteditable></div>
+								</div>
+							</div>
+						</div>
+						<div class="vspace-19"></div>
+						<div class="gear">
+							<div class="row">
+								<div class="col-md-6">
+									<div><small>WEAPON</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>ATTACK BONUS</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>CRITICAL</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div id="weapon2" contenteditable></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon2_ab" contenteditable></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon2_crit" contenteditable></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div><small>TYPE</small></div>
+								</div>
+								<div class="col-md-2">
+									<div><small>RANGE</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>AMMUNITION</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>DAMAGE</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div id="weapon2_type" contenteditable></div>
+								</div>
+								<div class="col-md-2">
+									<div id="weapon2_range" contenteditable></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon2_ammo" contenteditable></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon2_dmg" contenteditable></div>
+								</div>
+							</div>
+						</div>
+						<div class="vspace-19"></div>
+						<div class="gear">
+							<div class="row">
+								<div class="col-md-6">
+									<div><small>WEAPON</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>ATTACK BONUS</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>CRITICAL</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div id="weapon3" contenteditable></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon3_ab" contenteditable></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon3_crit" contenteditable></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div><small>TYPE</small></div>
+								</div>
+								<div class="col-md-2">
+									<div><small>RANGE</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>AMMUNITION</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>DAMAGE</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div id="weapon3_type" contenteditable></div>
+								</div>
+								<div class="col-md-2">
+									<div id="weapon3_range" contenteditable></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon3_ammo" contenteditable></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon3_dmg" contenteditable></div>
+								</div>
+							</div>
+						</div>
+						<div class="vspace-19"></div>
+						<div class="gear">
+							<div class="row">
+								<div class="col-md-6">
+									<div><small>WEAPON</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>ATTACK BONUS</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>CRITICAL</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div id="weapon4" contenteditable></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon4_ab" contenteditable></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon4_crit" contenteditable></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div><small>TYPE</small></div>
+								</div>
+								<div class="col-md-2">
+									<div><small>RANGE</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>AMMUNITION</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>DAMAGE</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div id="weapon4_type" contenteditable></div>
+								</div>
+								<div class="col-md-2">
+									<div id="weapon4_range" contenteditable></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon4_ammo" contenteditable></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon4_dmg" contenteditable></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="row attrrow">
+							<!------------------------------------>
+							<!--		Speed					-->
+							<!------------------------------------>
+							<div class="col-md-9">
+								<div class="row attrrow">
+									<div class="col-md-4 attrcol">
+										<div class="vspace-19"></div>
+										<div class="hp left legend">SPEED<br /><small>LAND</small></div>
+									</div>
+									<div class="col-md-8 attrcol">
+										<div class="row attrrow">
+											<div class="col-md-6 attrcol">
+												<div><small>BASE SPEED</small></div>
+												<div class="row attrrow">
+													<div class="col-md-6 attrcol">
+														<div id="speed_base_ft" contenteditable></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+													<div class="col-md-6 attrcol">
+														<div id="speed_base_sq" class="calculated"></div>
+														<span class="inputbuddy">SQ</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 attrcol">
+												<div><small>WITH ARMOR</small></div>
+												<div class="row attrrow">
+													<div class="col-md-6 attrcol">
+														<div id="speed_armor_ft" contenteditable></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+													<div class="col-md-6 attrcol">
+														<div id="speed_armor_sq" class="calculated"></div>
+														<span class="inputbuddy">SQ</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-5 attrcol">
+										<div class="row attrrow">
+											<div class="col-md-4 attrcol">
+												<div><small>FLY</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_fly" contenteditable></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-8 attrcol">
+												<div><small>FLY MANEUVER</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_fly_manuv" contenteditable></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-7 attrcol">
+										<div class="row attrrow">
+											<div class="col-md-4 attrcol">
+												<div><small>SWIM</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_swim" contenteditable></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4 attrcol">
+												<div><small>CLIMB</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_climb" contenteditable></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4 attrcol">
+												<div><small>BURROW</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_burrow" contenteditable></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!------------------------------------>
+							<!--		Modifiers				-->
+							<!------------------------------------>
+							<div class="col-md-3">
+								<div><small>TEMP MODIFIERS</small></div>
+								<div id="temp_mod" contenteditable></div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Saves					-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+						</div>
+						<div class="row attrrow" style="margin-bottom: 1px;">
+							<div class="col-md-4 attrcol">
+								<div class="vspace-19"></div>
+								<div class="left legend">FORTITUDE<br /><small>SAVE</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>BASE</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>ABILITY</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>MAGIC</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>MISC</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>TEMP</small></div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol save">
+										<div id="fort_save" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_base" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_con" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_magic" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_misc" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_temp" contenteditable></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-4 attrcol">
+								<div class="left legend">REFLEX<br /><small>SAVE</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol save">
+										<div id="ref_save" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_base" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_magic" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_misc" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_temp" contenteditable></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-4 attrcol">
+								<div class="left legend">WILL<br /><small>SAVE</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol save">
+										<div id="will_save" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_base" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_wis" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_magic" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_misc" contenteditable></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_temp" contenteditable></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Combat Maneuvers		-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-3 attrcol"></div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>BAB</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>STR MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>SIZE MOD</small></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-3 attrcol">
+								<div class="left cmlabel">CMB</div>
+							</div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-3 attrcol cm">
+										<div id="cmb" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmb_bab" data-mirrored="bab" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmb_str" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmb_size" class="calculated"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-3 attrcol"></div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>CMB</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>DEX MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-3 attrcol">
+								<div class="left cmlabel">CMD</div>
+							</div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-3 attrcol cm">
+										<div id="cmd" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmd_cmb" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmd_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div class="calculated">10</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Skills					-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-12">
+								<h4 class="text-center">SKILLS</h4>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="skilldot">&nbsp;&nbsp;&nbsp;</div>
+							<div class="col-md-6 attrcol"></div>
+							<div class="col-md-2 attrcol skill">
+								<div class="text-center"><small>TOTAL</small></div>
+							</div>
+							<div class="mathsign empty"></div>
+							<div class="col-md-2 attrcol skill">
+								<div class="text-center"><small>ABILITY</small></div>
+							</div>
+							<div class="mathsign empty"></div>
+							<div class="col-md-2 attrcol skill">
+								<div class="text-center"><small>RANKS</small></div>
+							</div>
+							<div class="mathsign empty"></div>
+							<div class="col-md-2 attrcol skill">
+								<div class="text-center"><small>MISC</small></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="acrobatics_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Acrobatics
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="acrobatics" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="acrobatics_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="acrobatics_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="acrobatics_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="appraise_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Appraise
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="appraise" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="appraise_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="appraise_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="appraise_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="bluff_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Bluff
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="bluff" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="bluff_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="bluff_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="bluff_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="climb_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Climb
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="climb" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="climb_str" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="climb_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="climb_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="craft_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Craft
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="craft" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="craft_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="craft_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="craft_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="diplomacy_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Diplomacy
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="diplomacy" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="diplomacy_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="diplomacy_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="diplomacy_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="disable_device_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Disable Device*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disable_device" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disable_device_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disable_device_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disable_device_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="disguise_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Disguise
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disguise" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disguise_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disguise_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disguise_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="escape_artist_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Escape Artist
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="escape_artist" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="escape_artist_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="escape_artist_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="escape_artist_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="fly_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Fly
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="fly" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="fly_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="fly_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="fly_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="handle_animal_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Handle Animal*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="handle_animal" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="handle_animal_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="handle_animal_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="handle_animal_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="heal_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Heal
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="heal" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="heal_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="heal_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="heal_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="intimidate_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Intimidate
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="intimidate" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="intimidate_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="intimidate_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="intimidate_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_arcana_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Arcana)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_arcana" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_arcana_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_arcana_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_arcana_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_dungeoneering_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Dungeoneering)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_dungeoneering" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_dungeoneering_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_dungeoneering_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_dungeoneering_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_engineering_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Engineering)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_engineering" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_engineering_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_engineering_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_engineering_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_geography_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Geography)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_geography" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_geography_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_geography_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_geography_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_history_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (History)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_history" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_history_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_history_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_history_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_local_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Local)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_local" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_local_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_local_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_local_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_nature_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Nature)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nature" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nature_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nature_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nature_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_nobility_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Nobility)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nobility" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nobility_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nobility_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nobility_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_planes_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Planes)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_planes" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_planes_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_planes_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_planes_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_religion_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Religion)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_religion" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_religion_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_religion_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_religion_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="linguistics_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Linguistics*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="linguistics" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="linguistics_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="linguistics_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="linguistics_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="perception_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Perception
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perception" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perception_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perception_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perception_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="perform_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Perform
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perform" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perform_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perform_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perform_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="profession_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Profession*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="profession" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="profession_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="profession_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="profession_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="ride_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Ride
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="ride" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="ride_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="ride_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="ride_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="sense_motive_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Sense Motive
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sense_motive" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sense_motive_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sense_motive_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sense_motive_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="sleight_of_hand_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Sleight of Hand*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sleight_of_hand" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sleight_of_hand_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sleight_of_hand_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sleight_of_hand_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="spellcraft_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Spellcraft*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="spellcraft" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="spellcraft_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="spellcraft_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="spellcraft_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="stealth_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Stealth
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="stealth" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="stealth_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="stealth_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="stealth_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="survival_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Survival
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="survival" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="survival_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="survival_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="survival_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="swim_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Swim
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="swim" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="swim_str" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="swim_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="swim_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="use_magic_device_ca" class="fa fa-circle-o"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Use Magic Device*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="use_magic_device" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="use_magic_device_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="use_magic_device_ranks" contenteditable></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="use_magic_device_misc" contenteditable></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 text-center legend"><i class="fa fa-circle"></i> <small>Class Skill</small></div>
+							<div class="col-md-3 text-center legend">* <small>Trained Only</small></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="spacer-80"></div>
+
+		<button id="createButton" class="btn btn-lg btn-paper">Create</button>
+	</div>
+</div>
+
+<hr />
+
+<%- partial('../ce/js/createorupdatecharacter.ejs') %>

@@ -1,0 +1,72 @@
+<%
+if(rolls
+&& rolls.length)
+{
+%>
+	<div class="diceRolls">
+	<%
+	for(var r = 0; r < rolls.length; r++)
+	{
+	%>
+		<div class="roll">
+			<%
+			switch(rolls[r].die)
+			{
+				case 2:
+					%>
+					<div class="coin">
+						<%= (rolls[r].roll === 1) ? "H" : "T" %>
+					</div>
+					<%
+					break;
+				case 6:
+					%>
+					<div class="d6 r<%= rolls[r].roll %>">&nbsp;</div>
+					<%
+					break;
+				case 100:
+					%>
+					<div class="d10">
+						<%= Math.floor(rolls[r].roll / 10) %>0
+					</div>
+					<div class="d10">
+						<%= Math.floor(rolls[r].roll % 10) %>
+					</div>
+					<%
+					break;
+				default:
+					%>
+					<div class="d<%= rolls[r].die %>">
+						<%= rolls[r].roll %>
+					</div>
+					<%
+					break;
+			}
+			if(rolls[r].add)
+			{
+			%>
+				<div class="math">+ <%= rolls[r].add %></div>
+			<%
+			}
+			else if(rolls[r].subtract)
+			{
+			%>
+				<div class="math">- <%= rolls[r].subtract %></div>
+			<%
+			}
+			if(rolls[r].add
+			|| rolls[r].subtract)
+			{
+			%>
+				<div class="math">= <%= rolls[r].total %></div>
+			<%
+			}
+			%>
+		</div>
+	<%
+	}
+	%>
+	</div>
+<%
+}
+%>

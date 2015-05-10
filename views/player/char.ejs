@@ -1,0 +1,2318 @@
+<% var mine = LOOKUP.ownsCharacter(session.user, character.id) %>
+
+<!-- Page Heading -->
+<div class="row heading page-header">
+	<div class="col-lg-12">
+		<h1>
+			<span data-mirrored="name"><%= (!character.secrets.name || session.user.dm || mine) ? (character.name || "") : "Unknown" %></span>
+			<small>Character</small>
+		</h1>
+	</div>
+</div>
+<!-- /.row -->
+
+<div class="row">
+	<div class="col-xs-12">
+
+		<div class="row character wide <% if(mine) { %>editable<% } else { %>display<% } %>">
+			<div class="charsheet col-md-12">
+				<div class="row profile">
+					<div class="col-md-12">
+						<h2 class="text-center">Profile</h2>
+						<hr />
+					</div>
+					<!------------------------------------>
+					<!--		Avatar					-->
+					<!------------------------------------>
+					<div class="col-md-3 text-center">
+						<% if(mine) { %><a href="#"><% } %>
+							<img id="image" class="avatar" width="200" src="<%= character.avatar || "" %>" alt="" data-id="<%= character.avatar.split("images/")[1] || "" %>">
+							<div class="imageError"></div>
+							<% if(mine) { %></a><% } %>
+						<form id="uploadAvatar">
+							<input id="imageUpload" class="hidden" type="file" accept="image/*" />
+						</form>
+					</div>
+					<div class="col-md-9">
+						<div class="row">
+							<div class="vspace-19"></div>
+							<!------------------------------------>
+							<!--		Name					-->
+							<!------------------------------------>
+							<div class="col-md-6">
+								<% if(mine || (character.name && (!character.secrets.name || session.user.dm))) { %>
+								<div><small>NAME<% if(mine || session.user.dm) { %> <span id="secret_name" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.name) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="name" data-mirrored="name"<% if(mine) { %> contenteditable<% } %>><%= character.name || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Alignment				-->
+							<!------------------------------------>
+							<div class="col-md-4">
+								<% if(mine || (character.alignment && (!character.secrets.alignment || session.user.dm))) { %>
+								<div><small>ALIGNMENT<% if(mine || session.user.dm) { %> <span id="secret_alignment" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.alignment) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="alignment"<% if(mine) { %> contenteditable<% } %>><%= character.alignment || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Gender					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<% if(mine || (character.gender && (!character.secrets.gender || session.user.dm))) { %>
+								<div><small>GENDER<% if(mine || session.user.dm) { %> <span id="secret_gender" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.gender) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="gender"<% if(mine) { %> contenteditable<% } %>><%= character.gender || "" %></div>
+								<% } %>
+							</div>
+						</div>
+						<div class="row">
+							<div class="vspace-19"></div>
+							<!------------------------------------>
+							<!--		Character Level			-->
+							<!------------------------------------>
+							<div class="col-md-4">
+								<% if(mine || (character.level && (!character.secrets.level || session.user.dm))) { %>
+								<div><small>CHARACTER CLASS/LEVEL<% if(mine || session.user.dm) { %> <span id="secret_level" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.level) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="level"<% if(mine) { %> contenteditable<% } %>><%= character.level || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Deity					-->
+							<!------------------------------------>
+							<div class="col-md-4">
+								<% if(mine || (character.deity && (!character.secrets.deity || session.user.dm))) { %>
+								<div><small>DEITY<% if(mine || session.user.dm) { %> <span id="secret_deity" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.deity) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="deity"<% if(mine) { %> contenteditable<% } %>><%= character.deity || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Homeland				-->
+							<!------------------------------------>
+							<div class="col-md-4">
+								<% if(mine || (character.homeland && (!character.secrets.homeland || session.user.dm))) { %>
+								<div><small>HOMELAND<% if(mine || session.user.dm) { %> <span id="secret_homeland" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.homeland) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="homeland"<% if(mine) { %> contenteditable<% } %>><%= character.homeland || "" %></div>
+								<% } %>
+							</div>
+						</div>
+						<div class="row">
+							<div class="vspace-19"></div>
+							<!------------------------------------>
+							<!--		Race					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<% if(mine || (character.race && (!character.secrets.race || session.user.dm))) { %>
+								<div><small>RACE<% if(mine || session.user.dm) { %> <span id="secret_race" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.race) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="race"<% if(mine) { %> contenteditable<% } %>><%= character.race || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Size					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<% if(mine || (character.size && (!character.secrets.size || session.user.dm))) { %>
+								<div><small>SIZE<% if(mine || session.user.dm) { %> <span id="secret_size" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.size) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="size"<% if(mine) { %> contenteditable<% } %>><%= character.size || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Age						-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<% if(mine || (character.age && (!character.secrets.age || session.user.dm))) { %>
+								<div><small>AGE<% if(mine || session.user.dm) { %> <span id="secret_age" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.age) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="age"<% if(mine) { %> contenteditable<% } %>><%= character.age || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Height					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<% if(mine || (character.height && (!character.secrets.height || session.user.dm))) { %>
+								<div><small>HEIGHT<% if(mine || session.user.dm) { %> <span id="secret_height" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.height) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="height"<% if(mine) { %> contenteditable<% } %>><%= character.height || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Weight					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<% if(mine || (character.weight && (!character.secrets.weight || session.user.dm))) { %>
+								<div><small>WEIGHT<% if(mine || session.user.dm) { %> <span id="secret_weight" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.weight) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="weight"<% if(mine) { %> contenteditable<% } %>><%= character.weight || "" %></div>
+								<% } %>
+							</div>
+							<!------------------------------------>
+							<!--		Eyes					-->
+							<!------------------------------------>
+							<div class="col-md-2">
+								<% if(mine || (character.eyes && (!character.secrets.eyes || session.user.dm))) { %>
+								<div><small>EYES<% if(mine || session.user.dm) { %> <span id="secret_eyes" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.eyes) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+								<div id="eyes"<% if(mine) { %> contenteditable<% } %>><%= character.eyes || "" %></div>
+								<% } %>
+							</div>
+						</div>
+					</div>
+					<!------------------------------------>
+					<!--		Bio						-->
+					<!------------------------------------>
+					<div class="col-md-12">
+						<% if(mine || (character.bio && (!character.secrets.bio || session.user.dm ))) { %>
+						<div><small>BIOGRAPHY<% if(mine || session.user.dm) { %> <span id="secret_bio" class="secrecy"><i class="fa fa-circle<% if(!character.secrets.bio) { %>-o<% } %>"></i> Secret</span><% } %></small></div>
+						<div id="bio" class="expandable"<% if(mine) { %> contenteditable<% } %>><%= character.bio || "" %></div>
+						<% } %>
+					</div>
+					<!------------------------------------>
+					<!--		Notes					-->
+					<!------------------------------------>
+					<div class="col-md-12">
+						<% if(mine) { %>
+						<div><small>NOTES (VISIBLE ONLY BY YOU)</small></div>
+						<div id="notes" class="expandable" contenteditable><%= character.notes || "" %></div>
+						<% } %>
+					</div>
+				</div>
+				<% if(mine && character.charsheet) { %>
+				<div class="row sheet">
+					<div class="col-md-12">
+						<h2 class="text-center">Character Sheet</h2>
+						<hr />
+					</div>
+					<div class="col-md-7">
+						<div class="col-md-7 attrs">
+							<!------------------------------------>
+							<!--		Attributes				-->
+							<!------------------------------------>
+							<div class="col-md-3 attrcol">
+								<div class="attr left"><small>ABILITY NAME</small></div>
+								<div class="attr left legend">STR<br /><small>STRENGTH</small></div>
+								<div class="attr left legend">DEX<br /><small>DEXTERITY</small></div>
+								<div class="attr left legend">CON<br /><small>CONSTITUTION</small></div>
+								<div class="attr left legend">INT<br /><small>INTELLECT</small></div>
+								<div class="attr left legend">WIS<br /><small>WISDOM</small></div>
+								<div class="attr left legend">CHA<br /><small>CHARISMA</small></div>
+							</div>
+							<div class="col-md-9">
+								<div class="col-md-3 attrcol">
+									<div class="attr top"><small>ABILITY SCORE</small></div>
+									<div id="as_str" class="attr abilityscore" contenteditable><%= character.charsheet.as_str || "" %></div>
+									<div id="as_dex" class="attr abilityscore" contenteditable><%= character.charsheet.as_dex || "" %></div>
+									<div id="as_con" class="attr abilityscore" contenteditable><%= character.charsheet.as_con || "" %></div>
+									<div id="as_int" class="attr abilityscore" contenteditable><%= character.charsheet.as_int || "" %></div>
+									<div id="as_wis" class="attr abilityscore" contenteditable><%= character.charsheet.as_wis || "" %></div>
+									<div id="as_cha" class="attr abilityscore" contenteditable><%= character.charsheet.as_cha || "" %></div>
+								</div>
+								<div class="col-md-3 attrcol">
+									<div class="attr top"><small>ABILITY MODIFIER</small></div>
+									<div id="am_str" class="attr calculated"></div>
+									<div id="am_dex" class="attr calculated"></div>
+									<div id="am_con" class="attr calculated"></div>
+									<div id="am_int" class="attr calculated"></div>
+									<div id="am_wis" class="attr calculated"></div>
+									<div id="am_cha" class="attr calculated"></div>
+								</div>
+								<div class="col-md-3 attrcol">
+									<div class="attr top"><small>TEMP ADJUST.</small></div>
+									<div id="ta_str" class="attr tempas" contenteditable><%= character.charsheet.ta_str || "" %></div>
+									<div id="ta_dex" class="attr tempas" contenteditable><%= character.charsheet.ta_dex || "" %></div>
+									<div id="ta_con" class="attr tempas" contenteditable><%= character.charsheet.ta_con || "" %></div>
+									<div id="ta_int" class="attr tempas" contenteditable><%= character.charsheet.ta_int || "" %></div>
+									<div id="ta_wis" class="attr tempas" contenteditable><%= character.charsheet.ta_wis || "" %></div>
+									<div id="ta_cha" class="attr tempas" contenteditable><%= character.charsheet.ta_cha || "" %></div>
+								</div>
+								<div class="col-md-3 attrcol">
+									<div class="attr top"><small>TEMP MODIFIER</small></div>
+									<div id="tm_str" class="attr calculated"></div>
+									<div id="tm_dex" class="attr calculated"></div>
+									<div id="tm_con" class="attr calculated"></div>
+									<div id="tm_int" class="attr calculated"></div>
+									<div id="tm_wis" class="attr calculated"></div>
+									<div id="tm_cha" class="attr calculated"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<!------------------------------------>
+							<!--		Hit Points				-->
+							<!------------------------------------>
+							<div class="row attrrow">
+								<div class="col-md-4 attrcol">
+									<div class="hp left legend">HP<br /><small>HIT POINTS</small></div>
+								</div>
+								<div class="col-md-8 attrcol">
+									<div class="row attrrow">
+										<div class="col-md-7 attrcol">
+											<div id="maxhp" contenteditable><%= character.charsheet.maxhp || "" %></div>
+											<span class="inputbuddy">TOTAL</span>
+										</div>
+										<div class="col-md-5 attrcol">
+											<div id="dr" contenteditable><%= character.charsheet.dr || "" %></div>
+											<span class="inputbuddy">DR</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row attrrow">
+								<div class="col-md-12 attrcol">
+									<div><small>WOUNDS / CURRENT HP</small></div>
+									<div id="currhp" contenteditable><%= character.charsheet.currhp || "" %></div>
+								</div>
+							</div>
+							<div class="row attrrow">
+								<div class="col-md-12 attrcol">
+									<div><small>NONLETHAL DAMAGE</small></div>
+									<div id="nlhp" contenteditable><%= character.charsheet.nlhp || "" %></div>
+								</div>
+							</div>
+							<!------------------------------------>
+							<!--		Initiative				-->
+							<!------------------------------------>
+							<div class="row attrrow">
+								<div class="col-md-5 attrcol">
+									<div class="vspace-38"></div>
+									<div class="ini left legend">INITIATIVE<br /><small>MODIFIER</small></div>
+								</div>
+								<div class="col-md-7 attrcol">
+									<div class="row attrrow">
+										<div class="col-md-1"></div>
+										<div class="col-md-3 attrcol">
+											<div class="text-center"><small><br />TOTAL</small></div>
+										</div>
+										<div class="col-md-1"></div>
+										<div class="col-md-3 attrcol">
+											<div class="text-center"><small>DEX<br />MOD</small></div>
+										</div>
+										<div class="col-md-1"></div>
+										<div class="col-md-3 attrcol">
+											<div class="text-center"><small>MISC<br />MOD</small></div>
+										</div>
+									</div>
+									<div class="row attrrow">
+										<div class="col-md-1 attrcol"></div>
+										<div class="col-md-3 attrcol">
+											<div id="ini" class="calculated"></div>
+										</div>
+										<div class="col-md-1 attrcol">
+											<div class="math">=</div>
+										</div>
+										<div class="col-md-3 attrcol">
+											<div id="dexini" class="calculated"></div>
+										</div>
+										<div class="col-md-1 attrcol">
+											<div class="math">+</div>
+										</div>
+										<div class="col-md-3 attrcol">
+											<div id="miscini" contenteditable><%= character.charsheet.miscini || "" %></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Armor Class				-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+						</div>
+						<div class="row attrrow" style="margin-bottom: 1px;">
+							<div class="col-md-3 attrcol">
+								<div class="vspace-38"></div>
+								<div class="left legend">AC<br /><small>ARMOR CLASS</small></div>
+								<div class="left legend">TOUCH<br /><small>ARMOR CLASS</small></div>
+								<div class="left legend">FLAT-FOOTED<br /><small>ARMOR CLASS</small></div>
+							</div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small><br />TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>ARMOR BONUS</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>SHIELD BONUS</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>DEX<br />MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>SIZE MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>NATURAL ARMOR</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>DEFLECT. MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac">
+										<div class="text-center"><small>MISC MOD</small></div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ac">
+										<div id="ac" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div class="calculated">10</div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_armor" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_shield" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_size" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_natural" data-mirrored="natural_ac" contenteditable><%= character.charsheet.ac_natural || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_deflection" data-mirrored="deflection_ac" contenteditable><%= character.charsheet.ac_deflection || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ac_misc" contenteditable><%= character.charsheet.ac_misc || "" %></div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div class="calculated">10</div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac_size" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac_deflection" data-mirrored="deflection_ac" contenteditable><%= character.charsheet.ac_deflection || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="touch_ac_misc" contenteditable><%= character.charsheet.touch_ac_misc || "" %></div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div class="calculated">10</div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_armor" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_shield" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac"></div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_size" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_natural" data-mirrored="natural_ac" contenteditable><%= character.charsheet.ac_natural || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_deflection" data-mirrored="deflection_ac" contenteditable><%= character.charsheet.ac_deflection || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ac">
+										<div id="ff_ac_misc" contenteditable><%= character.charsheet.ff_ac_misc || "" %></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Base Attack Bonus		-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+							<div class="col-md-6 attrcol">
+								<div class="left cmlabel">BASE ATTACK BONUS</div>
+							</div>
+							<div class="col-md-6 attrcol">
+								<div id="bab" data-mirrored="bab" contenteditable><%= character.charsheet.bab || "" %></div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Spell Resistance		-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+							<div class="col-md-6 attrcol">
+								<div class="left cmlabel">SPELL RESISTANCE</div>
+							</div>
+							<div class="col-md-6 attrcol">
+								<div id="sr" contenteditable><%= character.charsheet.sr || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+							<div class="col-md-4 attrcol"></div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ab">
+										<div class="text-center"><br /><small>TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ab">
+										<div class="text-center"><small>BASE ATTACK BONUS</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ab">
+										<div class="text-center"><br /><small>ABILITY MODIFIER</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol ab">
+										<div class="text-center"><br /><small>SIZE MODIFIER</small></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Melee					-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="col-md-4 attrcol">
+								<div class="left legend">MELEE<br /><small>ATTACK BONUS</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ab">
+										<div id="mab" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="mab_bab" data-mirrored="bab" class="calculated"><%= character.charsheet.bab || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="mab_str" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="mab_size" class="calculated"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Ranged					-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+							<div class="col-md-4 attrcol">
+								<div class="left legend">RANGED<br /><small>ATTACK BONUS</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol ab">
+										<div id="rab" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="rab_bab" data-mirrored="bab" class="calculated"><%= character.charsheet.bab || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="rab_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol ab">
+										<div id="rab_size" class="calculated"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Attacks/Weapons			-->
+						<!------------------------------------>
+						<div class="row">
+							<div class="vspace-19"></div>
+							<div class="col-md-6">
+								<div><small>SPECIAL ATTACK</small></div>
+							</div>
+							<div class="col-md-3">
+								<div><small>ATTACK BONUS</small></div>
+							</div>
+							<div class="col-md-3">
+								<div><small>CRITICAL</small></div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Special					-->
+						<!------------------------------------>
+						<div class="row special">
+							<div class="col-md-6">
+								<div id="special" contenteditable><%= character.charsheet.special || "" %></div>
+							</div>
+							<div class="col-md-3">
+								<div id="special_ab" contenteditable><%= character.charsheet.special_ab || "" %></div>
+							</div>
+							<div class="col-md-3">
+								<div id="special_crit" contenteditable><%= character.charsheet.special_crit || "" %></div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Weapons					-->
+						<!------------------------------------>
+						<div class="row">
+							<div class="vspace-19"></div>
+							<h4 class="text-center">WEAPONS</h4>
+						</div>
+						<div class="gear">
+							<div class="row">
+								<div class="col-md-6">
+									<div><small>WEAPON</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>ATTACK BONUS</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>CRITICAL</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div id="weapon1" contenteditable><%= character.charsheet.weapon1 || "" %></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon1_ab" contenteditable><%= character.charsheet.weapon1_ab || "" %></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon1_crit" contenteditable><%= character.charsheet.weapon1_crit || "" %></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div><small>TYPE</small></div>
+								</div>
+								<div class="col-md-2">
+									<div><small>RANGE</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>AMMUNITION</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>DAMAGE</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div id="weapon1_type" contenteditable><%= character.charsheet.weapon1_type || "" %></div>
+								</div>
+								<div class="col-md-2">
+									<div id="weapon1_range" contenteditable><%= character.charsheet.weapon1_range || "" %></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon1_ammo" contenteditable><%= character.charsheet.weapon1_ammo || "" %></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon1_dmg" contenteditable><%= character.charsheet.weapon1_dmg || "" %></div>
+								</div>
+							</div>
+						</div>
+						<div class="vspace-19"></div>
+						<div class="gear">
+							<div class="row">
+								<div class="col-md-6">
+									<div><small>WEAPON</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>ATTACK BONUS</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>CRITICAL</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div id="weapon2" contenteditable><%= character.charsheet.weapon2 || "" %></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon2_ab" contenteditable><%= character.charsheet.weapon2_ab || "" %></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon2_crit" contenteditable><%= character.charsheet.weapon2_crit || "" %></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div><small>TYPE</small></div>
+								</div>
+								<div class="col-md-2">
+									<div><small>RANGE</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>AMMUNITION</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>DAMAGE</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div id="weapon2_type" contenteditable><%= character.charsheet.weapon2_type || "" %></div>
+								</div>
+								<div class="col-md-2">
+									<div id="weapon2_range" contenteditable><%= character.charsheet.weapon2_range || "" %></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon2_ammo" contenteditable><%= character.charsheet.weapon2_ammo || "" %></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon2_dmg" contenteditable><%= character.charsheet.weapon2_dmg || "" %></div>
+								</div>
+							</div>
+						</div>
+						<div class="vspace-19"></div>
+						<div class="gear">
+							<div class="row">
+								<div class="col-md-6">
+									<div><small>WEAPON</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>ATTACK BONUS</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>CRITICAL</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div id="weapon3" contenteditable><%= character.charsheet.weapon3 || "" %></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon3_ab" contenteditable><%= character.charsheet.weapon3_ab || "" %></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon3_crit" contenteditable><%= character.charsheet.weapon3_crit || "" %></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div><small>TYPE</small></div>
+								</div>
+								<div class="col-md-2">
+									<div><small>RANGE</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>AMMUNITION</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>DAMAGE</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div id="weapon3_type" contenteditable><%= character.charsheet.weapon3_type || "" %></div>
+								</div>
+								<div class="col-md-2">
+									<div id="weapon3_range" contenteditable><%= character.charsheet.weapon3_range || "" %></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon3_ammo" contenteditable><%= character.charsheet.weapon3_ammo || "" %></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon3_dmg" contenteditable><%= character.charsheet.weapon3_dmg || "" %></div>
+								</div>
+							</div>
+						</div>
+						<div class="vspace-19"></div>
+						<div class="gear">
+							<div class="row">
+								<div class="col-md-6">
+									<div><small>WEAPON</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>ATTACK BONUS</small></div>
+								</div>
+								<div class="col-md-3">
+									<div><small>CRITICAL</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div id="weapon4" contenteditable><%= character.charsheet.weapon4 || "" %></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon4_ab" contenteditable><%= character.charsheet.weapon4_ab || "" %></div>
+								</div>
+								<div class="col-md-3">
+									<div id="weapon4_crit" contenteditable><%= character.charsheet.weapon4_crit || "" %></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div><small>TYPE</small></div>
+								</div>
+								<div class="col-md-2">
+									<div><small>RANGE</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>AMMUNITION</small></div>
+								</div>
+								<div class="col-md-4">
+									<div><small>DAMAGE</small></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-2">
+									<div id="weapon4_type" contenteditable><%= character.charsheet.weapon4_type || "" %></div>
+								</div>
+								<div class="col-md-2">
+									<div id="weapon4_range" contenteditable><%= character.charsheet.weapon4_range || "" %></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon4_ammo" contenteditable><%= character.charsheet.weapon4_ammo || "" %></div>
+								</div>
+								<div class="col-md-4">
+									<div id="weapon4_dmg" contenteditable><%= character.charsheet.weapon4_dmg || "" %></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="row attrrow">
+							<!------------------------------------>
+							<!--		Speed					-->
+							<!------------------------------------>
+							<div class="col-md-9">
+								<div class="row attrrow">
+									<div class="col-md-4 attrcol">
+										<div class="vspace-19"></div>
+										<div class="hp left legend">SPEED<br /><small>LAND</small></div>
+									</div>
+									<div class="col-md-8 attrcol">
+										<div class="row attrrow">
+											<div class="col-md-6 attrcol">
+												<div><small>BASE SPEED</small></div>
+												<div class="row attrrow">
+													<div class="col-md-6 attrcol">
+														<div id="speed_base_ft" contenteditable><%= character.charsheet.speed_base_ft || "" %></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+													<div class="col-md-6 attrcol">
+														<div id="speed_base_sq" class="calculated"></div>
+														<span class="inputbuddy">SQ</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6 attrcol">
+												<div><small>WITH ARMOR</small></div>
+												<div class="row attrrow">
+													<div class="col-md-6 attrcol">
+														<div id="speed_armor_ft" contenteditable><%= character.charsheet.speed_armor_ft || "" %></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+													<div class="col-md-6 attrcol">
+														<div id="speed_armor_sq" class="calculated"></div>
+														<span class="inputbuddy">SQ</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-5 attrcol">
+										<div class="row attrrow">
+											<div class="col-md-4 attrcol">
+												<div><small>FLY</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_fly" contenteditable><%= character.charsheet.speed_fly || "" %></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-8 attrcol">
+												<div><small>FLY MANEUVER</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_fly_manuv" contenteditable><%= character.charsheet.speed_fly_manuv || "" %></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-7 attrcol">
+										<div class="row attrrow">
+											<div class="col-md-4 attrcol">
+												<div><small>SWIM</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_swim" contenteditable><%= character.charsheet.speed_swim || "" %></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4 attrcol">
+												<div><small>CLIMB</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_climb" contenteditable><%= character.charsheet.speed_climb || "" %></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4 attrcol">
+												<div><small>BURROW</small></div>
+												<div class="row attrrow">
+													<div class="col-md-12 attrcol">
+														<div id="speed_burrow" contenteditable><%= character.charsheet.speed_burrow || "" %></div>
+														<span class="inputbuddy">FT</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!------------------------------------>
+							<!--		Modifiers				-->
+							<!------------------------------------>
+							<div class="col-md-3">
+								<div><small>TEMP MODIFIERS</small></div>
+								<div id="temp_mod" contenteditable><%= character.charsheet.temp_mod || "" %></div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Saves					-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+						</div>
+						<div class="row attrrow" style="margin-bottom: 1px;">
+							<div class="col-md-4 attrcol">
+								<div class="vspace-19"></div>
+								<div class="left legend">FORTITUDE<br /><small>SAVE</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>BASE</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>ABILITY</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>MAGIC</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>MISC</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-2 attrcol save">
+										<div class="text-center"><small>TEMP</small></div>
+									</div>
+								</div>
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol save">
+										<div id="fort_save" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_base" contenteditable><%= character.charsheet.fort_base || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_con" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_magic" contenteditable><%= character.charsheet.fort_magic || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_misc" contenteditable><%= character.charsheet.fort_misc || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="fort_temp" contenteditable><%= character.charsheet.fort_temp || "" %></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-4 attrcol">
+								<div class="left legend">REFLEX<br /><small>SAVE</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol save">
+										<div id="ref_save" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_base" contenteditable><%= character.charsheet.ref_base || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_magic" contenteditable><%= character.charsheet.ref_magic || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_misc" contenteditable><%= character.charsheet.ref_misc || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="ref_temp" contenteditable><%= character.charsheet.ref_temp || "" %></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-4 attrcol">
+								<div class="left legend">WILL<br /><small>SAVE</small></div>
+							</div>
+							<div class="col-md-8 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-2 attrcol save">
+										<div id="will_save" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_base" contenteditable><%= character.charsheet.will_base || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_wis" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_magic" contenteditable><%= character.charsheet.will_magic || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_misc" contenteditable><%= character.charsheet.will_misc || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-2 attrcol save">
+										<div id="will_temp" contenteditable><%= character.charsheet.will_temp || "" %></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Combat Maneuvers		-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-3 attrcol"></div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>BAB</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>STR MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>SIZE MOD</small></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-3 attrcol">
+								<div class="left cmlabel">CMB</div>
+							</div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-3 attrcol cm">
+										<div id="cmb" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmb_bab" data-mirrored="bab" class="calculated"><%= character.charsheet.bab || "" %></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmb_str" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmb_size" class="calculated"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-3 attrcol"></div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>TOTAL</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>CMB</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm">
+										<div class="text-center"><small>DEX MOD</small></div>
+									</div>
+									<div class="mathsign empty"></div>
+									<div class="col-md-3 attrcol cm"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-3 attrcol">
+								<div class="left cmlabel">CMD</div>
+							</div>
+							<div class="col-md-9 attrcol">
+								<div class="row attrrow">
+									<div class="col-md-3 attrcol cm">
+										<div id="cmd" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">=</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmd_cmb" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div id="cmd_dex" class="calculated"></div>
+									</div>
+									<div class="mathsign">
+										<div class="math">+</div>
+									</div>
+									<div class="col-md-3 attrcol cm">
+										<div class="calculated">10</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!------------------------------------>
+						<!--		Skills					-->
+						<!------------------------------------>
+						<div class="row attrrow">
+							<div class="vspace-19"></div>
+						</div>
+						<div class="row attrrow">
+							<div class="col-md-12">
+								<h4 class="text-center">SKILLS</h4>
+							</div>
+						</div>
+						<div class="row attrrow">
+							<div class="skilldot">&nbsp;&nbsp;&nbsp;</div>
+							<div class="col-md-6 attrcol"></div>
+							<div class="col-md-2 attrcol skill">
+								<div class="text-center"><small>TOTAL</small></div>
+							</div>
+							<div class="mathsign empty"></div>
+							<div class="col-md-2 attrcol skill">
+								<div class="text-center"><small>ABILITY</small></div>
+							</div>
+							<div class="mathsign empty"></div>
+							<div class="col-md-2 attrcol skill">
+								<div class="text-center"><small>RANKS</small></div>
+							</div>
+							<div class="mathsign empty"></div>
+							<div class="col-md-2 attrcol skill">
+								<div class="text-center"><small>MISC</small></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="acrobatics_ca" class="fa fa-circle<% if(!character.charsheet.acrobatics_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Acrobatics
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="acrobatics" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="acrobatics_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="acrobatics_ranks" contenteditable><%= character.charsheet.acrobatics_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="acrobatics_misc" contenteditable><%= character.charsheet.acrobatics_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="appraise_ca" class="fa fa-circle<% if(!character.charsheet.appraise_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Appraise
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="appraise" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="appraise_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="appraise_ranks" contenteditable><%= character.charsheet.appraise_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="appraise_misc" contenteditable><%= character.charsheet.appraise_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="bluff_ca" class="fa fa-circle<% if(!character.charsheet.bluff_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Bluff
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="bluff" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="bluff_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="bluff_ranks" contenteditable><%= character.charsheet.bluff_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="bluff_misc" contenteditable><%= character.charsheet.bluff_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="climb_ca" class="fa fa-circle<% if(!character.charsheet.climb_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Climb
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="climb" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="climb_str" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="climb_ranks" contenteditable><%= character.charsheet.climb_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="climb_misc" contenteditable><%= character.charsheet.climb_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="craft_ca" class="fa fa-circle<% if(!character.charsheet.craft_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Craft
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="craft" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="craft_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="craft_ranks" contenteditable><%= character.charsheet.craft_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="craft_misc" contenteditable><%= character.charsheet.craft_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="diplomacy_ca" class="fa fa-circle<% if(!character.charsheet.diplomacy_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Diplomacy
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="diplomacy" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="diplomacy_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="diplomacy_ranks" contenteditable><%= character.charsheet.diplomacy_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="diplomacy_misc" contenteditable><%= character.charsheet.diplomacy_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="disable_device_ca" class="fa fa-circle<% if(!character.charsheet.disable_device_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Disable Device*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disable_device" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disable_device_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disable_device_ranks" contenteditable><%= character.charsheet.disable_device_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disable_device_misc" contenteditable><%= character.charsheet.disable_device_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="disguise_ca" class="fa fa-circle<% if(!character.charsheet.disguise_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Disguise
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disguise" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disguise_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disguise_ranks" contenteditable><%= character.charsheet.disguise_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="disguise_misc" contenteditable><%= character.charsheet.disguise_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="escape_artist_ca" class="fa fa-circle<% if(!character.charsheet.escape_artist_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Escape Artist
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="escape_artist" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="escape_artist_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="escape_artist_ranks" contenteditable><%= character.charsheet.escape_artist_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="escape_artist_misc" contenteditable><%= character.charsheet.escape_artist_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="fly_ca" class="fa fa-circle<% if(!character.charsheet.fly_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Fly
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="fly" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="fly_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="fly_ranks" contenteditable><%= character.charsheet.fly_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="fly_misc" contenteditable><%= character.charsheet.fly_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="handle_animal_ca" class="fa fa-circle<% if(!character.charsheet.handle_animal_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Handle Animal*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="handle_animal" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="handle_animal_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="handle_animal_ranks" contenteditable><%= character.charsheet.handle_animal_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="handle_animal_misc" contenteditable><%= character.charsheet.handle_animal_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="heal_ca" class="fa fa-circle<% if(!character.charsheet.heal_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Heal
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="heal" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="heal_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="heal_ranks" contenteditable><%= character.charsheet.heal_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="heal_misc" contenteditable><%= character.charsheet.heal_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="intimidate_ca" class="fa fa-circle<% if(!character.charsheet.intimidate_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Intimidate
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="intimidate" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="intimidate_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="intimidate_ranks" contenteditable><%= character.charsheet.intimidate_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="intimidate_misc" contenteditable><%= character.charsheet.intimidate_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_arcana_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_arcana_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Arcana)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_arcana" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_arcana_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_arcana_ranks" contenteditable><%= character.charsheet.knowledge_arcana_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_arcana_misc" contenteditable><%= character.charsheet.knowledge_arcana_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_dungeoneering_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_dungeoneering_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Dungeoneering)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_dungeoneering" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_dungeoneering_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_dungeoneering_ranks" contenteditable><%= character.charsheet.knowledge_dungeoneering_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_dungeoneering_misc" contenteditable><%= character.charsheet.knowledge_dungeoneering_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_engineering_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_engineering_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Engineering)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_engineering" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_engineering_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_engineering_ranks" contenteditable><%= character.charsheet.knowledge_engineering_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_engineering_misc" contenteditable><%= character.charsheet.knowledge_engineering_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_geography_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_geography_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Geography)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_geography" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_geography_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_geography_ranks" contenteditable><%= character.charsheet.knowledge_geography_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_geography_misc" contenteditable><%= character.charsheet.knowledge_geography_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_history_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_history_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (History)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_history" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_history_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_history_ranks" contenteditable><%= character.charsheet.knowledge_history_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_history_misc" contenteditable><%= character.charsheet.knowledge_history_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_local_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_local_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Local)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_local" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_local_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_local_ranks" contenteditable><%= character.charsheet.knowledge_local_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_local_misc" contenteditable><%= character.charsheet.knowledge_local_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_nature_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_nature_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Nature)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nature" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nature_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nature_ranks" contenteditable><%= character.charsheet.knowledge_nature_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nature_misc" contenteditable><%= character.charsheet.knowledge_nature_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_nobility_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_nobility_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Nobility)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nobility" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nobility_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nobility_ranks" contenteditable><%= character.charsheet.knowledge_nobility_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_nobility_misc" contenteditable><%= character.charsheet.knowledge_nobility_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_planes_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_planes_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Planes)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_planes" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_planes_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_planes_ranks" contenteditable><%= character.charsheet.knowledge_planes_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_planes_misc" contenteditable><%= character.charsheet.knowledge_planes_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="knowledge_religion_ca" class="fa fa-circle<% if(!character.charsheet.knowledge_religion_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Knowledge (Religion)*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_religion" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_religion_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_religion_ranks" contenteditable><%= character.charsheet.knowledge_religion_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="knowledge_religion_misc" contenteditable><%= character.charsheet.knowledge_religion_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="linguistics_ca" class="fa fa-circle<% if(!character.charsheet.linguistics_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Linguistics*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="linguistics" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="linguistics_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="linguistics_ranks" contenteditable><%= character.charsheet.linguistics_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="linguistics_misc" contenteditable><%= character.charsheet.linguistics_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="perception_ca" class="fa fa-circle<% if(!character.charsheet.perception_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Perception
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perception" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perception_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perception_ranks" contenteditable><%= character.charsheet.perception_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perception_misc" contenteditable><%= character.charsheet.perception_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="perform_ca" class="fa fa-circle<% if(!character.charsheet.perform_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Perform
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perform" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perform_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perform_ranks" contenteditable><%= character.charsheet.perform_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="perform_misc" contenteditable><%= character.charsheet.perform_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="profession_ca" class="fa fa-circle<% if(!character.charsheet.profession_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Profession*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="profession" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="profession_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="profession_ranks" contenteditable><%= character.charsheet.profession_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="profession_misc" contenteditable><%= character.charsheet.profession_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="ride_ca" class="fa fa-circle<% if(!character.charsheet.ride_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Ride
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="ride" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="ride_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="ride_ranks" contenteditable><%= character.charsheet.ride_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="ride_misc" contenteditable><%= character.charsheet.ride_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="sense_motive_ca" class="fa fa-circle<% if(!character.charsheet.sense_motive_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Sense Motive
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sense_motive" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sense_motive_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sense_motive_ranks" contenteditable><%= character.charsheet.sense_motive_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sense_motive_misc" contenteditable><%= character.charsheet.sense_motive_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="sleight_of_hand_ca" class="fa fa-circle<% if(!character.charsheet.sleight_of_hand_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Sleight of Hand*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sleight_of_hand" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sleight_of_hand_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sleight_of_hand_ranks" contenteditable><%= character.charsheet.sleight_of_hand_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="sleight_of_hand_misc" contenteditable><%= character.charsheet.sleight_of_hand_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="spellcraft_ca" class="fa fa-circle<% if(!character.charsheet.spellcraft_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Spellcraft*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="spellcraft" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="spellcraft_int" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="spellcraft_ranks" contenteditable><%= character.charsheet.spellcraft_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="spellcraft_misc" contenteditable><%= character.charsheet.spellcraft_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="stealth_ca" class="fa fa-circle<% if(!character.charsheet.stealth_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Stealth
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="stealth" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="stealth_dex" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="stealth_ranks" contenteditable><%= character.charsheet.stealth_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="stealth_misc" contenteditable><%= character.charsheet.stealth_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="survival_ca" class="fa fa-circle<% if(!character.charsheet.survival_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Survival
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="survival" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="survival_wis" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="survival_ranks" contenteditable><%= character.charsheet.survival_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="survival_misc" contenteditable><%= character.charsheet.survival_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="swim_ca" class="fa fa-circle<% if(!character.charsheet.swim_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Swim
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="swim" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="swim_str" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="swim_ranks" contenteditable><%= character.charsheet.swim_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="swim_misc" contenteditable><%= character.charsheet.swim_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row attrrow skills">
+							<div class="skilldot">
+								<i id="use_magic_device_ca" class="fa fa-circle<% if(!character.charsheet.use_magic_device_ca) { %>-o<% } %>"></i>
+							</div>
+							<div class="col-md-6 attrcol skillname">
+								Use Magic Device*
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="use_magic_device" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">=</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="use_magic_device_cha" class="calculated"></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="use_magic_device_ranks" contenteditable><%= character.charsheet.use_magic_device_ranks || "" %></div>
+							</div>
+							<div class="mathsign">
+								<div class="math">+</div>
+							</div>
+							<div class="col-md-2 attrcol skill">
+								<div id="use_magic_device_misc" contenteditable><%= character.charsheet.use_magic_device_misc || "" %></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3 text-center legend"><i class="fa fa-circle"></i> <small>Class Skill</small></div>
+							<div class="col-md-3 text-center legend">* <small>Trained Only</small></div>
+						</div>
+					</div>
+				</div>
+				<% } %>
+			</div>
+		</div>
+
+		<div class="spacer-80"></div>
+
+		<%
+		if(mine)
+		{
+		%>
+		<input id="id" type="text" style="display: none;" value="<%= character.id %>" />
+		<button id="createButton" class="btn btn-lg btn-paper">Update</button>
+		<div class="spacer-h-80"></div>
+		<button id="deleteButton" class="btn btn-lg btn-danger" data-id="<%= character.id %>">Delete</button>
+		<%
+		}
+		%>
+	</div>
+</div>
+
+<hr />
+
+<% if(mine) { %>
+<%- partial('../ce/js/createorupdatecharacter.ejs') %>
+<% } %>

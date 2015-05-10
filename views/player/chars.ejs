@@ -1,0 +1,87 @@
+<!-- Page Heading -->
+<div class="row heading page-header">
+	<div class="col-lg-12">
+		<h1>
+			Characters
+		</h1>
+		<h4>Edit your character information or create brand new characters to be used in campaigns.</h4>
+	</div>
+</div>
+<!-- /.row -->
+
+<div class="row">
+	<div class="col-xs-12">
+
+		<%
+		for(var i = 0; i < session.user.characters.length; i++)
+		{
+			if((session.user.characters[i].type === "ooc")
+			|| (session.user.characters[i].type === "dm"))
+			{
+				continue;
+			}
+		%>
+		<div class="row character wide" data-id="<%= session.user.characters[i].id %>">
+			<div class="selector"></div>
+			<div class="col-md-3 col-sm-4 text-center">
+				<a href="#">
+					<img class="avatar" width="200" src="<%= session.user.characters[i].avatar %>" alt="">
+				</a>
+			</div>
+			<div class="col-md-9 col-sm-8">
+				<% if(session.user.characters[i].name) { %>
+					<h3 class="name"><%= session.user.characters[i].name %></h3>
+				<% } if(session.user.characters[i].race || session.user.characters[i].level) { %>
+					<h4 class="class"><%= session.user.characters[i].race %><% if(session.user.characters[i].race && session.user.characters[i].level) { %> &mdash; <% } %><%= session.user.characters[i].level %></h4>
+				<% } %>
+				<%
+				if(session.user.characters[i].bio)
+				{
+					var firstSentence = session.user.characters[i].bio.split(".")[0] + ".";
+					if(firstSentence.length > 200)
+					{
+						firstSentence = firstSentence.substr(0, 197) + "...";
+					}
+				%>
+					<h4 class="bio"><%= firstSentence %></h4>
+				<%
+				}
+				%>
+			</div>
+		</div>
+
+		<div class="spacer-80"></div>
+		<%
+		}
+		%>
+
+		<div class="row character wide new">
+			<div class="selector"></div>
+			<div class="col-md-3 col-sm-4 text-center">
+				<a href="#">
+					<img class="avatar" width="200" src="/images/placeholder.jpg" alt="">
+				</a>
+			</div>
+			<div class="col-md-9 col-sm-8">
+				<h3 class="name">New Character</h3>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<hr />
+
+<script>
+	$(document).ready(function()
+	{
+		$(".character[data-id]").click(function(e)
+		{
+			window.location.href = "/char/" + $(e.currentTarget).data("id");
+		});
+		$(".character.new").click(function(e)
+		{
+			window.location.href = "/newchar";
+		});
+	});
+</script>

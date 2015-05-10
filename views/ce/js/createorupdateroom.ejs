@@ -1,0 +1,175 @@
+<script>
+	$(document).ready(function()
+	{
+		var name = $("#name");
+		var subheading = $("#subheading");
+		var description = $("#description");
+		var image = $("#image");
+		var imageError = $(".imageError");
+
+		var editable = $("[contenteditable]");
+
+		editable.on("activate", function()
+		{
+			$(this).empty();
+			var range;
+			var sel;
+			if((sel = document.selection) && document.body.createTextRange)
+			{
+				range = document.body.createTextRange();
+				range.moveToElementText(this);
+				range.select();
+			}
+		});
+
+		editable.focus(function()
+		{
+			if(this.hasChildNodes() && document.createRange && window.getSelection)
+			{
+				if($(this).text().trim() === $(this).data("placeholder"))
+				{
+					$(this).empty();
+				}
+				var range = document.createRange();
+				range.selectNodeContents(this);
+
+				var sel = window.getSelection();
+				sel.removeAllRanges();
+				sel.addRange(range);
+			}
+		});
+
+		editable.on("blur", function(e)
+		{
+			var element = $(e.currentTarget);
+			if(element.text().trim() === "")
+			{
+				element.text(element.data("placeholder"));
+				if(element.is("#name"))
+				{
+					$("#mirroredName").text(element.data("placeholder"));
+				}
+			}
+
+			if(element.text() !== element.data("placeholder"))
+			{
+				element.removeClass("error");
+			}
+		});
+
+		name.on("keyup", function(e)
+		{
+			$("#mirroredName").text($(e.currentTarget).text());
+		});
+
+		image.click(function(e)
+		{
+			e.preventDefault();
+
+			$("#imageUpload").click();
+		});
+
+		$("#imageUpload").change(function(e)
+		{
+			var painting = e.target.files[0];
+			var data = new FormData();
+			data.append("image", painting);
+
+			$.ajax({
+				url: "/file/image",
+				type: "POST",
+				data: data,
+				cache: false,
+				dataType: "json",
+				processData: false,
+				contentType: false,
+				success: function(data, textStatus, jqXHR)
+				{
+					image.prop("src", data.uri);
+					imageError.removeClass("error");
+					$(".uploadReminder").remove();
+				},
+				error: function(jqXHR, textStatus, errorThrown)
+				{
+					imageError.addClass("error");
+				}
+			});
+		});
+
+		$("#deleteButton").click(function(e)
+		{
+			$.ajax({
+				url: "/room/" + $(e.currentTarget).data("id"),
+				method: "DELETE",
+				success: function(data, jqXHR, textStatus)
+				{
+					window.location.href = "/dm/rooms";
+				}
+			})
+		});
+
+		$("#createButton").click(function(e)
+		{
+			name.removeClass("error");
+			imageError.removeClass("error");
+			subheading.removeClass("error");
+			description.removeClass("error");
+
+			var room = {
+				"name": name.text().trim(),
+				"subheading": subheading.text().trim(),
+				"description": description.text().trim()
+			};
+
+			var id = $("#id");
+			if(id.length)
+			{
+				room.id = id.val();
+			}
+
+			var errors = false;
+			if((room.name === name.data("placeholder"))
+			|| (room.name === ""))
+			{
+				name.addClass("error");
+				errors = true;
+			}
+			if(image.prop("src") === "/images/painting.jpg")
+			{
+				imageError.addClass("error");
+				errors = true;
+			}
+			if((room.subheading === subheading.data("placeholder"))
+			|| (room.subheading === ""))
+			{
+				subheading.addClass("error");
+				errors = true;
+			}
+			if((room.description === description.data("placeholder"))
+			|| (room.description === ""))
+			{
+				description.addClass("error");
+				errors = true;
+			}
+
+			if(!errors)
+			{
+				$.ajax({
+					url: "/room",
+					method: "POST",
+					data: room,
+					success: function(data, textStatus, jqXHR)
+					{
+						window.location.href = "/room/" + data.tag;
+					},
+					error: function(jqXHR, textStatus, errorThrown)
+					{
+						console.log(jqXHR);
+						console.log(textStatus);
+						console.log(errorThrown);
+					}
+				});
+			}
+		});
+	});
+</script>

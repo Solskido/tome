@@ -1,0 +1,108 @@
+<% var viewid = viewid || "" %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tome</title>
+
+		<!-- Viewport mobile tag for sensible mobile support -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!--STYLES-->
+<link rel="stylesheet" href="/styles/1-col-portfolio.css">
+<link rel="stylesheet" href="/styles/bootstrap-theme.css">
+<link rel="stylesheet" href="/styles/bootstrap.css">
+<link rel="stylesheet" href="/styles/chars.css">
+<link rel="stylesheet" href="/styles/cover.css">
+<link rel="stylesheet" href="/styles/dm.css">
+<link rel="stylesheet" href="/styles/font-awesome.css">
+<link rel="stylesheet" href="/styles/importer.css">
+<link rel="stylesheet" href="/styles/modal.css">
+<link rel="stylesheet" href="/styles/tome.css">
+<!--STYLES END-->
+
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+		<script src="/js/jquery-2.1.1.js"></script>
+	</head>
+
+	<body>
+		<!-- Navigation -->
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Tome</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<%
+						if(session.user && session.user.dm)
+						{
+						%>
+						<li<%= (viewid === "dmscreen") ? ' class=active' : '' %>>
+							<a href="/dm/screen">DM Screen</a>
+						</li>
+						<%
+						}
+						%>
+						<li<%= (viewid === "rooms") ? ' class=active' : '' %>>
+							<a href="/">Rooms</a>
+						</li>
+						<li<%= (viewid === "chars") ? ' class=active' : '' %>>
+							<a href="/chars">Characters</a>
+						</li>
+						<li>
+							<a href="/me/logout">Logout</a>
+						</li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container -->
+		</nav>
+
+		<!-- Page Content -->
+		<div class="container bg" style="position: absolute; left: 0; right: 0; background: #333; background-image: url(<%= bgImage %>); background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#333)), url(<%= bgImage %>); background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), #333, #333), url(<%= bgImage %>); background-image: -moz-linear-gradient(to bottom, rgba(0, 0, 0, 0), #333, #333), url(<%= bgImage %>); background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), #333, #333), url(<%= bgImage %>); background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), #333, #333), url(<%= bgImage %>); background-repeat: no-repeat; background-size: 100%;">
+
+			<%- body %>
+
+			<!-- Footer -->
+			<footer>
+				<div class="row">
+					<div class="col-lg-12">
+						<p>
+							<span class="ringbearer">Copyright</span> &copy; <span class="ringbearer">Tome <%= new Date().getFullYear() %></span>
+						</p>
+					</div>
+				</div>
+				<!-- /.row -->
+			</footer>
+		</div>
+		<!-- /.container -->
+
+<!--TEMPLATES-->
+
+<!--TEMPLATES END-->
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+<!--SCRIPTS-->
+<script src="/js/dependencies/sails.io.js"></script>
+<script src="/js/bootbox.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/jquery-2.1.1.js"></script>
+<!--SCRIPTS END-->
+
+	</body>
+</html>

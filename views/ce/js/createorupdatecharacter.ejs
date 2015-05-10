@@ -1,0 +1,934 @@
+<script>
+	/**
+	 * Adds numbers together and returns the result.
+	 * things must be an array, but can contain numbers, or strings which
+	 * are the jQuery selectors for elements whose value="" param contains
+	 * numbers.
+	 *
+	 * @param things
+	 * @returns {number}
+	 */
+	function add(things)
+	{
+		if(!things instanceof Array)
+		{
+			return 0;
+		}
+
+		var total = 0;
+		for(var i = 0; i < things.length; i++)
+		{
+			var number = 0;
+			if(typeof things[i] === "string")
+			{
+				var element = $(things[i]);
+				if(element.length === 1)
+				{
+					number = parseInt(element.text());
+				}
+			}
+			if(!isNaN(number))
+			{
+				total += number;
+			}
+		}
+		return total;
+	}
+
+	$(document).ready(function()
+	{
+		var name = $("#name");
+		var image = $("#image");
+		var imageError = $(".imageError");
+		var alignment = $("#alignment");
+		var gender = $("#gender");
+		var level = $("#level");
+		var deity = $("#deity");
+		var homeland = $("#homeland");
+		var race = $("#race");
+		var size = $("#size");
+		var age = $("#age");
+		var height = $("#height");
+		var weight = $("#weight");
+		var eyes = $("#eyes");
+		var bio = $("#bio");
+
+		var editable = $("[contenteditable]");
+
+		editable.on("blur", function(e)
+		{
+			var element = $(e.currentTarget);
+			if(element.text().trim() !== "")
+			{
+				element.removeClass("error");
+			}
+		});
+
+		$("[data-mirrored]").on("keyup", function(e)
+		{
+			var contents = $(e.currentTarget).text();
+			var identity = $(e.currentTarget).data("mirrored");
+			$("[data-mirrored='" + identity + "']").each(function(index, element)
+			{
+				if($(element)[0] !== $(e.currentTarget)[0])
+				{
+					$(element).text(contents);
+				}
+			});
+		});
+
+		$(".abilityscore").on("keyup", function(e)
+		{
+			var element = $(e.currentTarget);
+			var abilityScore = parseInt(element.text());
+			var identity = element.prop("id").split("_")[1];
+
+			var modifier = scoreToModifier(abilityScore);
+			$("#am_" + identity).text(modifier);
+
+			var tempAdjustment = parseInt($("#ta_" + identity).text()) + modifier;
+			$("#tm_" + identity).text(!isNaN(tempAdjustment) ? tempAdjustment : "");
+
+			if(!isNaN(modifier))
+			{
+				updateAbility(identity, modifier);
+			}
+		});
+
+		$(".tempas").on("keyup", function(e)
+		{
+			var element = $(e.currentTarget);
+			var tempAbilityScore = parseInt(element.text());
+			var identity = element.prop("id").split("_")[1];
+			var abilityModifier = parseInt($("#am_" + identity).text());
+
+			var tempModifier = (tempAbilityScore + abilityModifier);
+			$("#tm_" + identity).text(!isNaN(tempModifier) ? tempModifier : "");
+		});
+
+		size.on("keyup", function(e)
+		{
+			var element = $(e.currentTarget);
+
+			updateSize(element.text());
+		});
+
+		$("#bab").on("keyup", function(e)
+		{
+			updateMeleeAttackBonus();
+			updateRangedAttackBonus();
+			updateCMB();
+		});
+
+		$("#miscini").on("keyup", function(e)
+		{
+			updateInitiative();
+		});
+
+		$("#ac_natural").on("keyup", updateAC);
+		$("#ff_ac_natural").on("keyup", updateAC);
+		$("#ac_deflection").on("keyup", updateAC);
+		$("#touch_ac_deflection").on("keyup", updateAC);
+		$("#ff_ac_deflection").on("keyup", updateAC);
+		$("#ac_misc").on("keyup", updateAC);
+		$("#touch_ac_misc").on("keyup", updateAC);
+		$("#ff_ac_misc").on("keyup", updateAC);
+
+		$("#fort_base").on("keyup", updateSaves);
+		$("#ref_base").on("keyup", updateSaves);
+		$("#will_base").on("keyup", updateSaves);
+		$("#fort_magic").on("keyup", updateSaves);
+		$("#ref_magic").on("keyup", updateSaves);
+		$("#will_magic").on("keyup", updateSaves);
+		$("#fort_misc").on("keyup", updateSaves);
+		$("#ref_misc").on("keyup", updateSaves);
+		$("#will_misc").on("keyup", updateSaves);
+		$("#fort_temp").on("keyup", updateSaves);
+		$("#ref_temp").on("keyup", updateSaves);
+		$("#will_temp").on("keyup", updateSaves);
+
+		$("#climb_ranks").on("keyup", updateSkills);
+		$("#climb_misc").on("keyup", updateSkills);
+		$("#swim_ranks").on("keyup", updateSkills);
+		$("#swim_misc").on("keyup", updateSkills);
+		$("#acrobatics_ranks").on("keyup", updateSkills);
+		$("#acrobatics_misc").on("keyup", updateSkills);
+		$("#disable_device_ranks").on("keyup", updateSkills);
+		$("#disable_device_misc").on("keyup", updateSkills);
+		$("#escape_artist_ranks").on("keyup", updateSkills);
+		$("#escape_artist_misc").on("keyup", updateSkills);
+		$("#ride_ranks").on("keyup", updateSkills);
+		$("#ride_misc").on("keyup", updateSkills);
+		$("#sleight_of_hand_ranks").on("keyup", updateSkills);
+		$("#sleight_of_hand_misc").on("keyup", updateSkills);
+		$("#stealth_ranks").on("keyup", updateSkills);
+		$("#stealth_misc").on("keyup", updateSkills);
+		$("#fly_ranks").on("keyup", updateSkills);
+		$("#fly_misc").on("keyup", updateSkills);
+		$("#appraise_ranks").on("keyup", updateSkills);
+		$("#appraise_misc").on("keyup", updateSkills);
+		$("#craft_ranks").on("keyup", updateSkills);
+		$("#craft_misc").on("keyup", updateSkills);
+		$("#knowledge_arcana_ranks").on("keyup", updateSkills);
+		$("#knowledge_arcana_misc").on("keyup", updateSkills);
+		$("#knowledge_dungeoneering_ranks").on("keyup", updateSkills);
+		$("#knowledge_dungeoneering_misc").on("keyup", updateSkills);
+		$("#knowledge_engineering_ranks").on("keyup", updateSkills);
+		$("#knowledge_engineering_misc").on("keyup", updateSkills);
+		$("#knowledge_geography_ranks").on("keyup", updateSkills);
+		$("#knowledge_geography_misc").on("keyup", updateSkills);
+		$("#knowledge_history_ranks").on("keyup", updateSkills);
+		$("#knowledge_history_misc").on("keyup", updateSkills);
+		$("#knowledge_local_ranks").on("keyup", updateSkills);
+		$("#knowledge_local_misc").on("keyup", updateSkills);
+		$("#knowledge_nature_ranks").on("keyup", updateSkills);
+		$("#knowledge_nature_misc").on("keyup", updateSkills);
+		$("#knowledge_nobility_ranks").on("keyup", updateSkills);
+		$("#knowledge_nobility_misc").on("keyup", updateSkills);
+		$("#knowledge_planes_ranks").on("keyup", updateSkills);
+		$("#knowledge_planes_misc").on("keyup", updateSkills);
+		$("#knowledge_religion_ranks").on("keyup", updateSkills);
+		$("#knowledge_religion_misc").on("keyup", updateSkills);
+		$("#linguistics_ranks").on("keyup", updateSkills);
+		$("#linguistics_misc").on("keyup", updateSkills);
+		$("#spellcraft_ranks").on("keyup", updateSkills);
+		$("#spellcraft_misc").on("keyup", updateSkills);
+		$("#heal_ranks").on("keyup", updateSkills);
+		$("#heal_misc").on("keyup", updateSkills);
+		$("#perception_ranks").on("keyup", updateSkills);
+		$("#perception_misc").on("keyup", updateSkills);
+		$("#profession_ranks").on("keyup", updateSkills);
+		$("#profession_misc").on("keyup", updateSkills);
+		$("#sense_motive_ranks").on("keyup", updateSkills);
+		$("#sense_motive_misc").on("keyup", updateSkills);
+		$("#survival_ranks").on("keyup", updateSkills);
+		$("#survival_misc").on("keyup", updateSkills);
+		$("#bluff_ranks").on("keyup", updateSkills);
+		$("#bluff_misc").on("keyup", updateSkills);
+		$("#diplomacy_ranks").on("keyup", updateSkills);
+		$("#diplomacy_misc").on("keyup", updateSkills);
+		$("#disguise_ranks").on("keyup", updateSkills);
+		$("#disguise_misc").on("keyup", updateSkills);
+		$("#handle_animal_ranks").on("keyup", updateSkills);
+		$("#handle_animal_misc").on("keyup", updateSkills);
+		$("#intimidate_ranks").on("keyup", updateSkills);
+		$("#intimidate_misc").on("keyup", updateSkills);
+		$("#perform_ranks").on("keyup", updateSkills);
+		$("#perform_misc").on("keyup", updateSkills);
+		$("#use_magic_device_ranks").on("keyup", updateSkills);
+		$("#use_magic_device_misc").on("keyup", updateSkills);
+
+		$("#speed_base_ft").on("keyup", function(e)
+		{
+			var element = $(e.currentTarget);
+
+			$("#speed_base_sq").text(feetToSquares(element.text()));
+		});
+
+		$("#speed_armor_ft").on("keyup", function(e)
+		{
+			var element = $(e.currentTarget);
+
+			$("#speed_armor_sq").text(feetToSquares(element.text()));
+		});
+
+		$(".skilldot").click(function(e)
+		{
+			var element = $(e.currentTarget).children("i");
+			if(element.hasClass("fa-circle-o"))
+			{
+				element.removeClass("fa-circle-o");
+				element.addClass("fa-circle");
+			}
+			else
+			{
+				element.removeClass("fa-circle");
+				element.addClass("fa-circle-o");
+			}
+		});
+
+		$(".secrecy").click(function(e)
+		{
+			var element = $(e.currentTarget).children("i");
+			if(element.hasClass("fa-circle-o"))
+			{
+				element.removeClass("fa-circle-o");
+				element.addClass("fa-circle");
+			}
+			else
+			{
+				element.removeClass("fa-circle");
+				element.addClass("fa-circle-o");
+			}
+		});
+
+		$("#speed_base_sq").text(feetToSquares($("#speed_base_ft").text()));
+		$("#speed_armor_sq").text(feetToSquares($("#speed_armor_ft").text()));
+
+		function feetToSquares(feet)
+		{
+			feet = parseInt(feet);
+			if(isNaN(feet))
+			{
+				return 0;
+			}
+			else
+			{
+				return Math.floor(feet / 5);
+			}
+		}
+
+		function updateSkills()
+		{
+			$("#climb").text(add(["#climb_str", "#climb_ranks", "#climb_misc"]));
+			$("#swim").text(add(["#swim_str", "#swim_ranks", "#swim_misc"]));
+			$("#acrobatics").text(add(["#acrobatics_dex", "#acrobatics_ranks", "#acrobatics_misc"]));
+			$("#disable_device").text(add(["#disable_device_dex", "#disable_device_ranks", "#disable_device_misc"]));
+			$("#escape_artist").text(add(["#escape_artist_dex", "#escape_artist_ranks", "#escape_artist_misc"]));
+			$("#ride").text(add(["#ride_dex", "#ride_ranks", "#ride_misc"]));
+			$("#sleight_of_hand").text(add(["#sleight_of_hand_dex", "#sleight_of_hand_ranks", "#sleight_of_hand_misc"]));
+			$("#stealth").text(add(["#stealth_dex", "#stealth_ranks", "#stealth_misc"]));
+			$("#fly").text(add(["#fly_dex", "#fly_ranks", "#fly_misc"]));
+			$("#appraise").text(add(["#appraise_int", "#appraise_ranks", "#appraise_misc"]));
+			$("#craft").text(add(["#craft_int", "#craft_ranks", "#craft_misc"]));
+			$("#knowledge_arcana").text(add(["#knowledge_arcana_int", "#knowledge_arcana_ranks", "#knowledge_arcana_misc"]));
+			$("#knowledge_dungeoneering").text(add(["#knowledge_dungeoneering_int", "#knowledge_dungeoneering_ranks", "#knowledge_dungeoneering_misc"]));
+			$("#knowledge_engineering").text(add(["#knowledge_engineering_int", "#knowledge_engineering_ranks", "#knowledge_engineering_misc"]));
+			$("#knowledge_geography").text(add(["#knowledge_geography_int", "#knowledge_geography_ranks", "#knowledge_geography_misc"]));
+			$("#knowledge_history").text(add(["#knowledge_history_int", "#knowledge_history_ranks", "#knowledge_history_misc"]));
+			$("#knowledge_local").text(add(["#knowledge_local_int", "#knowledge_local_ranks", "#knowledge_local_misc"]));
+			$("#knowledge_nature").text(add(["#knowledge_nature_int", "#knowledge_nature_ranks", "#knowledge_nature_misc"]));
+			$("#knowledge_nobility").text(add(["#knowledge_nobility_int", "#knowledge_nobility_ranks", "#knowledge_nobility_misc"]));
+			$("#knowledge_planes").text(add(["#knowledge_planes_int", "#knowledge_planes_ranks", "#knowledge_planes_misc"]));
+			$("#knowledge_religion").text(add(["#knowledge_religion_int", "#knowledge_religion_ranks", "#knowledge_religion_misc"]));
+			$("#linguistics").text(add(["#linguistics_int", "#linguistics_ranks", "#linguistics_misc"]));
+			$("#spellcraft").text(add(["#spellcraft_int", "#spellcraft_ranks", "#spellcraft_misc"]));
+			$("#heal").text(add(["#heal_wis", "#heal_ranks", "#heal_misc"]));
+			$("#perception").text(add(["#perception_wis", "#perception_ranks", "#perception_misc"]));
+			$("#profession").text(add(["#profession_wis", "#profession_ranks", "#profession_misc"]));
+			$("#sense_motive").text(add(["#sense_motive_wis", "#sense_motive_ranks", "#sense_motive_misc"]));
+			$("#survival").text(add(["#survival_wis", "#survival_ranks", "#survival_misc"]));
+			$("#bluff").text(add(["#bluff_cha", "#bluff_ranks", "#bluff_misc"]));
+			$("#diplomacy").text(add(["#diplomacy_cha", "#diplomacy_ranks", "#diplomacy_misc"]));
+			$("#disguise").text(add(["#disguise_cha", "#disguise_ranks", "#disguise_misc"]));
+			$("#handle_animal").text(add(["#handle_animal_cha", "#handle_animal_ranks", "#handle_animal_misc"]));
+			$("#intimidate").text(add(["#intimidate_cha", "#intimidate_ranks", "#intimidate_misc"]));
+			$("#perform").text(add(["#perform_cha", "#perform_ranks", "#perform_misc"]));
+			$("#use_magic_device").text(add(["#use_magic_device_cha", "#use_magic_device_ranks", "#use_magic_device_misc"]));
+		}
+
+		function updateAC()
+		{
+			// Armor Class
+			$("#ac").text(add(["#ac_armor", "#ac_shield", "#ac_dex", "#ac_size", "#ac_natural", "#ac_deflection", "#ac_misc"]));
+
+			// Touch Armor Class
+			$("#touch_ac").text(add(["#touch_ac_dex", "#touch_ac_size", "#touch_ac_deflection", "#touch_ac_misc"]));
+
+			// Flat-footed Armor Class
+			$("#ff_ac").text(add(["#ff_ac_armor", "#ff_ac_shield", "#ff_ac_size", "#ff_ac_natural", "#ff_ac_deflection", "#ff_ac_misc"]));
+		}
+
+		function updateSaves()
+		{
+			// Fortitude
+			$("#fort_save").text(add(["#fort_base", "#fort_con", "#fort_magic", "#fort_misc", "#fort_temp"]));
+
+			// Reflex
+			$("#ref_save").text(add(["#ref_base", "#ref_dex", "#ref_magic", "#ref_misc", "#ref_temp"]));
+
+			// Will
+			$("#will_save").text(add(["#will_base", "#will_wis", "#will_magic", "#will_misc", "#will_temp"]));
+		}
+
+		function updateInitiative()
+		{
+			$("#ini").text(add(["#dexini", "#miscini"]));
+		}
+
+		function updateCMB()
+		{
+			var cmb = add(["#cmb_bab", "#cmb_str", "#cmb_size"]);
+			$("#cmb").text(cmb);
+			$("#cmd_cmb").text(cmb);
+
+			updateCMD();
+		}
+
+		function updateCMD()
+		{
+			$("#cmd").text(add(["#cmd_cmb", "#cmd_dex", 10]));
+		}
+
+		function updateMeleeAttackBonus()
+		{
+			$("#mab").text(add(["#mab_bab", "#mab_str", "#mab_size"]));
+		}
+
+		function updateRangedAttackBonus()
+		{
+			$("#rab").text(add(["#rab_bab", "#rab_dex", "#rab_size"]));
+		}
+
+		function updateSize(size)
+		{
+			if(size)
+			{
+				size = size.toLowerCase();
+			}
+
+			var acaMod = 0;
+			var cmMod = 0;
+			var flyMod = 0;
+			var stealthMod = 0;
+			switch(size)
+			{
+				case "fine":
+					acaMod = 8;
+					cmMod = -8;
+					flyMod = 8;
+					stealthMod = 16;
+					break;
+				case "diminutive":
+					acaMod = 4;
+					cmMod = -4;
+					flyMod = 6;
+					stealthMod = 12;
+					break;
+				case "tiny":
+					acaMod = 2;
+					cmMod = -2;
+					flyMod = 4;
+					stealthMod = 8;
+					break;
+				case "small":
+					acaMod = 1;
+					cmMod = -1;
+					flyMod = 2;
+					stealthMod = 4;
+					break;
+				case "medium":
+					acaMod = 0;
+					cmMod = 0;
+					flyMod = 0;
+					stealthMod = 0;
+					break;
+				case "large":
+					acaMod = -1;
+					cmMod = 1;
+					flyMod = -2;
+					stealthMod = -4;
+					break;
+				case "huge":
+					acaMod = -2;
+					cmMod = 2;
+					flyMod = -4;
+					stealthMod = -8;
+					break;
+				case "gargantuan":
+					acaMod = -4;
+					cmMod = 4;
+					flyMod = -6;
+					stealthMod = -12;
+					break;
+				case "colossal":
+					acaMod = -8;
+					cmMod = 8;
+					flyMod = -8;
+					stealthMod = -16;
+					break;
+				default:
+					break;
+			}
+
+			// Armor Class
+			$("#ac_size").text(acaMod);
+			$("#touch_ac_size").text(acaMod);
+			$("#ff_ac_size").text(acaMod);
+
+			// Attack
+			$("#mab_size").text(acaMod);
+			$("#rab_size").text(acaMod);
+
+			// Combat Maneuvers
+			$("#cmb_size").text(cmMod);
+
+			// Skills
+			var dexMod = parseInt($("#am_dex").text());
+
+			var newFlyDex = (dexMod + flyMod);
+			$("#fly_dex").text(!isNaN(newFlyDex) ? newFlyDex : "");
+
+			var newStealthDex = (dexMod + stealthMod);
+			$("#stealth_dex").text(!isNaN(newStealthDex) ? newStealthDex : "");
+
+			updateCMB();
+		}
+
+		function scoreToModifier(score)
+		{
+			score = parseInt(score);
+
+			if(isNaN(score))
+			{
+				return "";
+			}
+
+			if(score === 10)
+			{
+				return 0;
+			}
+			score -= 10;
+			return Math.floor(score / 2);
+		}
+
+		function updateAbility(identity, modifier)
+		{
+			switch(identity)
+			{
+				case "str":
+					$("#cmb_str").text(modifier);
+					$("#mab_str").text(modifier);
+
+					// Skills
+					$("#climb_str").text(modifier);
+					$("#swim_str").text(modifier);
+
+					// Attack
+					updateMeleeAttackBonus();
+
+					// Combat Maneuvers
+					updateCMB();
+					break;
+				case "dex":
+					$("#cmd_dex").text(modifier);
+					$("#ref_dex").text(modifier);
+					$("#dexini").text(modifier);
+					$("#ac_dex").text(modifier);
+					$("#touch_ac_dex").text(modifier);
+					$("#rab_dex").text(modifier);
+
+					// Skills
+					$("#acrobatics_dex").text(modifier);
+					$("#disable_device_dex").text(modifier);
+					$("#escape_artist_dex").text(modifier);
+					$("#ride_dex").text(modifier);
+					$("#sleight_of_hand_dex").text(modifier);
+					$("#stealth_dex").text(modifier);
+					$("#fly_dex").text(modifier);
+
+					// Attack
+					updateRangedAttackBonus();
+
+					// Combat Maneuvers
+					updateCMD();
+
+					// Initiative
+					updateInitiative();
+
+					// Armor Class
+					updateAC();
+
+					// Reflex Save
+					updateSaves();
+					break;
+				case "con":
+					$("#fort_con").text(modifier);
+
+					// Fortitude Save
+					updateSaves();
+					break;
+				case "int":
+					// Skills
+					$("#appraise_int").text(modifier);
+					$("#craft_int").text(modifier);
+					$("#knowledge_arcana_int").text(modifier);
+					$("#knowledge_dungeoneering_int").text(modifier);
+					$("#knowledge_engineering_int").text(modifier);
+					$("#knowledge_geography_int").text(modifier);
+					$("#knowledge_history_int").text(modifier);
+					$("#knowledge_local_int").text(modifier);
+					$("#knowledge_nature_int").text(modifier);
+					$("#knowledge_nobility_int").text(modifier);
+					$("#knowledge_planes_int").text(modifier);
+					$("#knowledge_religion_int").text(modifier);
+					$("#linguistics_int").text(modifier);
+					$("#spellcraft_int").text(modifier);
+					break;
+				case "wis":
+					$("#will_wis").text(modifier);
+
+					// Skills
+					$("#heal_wis").text(modifier);
+					$("#perception_wis").text(modifier);
+					$("#profession_wis").text(modifier);
+					$("#sense_motive_wis").text(modifier);
+					$("#survival_wis").text(modifier);
+
+					// Will Save
+					updateSaves();
+					break;
+				case "cha":
+					// Skills
+					$("#bluff_cha").text(modifier);
+					$("#diplomacy_cha").text(modifier);
+					$("#disguise_cha").text(modifier);
+					$("#handle_animal_cha").text(modifier);
+					$("#intimidate_cha").text(modifier);
+					$("#perform_cha").text(modifier);
+					$("#use_magic_device_cha").text(modifier);
+					break;
+			}
+
+			updateSize($("#size").text());
+			updateSkills();
+		}
+
+		image.click(function(e)
+		{
+			e.preventDefault();
+
+			$("#imageUpload").click();
+		});
+
+		$("#imageUpload").change(function(e)
+		{
+			var avatar = e.target.files[0];
+			var data = new FormData();
+			data.append("image", avatar);
+
+			$.ajax({
+				url: "/file/image",
+				type: "POST",
+				data: data,
+				cache: false,
+				dataType: "json",
+				processData: false,
+				contentType: false,
+				success: function(data, textStatus, jqXHR)
+				{
+					image.prop("src", data.uri);
+					imageError.removeClass("error");
+					$(".uploadReminder").remove();
+				},
+				error: function(jqXHR, textStatus, errorThrown)
+				{
+					imageError.addClass("error");
+				}
+			});
+		});
+
+		$("#deleteButton").click(function(e)
+		{
+			bootbox.dialog({
+				message: "Deleting the character \"" + name.text() + "\" cannot be undone. Really delete it?",
+				title: "Are you sure?",
+				buttons: {
+					success: {
+						label: "Cancel",
+						className: "btn-paper"
+					},
+					danger: {
+						label: "Delete",
+						className: "btn-danger",
+						callback: function()
+						{
+							$.ajax({
+								url: "/char/" + $(e.currentTarget).data("id"),
+								method: "DELETE",
+								success: function(data, jqXHR, textStatus)
+								{
+									window.location.href = "/chars";
+								}
+							});
+						}
+					}
+				}
+			});
+		});
+
+		$("#createButton").click(function(e)
+		{
+			name.removeClass("error");
+			imageError.removeClass("error");
+
+			var bioContents = bio.html().trim()
+				.replace(/<br(\s*)\/*>/ig, '\n')
+				.replace(/<[p|div|br]\s/ig, '\n$0')
+				.replace(/(<([^>]+)>)/ig, "");
+
+			var notesContents = $("#notes").html().trim()
+				.replace(/<br(\s*)\/*>/ig, '\n')
+				.replace(/<[p|div|br]\s/ig, '\n$0')
+				.replace(/(<([^>]+)>)/ig, "");
+
+			var character = {
+				"as_str": $("#as_str").text().trim(),
+				"as_dex": $("#as_dex").text().trim(),
+				"as_con": $("#as_con").text().trim(),
+				"as_int": $("#as_int").text().trim(),
+				"as_wis": $("#as_wis").text().trim(),
+				"as_cha": $("#as_cha").text().trim(),
+				"ta_str": $("#ta_str").text().trim(),
+				"ta_dex": $("#ta_dex").text().trim(),
+				"ta_con": $("#ta_con").text().trim(),
+				"ta_int": $("#ta_int").text().trim(),
+				"ta_wis": $("#ta_wis").text().trim(),
+				"ta_cha": $("#ta_cha").text().trim(),
+				"maxhp": $("#maxhp").text().trim(),
+				"dr": $("#dr").text().trim(),
+				"currhp": $("#currhp").text().trim(),
+				"nlhp": $("#nlhp").text().trim(),
+				"speed_base_ft": $("#speed_base_ft").text().trim(),
+				"speed_armor_ft": $("#speed_armor_ft").text().trim(),
+				"speed_fly": $("#speed_fly").text().trim(),
+				"speed_fly_manuv": $("#speed_fly_manuv").text().trim(),
+				"speed_swim": $("#speed_swim").text().trim(),
+				"speed_climb": $("#speed_climb").text().trim(),
+				"speed_burrow": $("#speed_burrow").text().trim(),
+				"temp_mod": $("#temp_mod").text().trim(),
+				"miscini": $("#miscini").text().trim(),
+				"fort_base": $("#fort_base").text().trim(),
+				"ref_base": $("#ref_base").text().trim(),
+				"will_base": $("#will_base").text().trim(),
+				"will_magic": $("#will_magic").text().trim(),
+				"fort_magic": $("#fort_magic").text().trim(),
+				"ref_magic": $("#ref_magic").text().trim(),
+				"will_misc": $("#will_misc").text().trim(),
+				"fort_misc": $("#fort_misc").text().trim(),
+				"ref_misc": $("#ref_misc").text().trim(),
+				"will_temp": $("#will_temp").text().trim(),
+				"fort_temp": $("#fort_temp").text().trim(),
+				"ref_temp": $("#ref_temp").text().trim(),
+				"ac_natural": $("#ac_natural").text().trim(),
+				"ac_deflection": $("#ac_deflection").text().trim(),
+				"ac_misc": $("#ac_misc").text().trim(),
+				"touch_ac_misc": $("#touch_ac_misc").text().trim(),
+				"ff_ac_misc": $("#ff_ac_misc").text().trim(),
+				"bab": $("#bab").text().trim(),
+				"sr": $("#sr").text().trim(),
+				"special": $("#special").text().trim(),
+				"special_ab": $("#special_ab").text().trim(),
+				"special_crit": $("#special_crit").text().trim(),
+				"climb_ca": $("#climb_ca").hasClass("fa-circle"),
+				"climb_ranks": $("#climb_ranks").text().trim(),
+				"climb_misc": $("#climb_misc").text().trim(),
+				"swim_ca": $("#swim_ca").hasClass("fa-circle"),
+				"swim_ranks": $("#swim_ranks").text().trim(),
+				"swim_misc": $("#swim_misc").text().trim(),
+				"acrobatics_ca": $("#acrobatics_ca").hasClass("fa-circle"),
+				"acrobatics_ranks": $("#acrobatics_ranks").text().trim(),
+				"acrobatics_misc": $("#acrobatics_misc").text().trim(),
+				"disable_device_ca": $("#disable_device_ca").hasClass("fa-circle"),
+				"disable_device_ranks": $("#disable_device_ranks").text().trim(),
+				"disable_device_misc": $("#disable_device_misc").text().trim(),
+				"escape_artist_ca": $("#escape_artist_ca").hasClass("fa-circle"),
+				"escape_artist_ranks": $("#escape_artist_ranks").text().trim(),
+				"escape_artist_misc": $("#escape_artist_misc").text().trim(),
+				"ride_ca": $("#ride_ca").hasClass("fa-circle"),
+				"ride_ranks": $("#ride_ranks").text().trim(),
+				"ride_misc": $("#ride_misc").text().trim(),
+				"sleight_of_hand_ca": $("#sleight_of_hand_ca").hasClass("fa-circle"),
+				"sleight_of_hand_ranks": $("#sleight_of_hand_ranks").text().trim(),
+				"sleight_of_hand_misc": $("#sleight_of_hand_misc").text().trim(),
+				"stealth_ca": $("#stealth_ca").hasClass("fa-circle"),
+				"stealth_ranks": $("#stealth_ranks").text().trim(),
+				"stealth_misc": $("#stealth_misc").text().trim(),
+				"fly_ca": $("#fly_ca").hasClass("fa-circle"),
+				"fly_ranks": $("#fly_ranks").text().trim(),
+				"fly_misc": $("#fly_misc").text().trim(),
+				"appraise_ca": $("#appraise_ca").hasClass("fa-circle"),
+				"appraise_ranks": $("#appraise_ranks").text().trim(),
+				"appraise_misc": $("#appraise_misc").text().trim(),
+				"craft_ca": $("#craft_ca").hasClass("fa-circle"),
+				"craft_ranks": $("#craft_ranks").text().trim(),
+				"craft_misc": $("#craft_misc").text().trim(),
+				"knowledge_arcana_ca": $("#knowledge_arcana_ca").hasClass("fa-circle"),
+				"knowledge_arcana_ranks": $("#knowledge_arcana_ranks").text().trim(),
+				"knowledge_arcana_misc": $("#knowledge_arcana_misc").text().trim(),
+				"knowledge_dungeoneering_ca": $("#knowledge_dungeoneering_ca").hasClass("fa-circle"),
+				"knowledge_dungeoneering_ranks": $("#knowledge_dungeoneering_ranks").text().trim(),
+				"knowledge_dungeoneering_misc": $("#knowledge_dungeoneering_misc").text().trim(),
+				"knowledge_engineering_ca": $("#knowledge_engineering_ca").hasClass("fa-circle"),
+				"knowledge_engineering_ranks": $("#knowledge_engineering_ranks").text().trim(),
+				"knowledge_engineering_misc": $("#knowledge_engineering_misc").text().trim(),
+				"knowledge_geography_ca": $("#knowledge_geography_ca").hasClass("fa-circle"),
+				"knowledge_geography_ranks": $("#knowledge_geography_ranks").text().trim(),
+				"knowledge_geography_misc": $("#knowledge_geography_misc").text().trim(),
+				"knowledge_history_ca": $("#knowledge_history_ca").hasClass("fa-circle"),
+				"knowledge_history_ranks": $("#knowledge_history_ranks").text().trim(),
+				"knowledge_history_misc": $("#knowledge_history_misc").text().trim(),
+				"knowledge_local_ca": $("#knowledge_local_ca").hasClass("fa-circle"),
+				"knowledge_local_ranks": $("#knowledge_local_ranks").text().trim(),
+				"knowledge_local_misc": $("#knowledge_local_misc").text().trim(),
+				"knowledge_nature_ca": $("#knowledge_nature_ca").hasClass("fa-circle"),
+				"knowledge_nature_ranks": $("#knowledge_nature_ranks").text().trim(),
+				"knowledge_nature_misc": $("#knowledge_nature_misc").text().trim(),
+				"knowledge_nobility_ca": $("#knowledge_nobility_ca").hasClass("fa-circle"),
+				"knowledge_nobility_ranks": $("#knowledge_nobility_ranks").text().trim(),
+				"knowledge_nobility_misc": $("#knowledge_nobility_misc").text().trim(),
+				"knowledge_planes_ca": $("#knowledge_planes_ca").hasClass("fa-circle"),
+				"knowledge_planes_ranks": $("#knowledge_planes_ranks").text().trim(),
+				"knowledge_planes_misc": $("#knowledge_planes_misc").text().trim(),
+				"knowledge_religion_ca": $("#knowledge_religion_ca").hasClass("fa-circle"),
+				"knowledge_religion_ranks": $("#knowledge_religion_ranks").text().trim(),
+				"knowledge_religion_misc": $("#knowledge_religion_misc").text().trim(),
+				"linguistics_ca": $("#linguistics_ca").hasClass("fa-circle"),
+				"linguistics_ranks": $("#linguistics_ranks").text().trim(),
+				"linguistics_misc": $("#linguistics_misc").text().trim(),
+				"spellcraft_ca": $("#spellcraft_ca").hasClass("fa-circle"),
+				"spellcraft_ranks": $("#spellcraft_ranks").text().trim(),
+				"spellcraft_misc": $("#spellcraft_misc").text().trim(),
+				"heal_ca": $("#heal_ca").hasClass("fa-circle"),
+				"heal_ranks": $("#heal_ranks").text().trim(),
+				"heal_misc": $("#heal_misc").text().trim(),
+				"perception_ca": $("#perception_ca").hasClass("fa-circle"),
+				"perception_ranks": $("#perception_ranks").text().trim(),
+				"perception_misc": $("#perception_misc").text().trim(),
+				"profession_ca": $("#profession_ca").hasClass("fa-circle"),
+				"profession_ranks": $("#profession_ranks").text().trim(),
+				"profession_misc": $("#profession_misc").text().trim(),
+				"sense_motive_ca": $("#sense_motive_ca").hasClass("fa-circle"),
+				"sense_motive_ranks": $("#sense_motive_ranks").text().trim(),
+				"sense_motive_misc": $("#sense_motive_misc").text().trim(),
+				"survival_ca": $("#survival_ca").hasClass("fa-circle"),
+				"survival_ranks": $("#survival_ranks").text().trim(),
+				"survival_misc": $("#survival_misc").text().trim(),
+				"bluff_ca": $("#bluff_ca").hasClass("fa-circle"),
+				"bluff_ranks": $("#bluff_ranks").text().trim(),
+				"bluff_misc": $("#bluff_misc").text().trim(),
+				"diplomacy_ca": $("#diplomacy_ca").hasClass("fa-circle"),
+				"diplomacy_ranks": $("#diplomacy_ranks").text().trim(),
+				"diplomacy_misc": $("#diplomacy_misc").text().trim(),
+				"disguise_ca": $("#disguise_ca").hasClass("fa-circle"),
+				"disguise_ranks": $("#disguise_ranks").text().trim(),
+				"disguise_misc": $("#disguise_misc").text().trim(),
+				"handle_animal_ca": $("#handle_animal_ca").hasClass("fa-circle"),
+				"handle_animal_ranks": $("#handle_animal_ranks").text().trim(),
+				"handle_animal_misc": $("#handle_animal_misc").text().trim(),
+				"intimidate_ca": $("#intimidate_ca").hasClass("fa-circle"),
+				"intimidate_ranks": $("#intimidate_ranks").text().trim(),
+				"intimidate_misc": $("#intimidate_misc").text().trim(),
+				"perform_ca": $("#perform_ca").hasClass("fa-circle"),
+				"perform_ranks": $("#perform_ranks").text().trim(),
+				"perform_misc": $("#perform_misc").text().trim(),
+				"use_magic_device_ca": $("#use_magic_device_ca").hasClass("fa-circle"),
+				"use_magic_device_ranks": $("#use_magic_device_ranks").text().trim(),
+				"use_magic_device_misc": $("#use_magic_device_misc").text().trim(),
+				"weapon1": $("#weapon1").text().trim(),
+				"weapon1_ab": $("#weapon1_ab").text().trim(),
+				"weapon1_crit": $("#weapon1_crit").text().trim(),
+				"weapon1_type": $("#weapon1_type").text().trim(),
+				"weapon1_range": $("#weapon1_range").text().trim(),
+				"weapon1_ammo": $("#weapon1_ammo").text().trim(),
+				"weapon1_dmg": $("#weapon1_dmg").text().trim(),
+				"weapon2": $("#weapon2").text().trim(),
+				"weapon2_ab": $("#weapon2_ab").text().trim(),
+				"weapon2_crit": $("#weapon2_crit").text().trim(),
+				"weapon2_type": $("#weapon2_type").text().trim(),
+				"weapon2_range": $("#weapon2_range").text().trim(),
+				"weapon2_ammo": $("#weapon2_ammo").text().trim(),
+				"weapon2_dmg": $("#weapon2_dmg").text().trim(),
+				"weapon3": $("#weapon3").text().trim(),
+				"weapon3_ab": $("#weapon3_ab").text().trim(),
+				"weapon3_crit": $("#weapon3_crit").text().trim(),
+				"weapon3_type": $("#weapon3_type").text().trim(),
+				"weapon3_range": $("#weapon3_range").text().trim(),
+				"weapon3_ammo": $("#weapon3_ammo").text().trim(),
+				"weapon3_dmg": $("#weapon3_dmg").text().trim(),
+				"weapon4": $("#weapon4").text().trim(),
+				"weapon4_ab": $("#weapon4_ab").text().trim(),
+				"weapon4_crit": $("#weapon4_crit").text().trim(),
+				"weapon4_type": $("#weapon4_type").text().trim(),
+				"weapon4_range": $("#weapon4_range").text().trim(),
+				"weapon4_ammo": $("#weapon4_ammo").text().trim(),
+				"weapon4_dmg": $("#weapon4_dmg").text().trim(),
+
+				"name": name.text().trim(),
+				"alignment": alignment.text().trim(),
+				"gender": gender.text().trim(),
+				"level": level.text().trim(),
+				"deity": deity.text().trim(),
+				"homeland": homeland.text().trim(),
+				"race": race.text().trim(),
+				"size": size.text().trim(),
+				"age": age.text().trim(),
+				"height": height.text().trim(),
+				"weight": weight.text().trim(),
+				"eyes": eyes.text().trim(),
+				"bio": bioContents,
+
+				"notes": notesContents,
+
+				"secret_name": $("#secret_name").children("i").hasClass("fa-circle"),
+				"secret_alignment": $("#secret_alignment").children("i").hasClass("fa-circle"),
+				"secret_gender": $("#secret_gender").children("i").hasClass("fa-circle"),
+				"secret_level": $("#secret_level").children("i").hasClass("fa-circle"),
+				"secret_deity": $("#secret_deity").children("i").hasClass("fa-circle"),
+				"secret_homeland": $("#secret_homeland").children("i").hasClass("fa-circle"),
+				"secret_race": $("#secret_race").children("i").hasClass("fa-circle"),
+				"secret_size": $("#secret_size").children("i").hasClass("fa-circle"),
+				"secret_age": $("#secret_age").children("i").hasClass("fa-circle"),
+				"secret_height": $("#secret_height").children("i").hasClass("fa-circle"),
+				"secret_weight": $("#secret_weight").children("i").hasClass("fa-circle"),
+				"secret_eyes": $("#secret_eyes").children("i").hasClass("fa-circle"),
+				"secret_bio": $("#secret_bio").children("i").hasClass("fa-circle")
+			};
+
+			var id = $("#id");
+			if(id.length)
+			{
+				character.id = id.val();
+			}
+
+			var errors = false;
+			if(character.name === "")
+			{
+				name.addClass("error");
+				errors = true;
+			}
+			if(image.attr("src") === "/images/placeholder.jpg")
+			{
+				imageError.addClass("error");
+				errors = true;
+			}
+
+			if(!errors)
+			{
+				$.ajax({
+					url: "/me/character",
+					method: "POST",
+					data: character,
+					success: function(data, textStatus, jqXHR)
+					{
+						window.location.href = "/char/" + data.id;
+					},
+					error: function(jqXHR, textStatus, errorThrown)
+					{
+						console.log(jqXHR);
+						console.log(textStatus);
+						console.log(errorThrown);
+					}
+				});
+			}
+		});
+
+		// Calculate the character sheet on page load, if necessary
+		var attrs = ["str", "dex", "con", "int", "wis", "cha"];
+		for(var index in attrs)
+		{
+			var attr = attrs[index];
+			var modifier = scoreToModifier($("#as_" + attr).text());
+			$("#am_" + attr).text(modifier);
+
+			var tempAdjustment = parseInt($("#ta_" + attr).text()) + modifier;
+			$("#tm_" + attr).text(!isNaN(tempAdjustment) ? tempAdjustment : "");
+
+			if(!isNaN(modifier))
+			{
+				updateAbility(attr, modifier);
+			}
+		}
+		updateSize(size.text());
+	});
+</script>

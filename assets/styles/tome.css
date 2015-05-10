@@ -1,0 +1,682 @@
+a:hover,
+a:focus {
+	text-decoration: none;
+}
+
+.floatMid {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.spacer-80 {
+	margin-top: 40px;
+	margin-bottom: 40px;
+	width: 100%;
+}
+
+.spacer-h-80 {
+	display: inline-block;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+.hr {
+	border-top-color: #D1C17E;
+}
+
+a.btna:hover {
+	text-decoration: none;
+}
+
+.heading {
+	text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+}
+
+.emptyMessage {
+	text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+}
+
+.heading small {
+	margin-left: 0.5em;
+	color: #A3A3A3;
+}
+
+.heading h4 {
+	margin: 10px 20px 40px 20px;
+}
+
+.selector {
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 6px;
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
+input.error {
+	border-color: #D01F04;
+	background-color: #FFE9E5;
+}
+
+.loginBox {
+	width: 50%;
+	min-width: 300px;
+}
+
+@font-face {
+	font-family: "Ringbearer";
+	src: url(/fonts/ringbearer.ttf);
+}
+
+.roomContainer {
+	white-space: nowrap;
+	margin-bottom: 6em;
+}
+
+.roomContainer img {
+	max-width: 100%;
+	width: 700px;
+}
+
+.roomContainer .frameContainer,
+.roomContainer .pictureContainer {
+	position: relative;
+	max-width: 100%;
+	display: inline-block;
+}
+
+.roomContainer .pictureContainer {
+	overflow: hidden;
+}
+
+.closed .pictureContainer img,
+.closed.roomContainer .frame {
+	-webkit-filter: grayscale(65%);
+	-moz-filter: grayscale(65%);
+	filter: grayscale(65%);
+}
+
+.roomContainer .frame {
+	position: absolute;
+	top: -15px;
+	left: -15px;
+	right: -15px;
+	bottom: -15px;
+	border-style: solid;
+	border-width: 113px 117px 116px;
+	-moz-border-image: url(http://tome.us/images/frame.png) 113 117 116 stretch;
+	-webkit-border-image: url(http://tome.us/images/frame.png) 113 117 116 stretch;
+	-o-border-image: url(http://tome.us/images/frame.png) 113 117 116 stretch;
+	border-image: url(http://tome.us/images/frame.png) 113 117 116 stretch;
+	border-width: 50px;
+	-webkit-box-shadow: inset 0 0 1em #000, 0 0 1em #000, -1em 1em 2em #000;
+	box-shadow: inset 0 0 1em #000, 0 0 1em #000, -1em 1em 2em #000;
+}
+
+@media screen and (max-width: 767px) {
+	.roomContainer .frame {
+		border-width: 30px;
+	}
+}
+
+.roomName {
+	position: absolute;
+	bottom: 15px;
+	left: -41px;
+	font-family: "Ringbearer";
+	font-size: 60px;
+	text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+	color: #D8CCA6;
+	pointer-events: none;
+	z-index: 10;
+}
+
+.roomSubheading {
+	position: absolute;
+	font-size: 40px;
+	font-family: inherit;
+	left: 71px;
+	bottom: 2px;
+	text-align: left;
+	padding-left: 1em;
+	text-indent: -1em;
+	line-height: 45px;
+	color: #D8CCA6;
+	text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+	pointer-events: none;
+	max-height: 90px;
+	overflow: hidden;
+	z-index: 9;
+}
+
+.closed .roomName,
+.closed .roomSubheading {
+	color: #BBB;
+}
+
+@media (max-width: 767px) {
+	.roomName {
+		left: 10px;
+		font-size: 40px;
+	}
+
+	.roomSubheading {
+		font-size: 20px;
+		line-height: 20px;
+		bottom: 8px;
+	}
+}
+
+body.login {
+	background-image: url(/images/bookbg.jpg);
+	background-size: cover;
+	-webkit-box-shadow: inset 0 0 300px rgba(0, 0, 0, 1);
+	box-shadow: inset 0 0 300px rgba(0, 0, 0, 1);
+}
+
+body.login .cover-heading {
+	font-size: 66px;
+	font-family: "Ringbearer", Serif;
+}
+
+body.login .overlay {
+	background-color: rgba(0, 0, 0, 0.7);
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.ringbearer {
+	font-family: "Ringbearer", Serif;
+}
+
+.btn-paper {
+	color: #000;
+	background-color: #D1C17E;
+	border-color: #9C8E3E;
+}
+
+.ooc .btn-paper,
+.dm .btn-paper {
+	background-color: #CFCFCF;
+	border-color: #9C9C9C;
+}
+
+.btn-paper:hover,
+.btn-paper:focus {
+	color: #FFF;
+	background-color: #A98230;
+	border-color: #866827;
+}
+
+.ooc .btn-paper:hover,
+.dm .btn-paper:hover {
+	background-color: #A8A8A8;
+	border-color: #858585;
+}
+
+.character {
+	padding: 0.5em;
+}
+
+.character .avatar {
+	display: inline-block;
+	border: 3px ridge #A58453;
+	margin-bottom: 1em;
+	-webkit-box-shadow: inset 0 0 1em #000, 0 0 1em #000;
+	box-shadow: inset 0 0 1em #000, 0 0 1em #000;
+}
+
+.ooc.character .avatar {
+	border-color: #777;
+	filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
+	filter: gray;
+	-webkit-filter: grayscale(100%);
+}
+
+.dm.character .avatar {
+	border-color: #777;
+}
+
+.character .info {
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.character .name {
+	font-family: "Ringbearer";
+	font-size: 20px;
+	text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+}
+
+.ooc.character .name {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	padding: 11px 0;
+}
+
+.dm.character .name {
+	padding: 11px 0;
+}
+
+.character .level,
+.character .race,
+.character .class {
+	display: inline-block;
+}
+
+.ooc.character .level,
+.ooc.character .race,
+.ooc.character .class,
+.dm.character .level,
+.dm.character .race,
+.dm.character .class {
+	display: none;
+}
+
+.post {
+	color: #EEE;
+	background-image: url(/images/postbg.jpg);
+	background-size: cover;
+	-webkit-box-shadow: inset 0 0 1em #000, 0 0 1em #000;
+	box-shadow: inset 0 0 1em #000, 0 0 1em #000;
+	padding: 1em;
+	margin-bottom: 2em;
+	border-radius: 10px;
+	margin-left: 20px;
+	margin-right: 20px;
+	word-break: break-word;
+	position: relative;
+}
+
+.dm.post {
+	background-image: none;
+	background-size: initial;
+	background: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.dm.post .message {
+	text-align: center;
+	font-family: "Ringbearer", serif;
+	background: none;
+	padding-top: 0;
+}
+
+.dmSeparator {
+	width: 100%;
+	height: 3em;
+	background-size: contain;
+	background-image: url(/images/hr.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	opacity: 0.3;
+}
+
+.dmSeparator.first {
+	-moz-transform: scaleY(-1);
+	-o-transform: scaleY(-1);
+	-webkit-transform: scaleY(-1);
+	transform: scaleY(-1);
+	filter: FlipV;
+	-ms-filter: "FlipV";
+}
+
+.dmSeparator.last {
+	margin-bottom: 2em;
+}
+
+.ooc.post {
+	background-image: none;
+	background-size: initial;
+	background-color: none;
+}
+
+.post .message {
+	text-align: left;
+	padding: 1em 1em 0 1em;
+	font-size: 16px;
+	border-radius: 15px;
+	background-color: rgba(0, 0, 0, 0.6);
+	text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+}
+
+.post .message .action {
+	margin: 0 0 10px;
+	color: #758EB9;
+	padding: 0 1em;
+}
+
+.post .timestamp {
+	text-align: right;
+}
+
+.ooc.post .timestamp {
+	text-align: left;
+}
+
+.post .timestamp small {
+	font-family: Calibri, sans-serif;
+	color: #CFA252;
+}
+
+.ooc.post .timestamp small {
+	margin-left: 0.5em;
+	color: #696969;
+}
+
+.ooc.post .message .player {
+	color: #CFA252;
+}
+
+.post:not(.dm) .message:after {
+	content: "";
+	position: absolute;
+	border-style: solid;
+	display: block;
+	width: 0;
+	top: 12px;
+	left: -30px;
+	bottom: auto;
+	border-width: 17px 30px 24px 0;
+	border-color: transparent rgba(0, 0, 0, 0.6);
+}
+
+.ooc.post .message:after {
+	display: none;
+}
+
+#newPostInput,
+.editPostInput {
+	min-height: 224px;
+	overflow: hidden;
+	border: none;
+	background: none;
+	width: 100%;
+	font-size: 16px;
+	text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+}
+
+#newPostButton[disabled] {
+	color: #AA9C61;
+}
+
+.savePostButton {
+	margin: 8px 0;
+}
+
+.ooc #newPostButton[disabled],
+.dm #newPostButton[disabled] {
+	color: #A8A8A8;
+}
+
+#newPostButton {
+	width: 120px;
+	position: absolute;
+	left: 43px;
+	bottom: 14px;
+
+	opacity: 0.0;
+	-webkit-transition: opacity 250ms ease-in-out;
+	-moz-transition: opacity 250ms ease-in-out;
+	-ms-transition: opacity 250ms ease-in-out;
+	-o-transition: opacity 250ms ease-in-out;
+	transition: opacity 250ms ease-in-out;
+}
+
+.editPostButton {
+	color: #CFA252;
+}
+
+.ooc .editPostButton,
+.dm .editPostButton {
+	color: #696969;
+}
+
+.editPostButton:hover {
+	color: #A98230;
+	cursor: pointer;
+}
+
+.ooc .editPostButton:hover,
+.dm .editPostButton:hover {
+	color: #DDD;
+}
+
+.loadingCover {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	border-color: transparent rgba(0, 0, 0, 0.7);
+}
+
+.newPost:hover #newPostButton,
+.newPost.active #newPostButton {
+	opacity: 1.0;
+	-webkit-transition: opacity 250ms ease-in-out;
+	-moz-transition: opacity 250ms ease-in-out;
+	-ms-transition: opacity 250ms ease-in-out;
+	-o-transition: opacity 250ms ease-in-out;
+	transition: opacity 250ms ease-in-out;
+}
+
+.newPost {
+	opacity: 0.5;
+	-webkit-transition: opacity 250ms ease-in-out;
+	-moz-transition: opacity 250ms ease-in-out;
+	-ms-transition: opacity 250ms ease-in-out;
+	-o-transition: opacity 250ms ease-in-out;
+	transition: opacity 250ms ease-in-out;
+}
+
+.newPost:hover,
+.newPost.active {
+	opacity: 1.0;
+	-webkit-transition: opacity 250ms ease-in-out;
+	-moz-transition: opacity 250ms ease-in-out;
+	-ms-transition: opacity 250ms ease-in-out;
+	-o-transition: opacity 250ms ease-in-out;
+	transition: opacity 250ms ease-in-out;
+}
+
+.newPost.dm {
+	-webkit-box-shadow: inset 0 0 1em #000, 0 0 1em #000;
+	box-shadow: inset 0 0 1em #000, 0 0 1em #000;
+	padding: 1em;
+}
+
+.newPost.dm .message {
+	background-color: rgba(0, 0, 0, 0.6);
+	text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+}
+
+.messageText {
+	white-space: pre-wrap;
+}
+
+.messageText.editable {
+	margin: 0;
+}
+
+.newBox {
+	cursor: pointer;
+	display: none;
+	margin-bottom: 50px;
+}
+
+.newBox.selected {
+	display: block;
+}
+
+.newBox:hover,
+.newBox.active {
+	border-radius: 15px;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.newBox .selector {
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	left: 10px;
+	font-size: 30px;
+	color: rgba(207, 162, 82, 0.7);
+	text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6), 0 0 1em rgba(0, 0, 0, 0.6), 0 0 0.2em rgba(0, 0, 0, 0.6);
+}
+
+.ooc .newBox .selector {
+	color: rgba(207, 207, 207, 0.70);
+}
+
+.oocreminder {
+	margin-right: 0.5em;
+	color: #808080;
+}
+
+.newBox:hover .selector,
+.newBox.active .selector {
+	visibility: visible;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+	color: #000;
+	background-color: #D1C17E;
+	border-color: #9C8E3E;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+	color: #FFF;
+	background-color: #6B582F;
+	border-color: #8A6B28;
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+	color: #FFF;
+	background-color: #A98230;
+	border-color: #866827;
+}
+
+.pagination > li.first a {
+	margin-right: 1em;
+}
+
+.pagination > li.last a {
+	margin-left: 1em;
+}
+
+.continue a {
+	color: #D1C17E;
+}
+
+.continue a:hover {
+	color: #A98230;
+}
+
+.ooc .diceRolls,
+.dm .diceRolls {
+	margin-bottom: 10px;
+}
+
+.diceRolls > .roll div {
+	display: inline-block;
+}
+
+.diceRolls .coin,
+.diceRolls .d4,
+.diceRolls .d6,
+.diceRolls .d8,
+.diceRolls .d10,
+.diceRolls .d12,
+.diceRolls .d20,
+.diceRolls .math
+{
+	height: 3em;
+	width: 3em;
+	text-align: center;
+	padding-top: 0.8em;
+	color: #FFF;
+	font-size: 20px;
+	background-size: cover;
+}
+
+.diceRolls .coin {
+	background-image: url("/images/d2_w.png");
+}
+.diceRolls .d4 {
+	background-image: url("/images/d4_w.png");
+}
+.diceRolls .d6.r1 {
+	background-image: url("/images/d6-1_w.png");
+}
+.diceRolls .d6.r2 {
+	background-image: url("/images/d6-2_w.png");
+}
+.diceRolls .d6.r3 {
+	background-image: url("/images/d6-3_w.png");
+}
+.diceRolls .d6.r4 {
+	background-image: url("/images/d6-4_w.png");
+}
+.diceRolls .d6.r5 {
+	background-image: url("/images/d6-5_w.png");
+}
+.diceRolls .d6.r6 {
+	background-image: url("/images/d6-6_w.png");
+}
+.diceRolls .d8 {
+	background-image: url("/images/d8_w.png");
+}
+.diceRolls .d10 {
+	background-image: url("/images/d10_w.png");
+}
+.diceRolls .d12 {
+	background-image: url("/images/d12_w.png");
+}
+.diceRolls .d20 {
+	background-image: url("/images/d20_w.png");
+}
+
+@media screen and (max-width: 767px) {
+	#newPostButton {
+		opacity: 1.0 !important;
+		position: relative;
+		margin: 1em 0;
+		left: initial;
+		bottom: initial;
+	}
+
+	.post:not(.dm) .message:after {
+		content: "";
+		display: none;
+	}
+
+	.container.bg {
+		height: 645px;
+	}
+}
+
+@media (min-width: 768px) {
+	.container.bg {
+		height: 745px;
+	}
+}

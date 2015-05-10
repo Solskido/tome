@@ -1,0 +1,56 @@
+<div class="site-wrapper">
+	<div class="site-wrapper-inner">
+		<div class="cover-container">
+			<div class="inner cover">
+				<h1 class="cover-heading">Tome</h1>
+
+				<div class="lead text-center">
+					<form id="loginForm" class="floatMid loginBox" role="form">
+						<input id="email" name="email" type="email" class="form-control" placeholder="Email address" required="" autofocus="">
+						<input id="password" name="password" type="password" class="form-control" placeholder="Password" required="">
+						<button id="loginButton" class="btn btn-lg btn-paper btn-block" type="submit">Login</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function login()
+	{
+		$.ajax({
+			url: "/me/login",
+			method: "POST",
+			data: {
+				"email": $("#email").val(),
+				"password": $("#password").val()
+			},
+			success: function(data, jqXHR, textStatus)
+			{
+				window.location.href = "/";
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+				console.log(jqXHR);
+			}
+		});
+	}
+
+	$(document).ready(function()
+	{
+		$("#loginForm").submit(function(e)
+		{
+			e.preventDefault();
+
+			login();
+		});
+
+		$("#loginButton").click(function(e)
+		{
+			e.preventDefault();
+
+			login();
+		});
+	});
+</script>

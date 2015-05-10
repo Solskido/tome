@@ -1,0 +1,673 @@
+<%
+var char;
+if(typeof session.user.character === "undefined")
+{
+	char = _.find(session.user.characters, { "type": "ooc" });
+}
+else
+{
+	char = session.user.character;
+}
+%>
+
+<!-- Page Heading -->
+<div class="row heading page-header">
+	<div class="col-lg-12">
+		<!--
+		<h1>
+			The Hunt for Macguffins<small>Campaign</small>
+		</h1>
+		-->
+		<h1>
+			<%= room.name %>
+		</h1>
+		<h3>
+			<%= room.subheading %>
+		</h3>
+		<h4>
+			<%= room.description %>
+		</h4>
+	</div>
+</div>
+<!-- /.row -->
+
+<!-- Room Posts -->
+<%
+for(var i = 0; i < room.posts.length; i++)
+{
+	if(!room.posts[i].character)
+	{
+		room.posts[i].character = {
+			"type": "deleted"
+		};
+	}
+	var original = "" + room.posts[i].message;
+	var messageParts = room.posts[i].message.split('::');
+	var parsed = "";
+	if(messageParts.length >= 3)
+	{
+		parsed = "";
+		for(var p = 0; p < messageParts.length; p++)
+		{
+			if(messageParts[p].trim())
+			{
+				if((p % 2) === 0)
+				{
+					parsed += '<p>' + messageParts[p].trim() + '</p>';
+				}
+				else
+				{
+					parsed += '<div class="action">' + messageParts[p].trim() + '</div>';
+				}
+			}
+		}
+	}
+	else
+	{
+		parsed = '<p>' + room.posts[i].message + '</p>';
+	}
+	switch(room.posts[i].character.type)
+	{
+		case "dm":
+			if((i === 0)
+			|| ((i > 0)
+				&& (room.posts[i - 1].character.type !== "dm")))
+			{
+			%>
+			<div class="dmSeparator first"></div>
+			<%
+			}
+			%>
+			<div class="row post dm">
+				<div class="col-xs-12 message">
+					<div class="messageText" data-original="<%= original %>"><%- parsed %></div>
+					<% rolls = room.posts[i].rolls; %>
+					<%- partial('../ce/ejs/diceroll') %>
+					<% if(LOOKUP.ownsCharacter(session.user, room.posts[i].character.id)) { %><p><i class="fa fa-edit editPostButton" data-id="<%= room.posts[i].id %>"></i></p><% } %>
+				</div>
+			</div>
+			<%
+			if((i === (room.posts.length - 1))
+			|| ((i < (room.posts.length - 1))
+				&& (room.posts[i + 1].character.type !== "dm")))
+			{
+			%>
+			<div class="dmSeparator last"></div>
+			<%
+			}
+			break;
+		case "ooc":
+			%>
+			<div class="row post ooc">
+				<div class="col-xs-12 message">
+					<p class="timestamp">
+						<span class="player"><%= room.posts[i].player.name %></span>
+						<small><%= LOOKUP.formatDate(room.posts[i].createdAt) %> &mdash; #<%= room.posts[i].number %></small>
+						<% if(LOOKUP.ownsCharacter(session.user, room.posts[i].character.id)) { %> <i class="fa fa-edit editPostButton" data-id="<%= room.posts[i].id %>"></i><% } %>
+					</p>
+					<div class="messageText" data-original="<%= original %>"><%- parsed %></div>
+					<% rolls = room.posts[i].rolls; %>
+					<%- partial('../ce/ejs/diceroll') %>
+				</div>
+			</div>
+			<%
+			break;
+		case "char":
+			%>
+			<div class="row post">
+				<div class="col-md-2 col-sm-4 character">
+					<a href="/char/<%= room.posts[i].character.id %>">
+						<img class="avatar img-responsive" width="100" src="<%= room.posts[i].character.avatar %>" alt="">
+					</a>
+					<div class="info">
+						<% if(room.posts[i].character.name && !room.posts[i].character.secrets.name) { %>
+							<div class="name"><%= room.posts[i].character.name %></div>
+						<% } if(room.posts[i].character.level && !room.posts[i].character.secrets.level) { %>
+							<div class="level"><%= room.posts[i].character.level %></div>
+						<% } if(room.posts[i].character.race && !room.posts[i].character.secrets.race) { %>
+							<div class="race"><%= room.posts[i].character.race %></div>
+						<% } if(room.posts[i].character.class && !room.posts[i].character.secrets.class) { %>
+							<div class="class"><%= room.posts[i].character.class %></div>
+						<% } %>
+					</div>
+				</div>
+				<div class="col-md-10 col-sm-8 message">
+					<div class="messageText" data-original="<%= original %>"><%- parsed %></div>
+					<% rolls = room.posts[i].rolls; %>
+					<%- partial('../ce/ejs/diceroll') %>
+					<p class="timestamp">
+						<small><%= LOOKUP.formatDate(room.posts[i].createdAt) %> &mdash; #<%= room.posts[i].number %></small>
+						<% if(LOOKUP.ownsCharacter(session.user, room.posts[i].character.id)) { %> <i class="fa fa-edit editPostButton" data-id="<%= room.posts[i].id %>"></i><% } %>
+					</p>
+				</div>
+			</div>
+			<%
+			break;
+		default:
+			%>
+			<div class="row post ooc">
+				<div class="col-xs-12">
+					This post was made by a character that no longer exists.
+				</div>
+			</div>
+			<%
+			break;
+	}
+}
+
+if(pages > page)
+{
+%>
+<div class="row post dm">
+	<div class="col-md-12">
+		<h2 class="ringbearer continue"><a href="?p=<%= page + 1 %>">The story continues...</a></h2>
+	</div>
+</div>
+<%
+}
+%>
+<%
+if((page === pages)
+&& (room.open
+	|| session.user.dm))
+{
+%>
+<div id="postsHere" style="display: none;"></div>
+
+<!-- New Post -->
+<div class="row newPost post <%= char.type %>">
+	<div class="loadingCover"></div>
+	<div class="charSelector">
+		<%
+		var chars = 0;
+		for(var i = 0; i < session.user.characters.length; i++)
+		{
+			if(session.user.characters[i].type === "char")
+			{
+				chars++;
+			}
+		%>
+		<div class="col-md-2 col-sm-4 character newBox<% if(session.user.characters[i].id === char.id) { %> selected<% } %> <%= session.user.characters[i].type %>" data-id="<%= session.user.characters[i].id %>">
+			<img class="avatar img-responsive" width="100" src="<%= session.user.characters[i].avatar %>" alt="">
+			<div class="info">
+				<% if(session.user.characters[i].name && (!session.user.characters[i].secrets || (session.user.characters[i].secrets && !session.user.characters[i].secrets.name))) { %>
+					<div class="name"><%= session.user.characters[i].name %></div>
+				<% } if(session.user.characters[i].level && (!session.user.characters[i].secrets || (session.user.characters[i].secrets && !session.user.characters[i].secrets.level))) { %>
+					<div class="level"><%= session.user.characters[i].level %></div>
+				<% } if(session.user.characters[i].race && (!session.user.characters[i].secrets || (session.user.characters[i].secrets && !session.user.characters[i].secrets.race))) { %>
+					<div class="race"><%= session.user.characters[i].race %></div>
+				<% } if(session.user.characters[i].class && (!session.user.characters[i].secrets || (session.user.characters[i].secrets && !session.user.characters[i].secrets.class))) { %>
+					<div class="class"><%= session.user.characters[i].class %></div>
+				<% } %>
+			</div>
+		</div>
+		<%
+		}
+		if(chars === 0)
+		{
+			var allChars = session.user.characters.length;
+			var mdWidth = (12 - (allChars * 2));
+			var smWidth = (12 - (session.user.characters.length * 4));
+		%>
+		<div class="col-md-<%= mdWidth %> col-sm-<%= smWidth %> col-xs-12 character newBox makeNew">
+			<h2>You don't have any characters!<br />Click here to make one, or click "Out of character" again to post as yourself.</h2>
+		</div>
+		<%
+		}
+		%>
+	</div>
+	<div class="col-md-10 col-sm-8 message">
+		<textarea id="newPostInput" placeholder="Speak Friend and Enter. . ."></textarea>
+	</div>
+	<button id="newPostButton" class="btn btn-lg btn-paper" type="submit">Speak</button>
+</div>
+<%
+}
+
+if(!room.open
+|| (!room.visible
+	&& session.user.dm))
+{
+%>
+<div class="row newPost post ooc">
+	<div class="col-md-12">
+		<%
+		if(!room.open)
+		{
+		%>
+		<h2>This room is closed to new posts<% if(session.user.dm) { %> by players<% } %>.</h2>
+		<%
+		}
+		if(!room.visible)
+		{
+		%>
+		<h2>This room is not viewable by players.</h2>
+		<%
+		}
+		%>
+	</div>
+</div>
+<%
+}
+%>
+
+<%
+if(pages > 1)
+{
+	var maxPage = Math.min((page + 2), pages);
+	var minPage = Math.min((maxPage - 4), (page - 2));
+	if(maxPage < 5)
+	{
+		minPage = 1;
+		maxPage = Math.min(5, pages);
+	}
+%>
+
+<div class="row text-center">
+	<div class="col-lg-12">
+		<ul class="pagination">
+			<%
+			if(minPage > 1)
+			{
+			%>
+			<li class="first">
+				<a href="?p=1">1 &laquo;</a>
+			</li>
+			<%
+			}
+			for(var i = minPage; i < (maxPage + 1); i++)
+			{
+			%>
+			<li<% if(page === i) { %> class="active"<% } %>>
+				<a<% if(page !== i) { %> href="?p=<%= i %>"<% } %>><%= i %></a>
+			</li>
+			<%
+			}
+			%>
+			<%
+			if(maxPage < pages)
+			{
+			%>
+			<li class="last">
+				<a href="?p=<%= pages %>">&raquo; <%= pages %></a>
+			</li>
+			<%
+			}
+			%>
+		</ul>
+	</div>
+</div>
+
+<hr class="hr" />
+<%
+}
+%>
+
+<script>
+	var newPostContainer = $(".newPost");
+	var newPostInput = $("#newPostInput");
+	var newPostButton = $("#newPostButton");
+
+	var selectingCharacter = false;
+
+	var characters = [
+		<%
+		for(var i = 0; i < session.user.characters.length; i++)
+		{
+		%>
+			{
+				<% if(session.user.characters[i].id) { %>"id": "<%= session.user.characters[i].id %>",<% } %>
+				<% if(session.user.characters[i].name) { %>"name": "<%= session.user.characters[i].name %>",<% } %>
+				<% if(session.user.characters[i].race) { %>"race": "<%= session.user.characters[i].race %>",<% } %>
+				<% if(session.user.characters[i].class) { %>"class": "<%= session.user.characters[i].class %>",<% } %>
+				<% if(session.user.characters[i].level) { %>"level": "<%= session.user.characters[i].level %>",<% } %>
+				<% if(session.user.characters[i].type) { %>"type": "<%= session.user.characters[i].type %>",<% } %>
+				<% if(session.user.characters[i].avatar) { %>"avatar": "<%= session.user.characters[i].avatar %>",<% } %>
+			}<% if(i !== (session.user.characters.length - 1)) { %>,<% } %>
+		<%
+		}
+		%>
+	];
+	var character = {
+		<% if(char.id) { %>"id": "<%=			char.id %>",<% } %>
+		<% if(char.name) { %>"name": "<%=		char.name %>",<% } %>
+		<% if(char.race) { %>"race": "<%=		char.race %>",<% } %>
+		<% if(char.class) { %>"class": "<%=		char.class %>",<% } %>
+		<% if(char.level) { %>"level": "<%=		char.level %>",<% } %>
+		<% if(char.type) { %>"type": "<%=		char.type %>",<% } %>
+		<% if(char.image) { %>"avatar": "<%=	char.avatar %>",<% } %>
+	};
+	var dmPost = ("dm" === "<%= room.posts.length ? room.posts[room.posts.length - 1].character.type : 'empty' %>");
+
+	function autoExpand(e)
+	{
+		var minHeight = parseFloat($(this).css("min-height"), 10);
+		var fontSize = parseFloat($(this).css("font-size"), 10);
+
+		if((e.which == 8)
+		|| (e.which == 46))
+		{
+			$(this).height(minHeight);
+		}
+		while($(this).outerHeight() < (this.scrollHeight + parseFloat($(this).css("borderTopWidth"), 10) + parseFloat($(this).css("borderBottomWidth"), 10)))
+		{
+			$(this).height($(this).height() + 1);
+		}
+	}
+
+	function messageTextToHTML(messageText)
+	{
+		var messageParts = messageText.split('::');
+		if(messageParts.length >= 3)
+		{
+			messageText = "";
+			for(var i = 0; i < messageParts.length; i++)
+			{
+				if(messageParts[i].trim())
+				{
+					if((i % 2) === 0)
+					{
+						messageText += '<p>' + messageParts[i].trim() + '</p>';
+					}
+					else
+					{
+						messageText += '<div class="action">' + messageParts[i].trim() + '</div>';
+					}
+				}
+			}
+		}
+		else
+		{
+			messageText = '<p>' + messageText + '</p>';
+		}
+		return messageText;
+	}
+
+	function buildDice(rolls)
+	{
+		var output = "";
+
+		if(rolls
+		&& rolls.length)
+		{
+			output += '<div class="diceRolls">';
+			for(var r = 0; r < rolls.length; r++)
+			{
+				output += '<div class="roll">';
+					switch(rolls[r].die)
+					{
+						case 2:
+				output += '<div class="coin">' +
+							((rolls[r].roll === 1) ? "H" : "T") +
+							'</div>';
+							break;
+						case 6:
+				output += '<div class="d6 r' + rolls[r].roll + '">&nbsp;</div>';
+							break;
+						case 100:
+				output += '<div class="d10">' +
+								Math.floor(rolls[r].roll / 10) + '0' +
+							'</div>' +
+							'<div class="d10">' +
+								Math.floor(rolls[r].roll % 10) +
+							'</div>';
+							break;
+						default:
+				output += '<div class="d' + rolls[r].die + '">' +
+								rolls[r].roll +
+							'</div>';
+							break;
+					}
+					if(rolls[r].add)
+					{
+				output += '<div class="math">+ ' + rolls[r].add + '</div>';
+					}
+					else if(rolls[r].subtract)
+					{
+				output += '<div class="math">- ' + rolls[r].total + '</div>';
+					}
+					if(rolls[r].add
+					|| rolls[r].subtract)
+					{
+				output += '<div class="math">= ' + rolls[r].total + '</div>';
+					}
+				output += '</div>';
+			}
+			output += '</div>';
+		}
+
+		return output;
+	}
+
+	$(document).ready(function()
+	{
+		newPostInput.on("focus", function(e)
+		{
+			newPostContainer.addClass("active");
+		});
+
+		newPostInput.on("blur", function(e)
+		{
+			newPostContainer.removeClass("active");
+		});
+
+		newPostInput.on("keyup", autoExpand);
+
+		var charSelect = $(".newBox");
+		charSelect.click(function(e)
+		{
+			var target = $(e.currentTarget);
+
+			if(target.hasClass("makeNew"))
+			{
+				window.location.href = "/newchar";
+				return;
+			}
+
+			var container = target.closest(".newPost");
+			var messageInput = container.find(".message");
+
+			if(selectingCharacter)
+			{
+				selectingCharacter = false;
+
+				newPostButton.show();
+				messageInput.show();
+				container.find(".charSelector").children(".newBox").removeClass("selected").removeClass("active").hide();
+				target.addClass("selected").show();
+
+				var id = target.data("id");
+				for(var i = 0; i < characters.length; i++)
+				{
+					if(characters[i].id === id)
+					{
+						character = characters[i];
+						break;
+					}
+				}
+
+				container.removeClass("dm").removeClass("ooc").removeClass("char").addClass(character.type);
+
+				$.ajax({
+					url: "/me/selectchar/" + id,
+					method: "POST",
+					cache: false
+				});
+
+				return;
+			}
+
+			newPostButton.hide();
+			messageInput.hide();
+			container.find(".charSelector").children(".newBox").show();
+			target.addClass("active");
+
+			selectingCharacter = true;
+		});
+
+		newPostButton.click(function(e)
+		{
+			e.preventDefault();
+
+			var message = newPostInput.val().trim();
+			if(message === "")
+			{
+				return false;
+			}
+
+			$.ajax({
+				url: "/post",
+				method: "POST",
+				data: {
+					"room": "<%= room.id %>",
+					"character": character.id,
+					"message": message
+				},
+				beforeSend: function()
+				{
+					$(".loadingCover").show();
+					$("#newPostButton").prop("disabled", true);
+				},
+				success: function(data, jqXHR, textStatus)
+				{
+					data.message = messageTextToHTML(data.message);
+
+					var template = "";
+					switch(data.character.type)
+					{
+						case "dm":
+							if(dmPost)
+							{
+								$(".dmSeparator.last").last().remove();
+							}
+							else
+							{
+				template += '<div class="dmSeparator first"></div>';
+							}
+				template += '<div class="row post dm">' +
+								'<div class="col-xs-12 message">' +
+									'<div class="messageText">' +
+										data.message +
+									'</div>' +
+									buildDice(data.rolls) +
+								'</div>' +
+							'</div>' +
+							'<div class="dmSeparator last"></div>';
+							dmPost = true;
+							break;
+						case "ooc":
+				template = '<div id="' + data.id + '" class="row post ooc" style="display: none;">' +
+								'<div class="col-xs-12 message">' +
+									'<p class="timestamp"><span class="player">' + data.player.name + '</span><small>just now &mdash; #' + data.number + '</small></p>' +
+									'<div class="messageText">' +
+										data.message +
+									'</div>' +
+									buildDice(data.rolls) +
+								'</div>' +
+							'</div>';
+							dmPost = false;
+							break;
+						case "char":
+				template = '<div id="' + data.id + '" class="row post char" style="display: none;">' +
+								'<div class="col-md-2 col-sm-4 character">' +
+									'<a href="/char/' + data.character.id + '">' +
+										'<img class="avatar img-responsive" width="100" src="' + data.character.avatar + '" alt="">' +
+									'</a>' +
+									'<div class="info">';
+										if(data.character.name && !data.character.secrets.name)
+										{
+							template += '<div class="name">' + data.character.name + '</div>';
+										}
+										if(data.character.level && !data.character.secrets.level)
+										{
+							template += '<div class="level">' + data.character.level + '</div>';
+										}
+										if(data.character.race && !data.character.secrets.race)
+										{
+							template += '<div class="race">' + data.character.race + '</div>';
+										}
+										if(data.character.class && !data.character.secrets.class)
+										{
+							template += '<div class="class">' + data.character.class + '</div>';
+										}
+						template += '</div>' +
+								'</div>' +
+								'<div class="col-md-10 col-sm-8 message">' +
+									'<div class="messageText">' +
+										data.message +
+									'</div>' +
+									buildDice(data.rolls) +
+									'<p class="timestamp"><small>just now &mdash; #' + data.number + '</small></p>' +
+								'</div>' +
+							'</div>';
+							dmPost = false;
+							break;
+						default:
+				template = '<div id="' + data.id + '" class="row post" style="display: none;">' +
+								'<div class="col-xs-12">' +
+									'Unknown character type.' +
+								'</div>' +
+							'</div>';
+							dmPost = false;
+							break;
+					}
+
+					$("#postsHere").before(template);
+					$("#" + data.id).fadeIn();
+					newPostContainer.removeClass("active");
+					newPostInput.val("");
+				},
+				error: function(jqXHR, textStatus, errorThrown)
+				{
+					console.log(jqXHR, textStatus, errorThrown);
+				},
+				complete: function(jqXHR, textStatus)
+				{
+					$("#newPostButton").prop("disabled", false);
+					$(".loadingCover").hide();
+				}
+			});
+		});
+
+		$(".editPostButton").click(function(e)
+		{
+			e.preventDefault();
+
+			var post = $(e.currentTarget).closest(".post");
+			var postID = $(e.currentTarget).data("id");
+			var messageText = post.find(".messageText");
+			var originalHeight = Math.max(messageText.height(), 146);
+			var originalMessageText = messageText.data("original");
+			var editButton = post.find(".editPostButton");
+
+			editButton.hide();
+			messageText.after('<div class="messageText editable text-center"><textarea class="editPostInput" style="min-height:' + originalHeight + 'px;">' + originalMessageText + '</textarea><button class="btn btn-lg btn-paper savePostButton">Save</button></div>');
+			messageText.hide();
+
+			var editPostInput = post.find(".editPostInput");
+			editPostInput.on("keyup", autoExpand);
+
+			post.find(".savePostButton").click(function(e)
+			{
+				e.preventDefault();
+
+				var newMessage = editPostInput.val();
+				post.find(".messageText.editable").remove();
+				$.ajax({
+					"url": "/post/" + postID,
+					"method": "PUT",
+					"data": {
+						"message": newMessage
+					},
+					"success": function(data, jqXHR, textStatus)
+					{
+						messageText.html(messageTextToHTML(data.message));
+						messageText.data("original", data.message);
+						messageText.show();
+						editButton.show();
+					}
+				});
+			});
+		});
+	});
+</script>
