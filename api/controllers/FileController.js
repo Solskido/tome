@@ -108,8 +108,8 @@ module.exports = {
 
 			var modified = new Date(imageResult.updatedAt);
 			if((req.headers
-				&& req.headers["if-modified-since"])
-				&& (new Date(req.headers["if-modified-since"] < modified)))
+			&& req.headers["if-modified-since"])
+			&& (new Date(req.headers["if-modified-since"] < modified)))
 			{
 				return res.send(304);
 			}

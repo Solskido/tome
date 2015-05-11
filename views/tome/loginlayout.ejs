@@ -24,7 +24,7 @@
 		<script src="/js/jquery-2.1.1.js"></script>
 	</head>
 
-	<body class="login">
+	<body class="login<%= (typeof session.theme === "undefined") ? '' : (' ' + session.theme) %>">
 		<div class="overlay">
 			<%- body %>
 		</div>

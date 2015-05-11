@@ -1,0 +1,343 @@
+.character {
+
+  &.wide {
+    background-size: cover;
+    border-radius: 6px;
+    text-align: left;
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
+    -webkit-box-shadow: inset 0 0 1em #000, 0 0 1em #000, -1em 1em 2em #000;
+    box-shadow: inset 0 0 1em #000, 0 0 1em #000, -1em 1em 2em #000;
+    cursor: pointer;
+
+    .secrecy {
+      margin-left: 1em;
+      color: #BBBBBB;
+    }
+
+    &.view {
+      cursor: auto;
+    }
+
+    &:hover {
+
+      .selector {
+        visibility: visible;
+      }
+    }
+
+    &.new {
+      background-image: none;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    &.display {
+      text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+      cursor: auto;
+
+      div {
+        font-size: 18px;
+      }
+
+      small {
+        color: #BBBBBB;
+      }
+
+      #bio {
+        text-indent: 2em;
+      }
+    }
+
+    &.editable {
+      background-image: none;
+      background-color: rgba(0, 0, 0, 0.5);
+      cursor: auto;
+
+      .secrecy {
+        cursor: pointer;
+
+        &:hover {
+          color: #FFFFFF;
+        }
+      }
+
+      h3,
+      h4 {
+        padding-left: 10px;
+      }
+
+      [contenteditable] {
+        border-radius: 20px;
+        padding: 0.5em 0.5em 0.5em 10px;
+        background: rgba(0, 0, 0, 0.5);
+
+        &span {
+          padding: 0.5em;
+          display: inline-block;
+          min-width: 4em;
+        }
+
+        &.error {
+          background: rgba(133, 57, 57, 0.5) !important;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      .avatar {
+
+        &.error {
+          border: 3px ridge rgba(133, 57, 57, 1);
+        }
+      }
+    }
+
+    .name {
+      font-size: 40px;
+      text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+    }
+
+    .race,
+    .class {
+      font-size: 20px;
+      text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+    }
+
+    .bio {
+      font-size: 16px;
+      text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+    }
+
+    .avatar {
+      margin: 1em 0;
+    }
+  }
+}
+
+.imageError {
+  pointer-events: none;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(133, 57, 57, 0.5);
+  border-radius: 20px;
+
+  .error {
+    display: block;
+  }
+}
+
+.uploadReminder {
+  pointer-events: none;
+  font-size: 30px;
+  text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2em;
+}
+
+.charsheet {
+
+  .row {
+    margin-left: -5px;
+    margin-right: -5px;
+
+    .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+
+  .vspace-38 {
+    height: 38px;
+  }
+
+  .vspace-19 {
+    height: 19px;
+  }
+
+  .attrcol {
+    padding: 0 !important;
+  }
+
+  .attrrow {
+    margin: 0;
+  }
+
+  .attrs {
+    .attr {
+      height: 36px;
+    }
+  }
+
+  .left,
+  .top {
+    text-align: center;
+    line-height: 12px;
+  }
+
+  .left {
+    font-size: 20px;
+    padding-top: 7px;
+  }
+
+  small {
+    font-size: 10px;
+  }
+
+  .legend {
+    small {
+      color: #BBBBBB;
+    }
+  }
+
+  [contenteditable] {
+    border-radius: 5px !important;
+    min-width: 2.5em;
+    text-align: right;
+  }
+
+  .calculated {
+    padding: 0.5em 0.5em 0.5em 10px;
+    min-width: 2.5em;
+    text-align: right;
+    background: rgba(0, 0, 0, 0.3);
+    height: 34px;
+    border-radius: 5px;
+  }
+
+  .inputbuddy {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 10px;
+    pointer-events: none;
+  }
+
+  #currhp,
+  #nlhp,
+  .special [contenteditable],
+  .gear [contenteditable],
+  .profile [contenteditable] {
+    text-align: left;
+  }
+
+  .profile [contenteditable]:not(.expandable),
+  .sheet [contenteditable],
+  .sheet .calculated {
+    text-overflow: clip;
+    max-height: 34px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .profile [contenteditable].expandable {
+    white-space: pre;
+  }
+
+  .sheet .calculated {
+    text-overflow: ellipsis;
+  }
+
+  #temp_mod,
+  #currhp {
+    white-space: normal;
+  }
+
+  #currhp {
+    min-height: 74px;
+  }
+
+  #bab,
+  #sr {
+    text-align: center;
+  }
+
+  #temp_mod {
+    min-height: 88px;
+  }
+
+  .mathsign,
+  .skilldot {
+    float: left;
+  }
+
+  .mathsign.empty {
+    width: 9px;
+    height: 9px;
+  }
+
+  .skilldot {
+    padding-right: 8px;
+    padding-top: 6px;
+    height: 34px;
+  }
+
+  .skillname {
+    padding-top: 6px !important;
+    height: 34px;
+  }
+
+  .skills {
+    border-bottom: 1px solid #222;
+  }
+
+  .math {
+    padding-top: 7px;
+    padding-left: 1px;
+  }
+
+  .cmlabel {
+    margin-top: 5px;
+  }
+
+  .save {
+    width: 14.079%;
+  }
+
+  .cm {
+    width: 22.928%;
+  }
+
+  .skill {
+    width: 9.796%;
+  }
+
+  .ac {
+    width: 9.371%;
+  }
+
+  .ab {
+    width: 23.348%;
+  }
+
+  .buttons {
+    text-align: center;
+  }
+
+  .buttons button {
+    margin: 0 auto;
+  }
+
+  .skilldot {
+    cursor: pointer;
+  }
+
+  .skilldot:hover {
+    color: #BBBBBB;
+  }
+}
+
+.gear {
+  padding: 3px;
+  border: 2px solid #222222;
+}

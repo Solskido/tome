@@ -72,7 +72,7 @@ module.exports = {
 						return res.badRequest();
 					}
 					else if((!roomResult.open
-					|| !roomResult.visible)
+						|| !roomResult.visible)
 					&& (!req.session.user.dm))
 					{
 						return res.forbidden();
@@ -314,7 +314,7 @@ module.exports = {
 		var message = req.param("message") || null;
 
 		if(!postID
-			|| !message)
+		|| !message)
 		{
 			return res.badRequest();
 		}

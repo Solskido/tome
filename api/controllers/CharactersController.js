@@ -14,11 +14,22 @@ module.exports = {
 	 */
 	chars: function(req, res)
 	{
+		var bgImage = "";
+		switch(req.session.theme)
+		{
+			case "fantasy":
+				bgImage = "/images/charactersbg-fantasy.jpg";
+				break;
+			case "scifi":
+				bgImage = "/images/charactersbg-scifi.jpg";
+				break;
+		}
+
 		return res.view("player/chars", {
 			"layout": "layout",
 			"viewid": "chars",
 
-			"bgImage": "/images/charactersbg.jpg"
+			"bgImage": bgImage
 		});
 	},
 
@@ -49,12 +60,23 @@ module.exports = {
 				return res.redirect("/chars");
 			}
 
+			var bgImage = "";
+			switch(req.session.theme)
+			{
+				case "fantasy":
+					bgImage = "/images/newcharbg-fantasy.jpg";
+					break;
+				case "scifi":
+					bgImage = "/images/newcharbg-scifi.jpg";
+					break;
+			}
+
 			return res.view("player/char", {
 				"layout": "layout",
 				"viewid": "char",
 
 				"character": character,
-				"bgImage": "/images/newcharbg.jpg"
+				"bgImage": bgImage
 			});
 		});
 	},
@@ -64,11 +86,22 @@ module.exports = {
 	 */
 	newchar: function(req, res)
 	{
+		var bgImage = "";
+		switch(req.session.theme)
+		{
+			case "fantasy":
+				bgImage = "/images/newcharbg-fantasy.jpg";
+				break;
+			case "scifi":
+				bgImage = "/images/newcharbg-scifi.jpg";
+				break;
+		}
+
 		return res.view("player/newchar", {
 			"layout": "layout",
 			"viewid": "newchar",
 
-			"bgImage": "/images/newcharbg.jpg"
+			"bgImage": bgImage
 		});
 	},
 

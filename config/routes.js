@@ -69,10 +69,11 @@ module.exports.routes = {
 	////////////////////////////////////////////////
 	//	Dungeon Master
 	////////////////////////////////////////////////
-	"GET /dm/screen": "TomeController.dmscreen",
-	"GET /dm/rooms": "TomeController.roommanager",
-	"GET /dm/players": "TomeController.players",
-	"GET /dm/newroom": "TomeController.newroom",
+	"GET /dm/screen": "DMController.dmscreen",
+	"GET /dm/campaigns": "DMController.campaigns",
+	"GET /dm/rooms": "DMController.roommanager",
+	"GET /dm/players": "DMController.players",
+	"GET /dm/newroom": "DMController.newroom",
 	"POST /dm/roomusability": "RoomsController.roomusability",
 	"POST /dm/roomvisability": "RoomsController.roomvisability"
 };

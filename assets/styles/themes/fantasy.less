@@ -1,0 +1,213 @@
+body.fantasy {
+
+  @font-face {
+    font-family: "Ringbearer";
+    src: url(/fonts/ringbearer.ttf);
+  }
+
+  .roomContainer {
+
+    .frame {
+      -moz-border-image: url(/images/frame-fantasy.png) 113 117 116 stretch;
+      -webkit-border-image: url(/images/frame-fantasy.png) 113 117 116 stretch;
+      -o-border-image: url(/images/frame-fantasy.png) 113 117 116 stretch;
+      border-image: url(/images/frame-fantasy.png) 113 117 116 stretch;
+      border-width: 113px 117px 116px;
+      border-width: 50px;
+      -webkit-box-shadow: inset 0 0 1em #000, 0 0 1em #000, -1em 1em 2em #000;
+      box-shadow: inset 0 0 1em #000, 0 0 1em #000, -1em 1em 2em #000;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+
+    .roomContainer {
+      .frame {
+        border-width: 30px;
+      }
+    }
+  }
+
+  .roomName {
+    font-family: "Ringbearer";
+    color: #D8CCA6;
+  }
+
+  .roomSubheading {
+    color: #D8CCA6;
+  }
+
+  .themeFont {
+    font-family: "Ringbearer", Serif;
+  }
+
+  .character {
+
+    &.wide {
+
+      &:not(.editable) {
+        background-image: url(/images/charcardbg-fantasy.jpg);
+     }
+    }
+
+    &.newBox {
+
+      .selector {
+        color: rgba(207, 162, 82, 0.7);
+      }
+    }
+
+    .name {
+      font-family: "Ringbearer";
+    }
+
+    .avatar {
+      border: 3px ridge #A58453;
+    }
+  }
+
+  .post {
+    background-image: url(/images/postbg-fantasy.jpg);
+
+    .message {
+
+      .timestamp {
+
+        small {
+          color: #CFA252;
+        }
+      }
+
+      .editPostButton {
+        color: #CFA252;
+
+        &:hover {
+          color: #A98230;
+        }
+      }
+    }
+
+    &.dm {
+
+      .message {
+        font-family: "Ringbearer", serif;
+      }
+    }
+  }
+
+  #newPostButton {
+
+    &[disabled] {
+      color: #AA9C61;
+    }
+  }
+
+  &.login {
+    background-image: url(/images/bookbg-fantasy.jpg);
+
+    .cover-heading {
+      font-family: "Ringbearer", Serif;
+    }
+  }
+
+  .player {
+    color: #CFA252;
+  }
+
+  .btn-paper {
+    color: #000000;
+    background-color: #D1C17E;
+    border-color: #9C8E3E;
+
+    &:hover {
+      color: #FFFFFF;
+      background-color: #A98230;
+      border-color: #866827;
+    }
+
+    &:focus {
+      color: #FFFFFF;
+      background-color: #A98230;
+      border-color: #866827;
+    }
+  }
+
+  .pagination {
+
+    > li {
+
+      > a,
+      > span {
+        color: #000;
+        background-color: #D1C17E;
+        border-color: #9C8E3E;
+
+        &:hover {
+          color: #FFF;
+          background-color: #A98230;
+          border-color: #866827;
+        }
+      }
+
+      &.active {
+
+        > a,
+        > span,
+        > a:hover,
+        > span:hover,
+        > a:focus,
+        > span:focus {
+          color: #FFF;
+          background-color: #6B582F;
+          border-color: #8A6B28;
+        }
+      }
+    }
+  }
+
+  .continue {
+
+    a {
+      color: #D1C17E;
+
+      &:hover {
+        color: #A98230;
+      }
+    }
+  }
+
+  .hr {
+    border-top-color: #D1C17E;
+  }
+
+  .dmBoxContainer {
+
+    .dmBox {
+      color: #D8CCA6;
+
+      &.pcViewer {
+        background-image: url(/images/charactersbg-fantasy.jpg);
+      }
+
+      &.roomCreator {
+        background-image: url(/images/roomsbg-fantasy.jpg);
+      }
+
+      &.campaignManager {
+        background-image: url(/images/campaignbg.jpg);
+      }
+
+      h3 {
+        color: #D8CCA6;
+      }
+    }
+  }
+
+  .roomControl {
+    color: #D8CCA6;
+
+    &:hover {
+      color: #D1C17E;
+    }
+  }
+}

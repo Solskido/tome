@@ -12,6 +12,8 @@ module.exports = {
 	 */
 	index: function(req, res)
 	{
+		req.session.theme = ["fantasy", "scifi"][Math.floor(Math.random() * 2)];
+
 		if(req.session.user)
 		{
 			Rooms.find({
@@ -24,11 +26,22 @@ module.exports = {
 					return res.serverError(err);
 				}
 
+				var bgImage = "";
+				switch(req.session.theme)
+				{
+					case "fantasy":
+						bgImage = "/images/roomsbg-fantasy.jpg";
+						break;
+					case "scifi":
+						bgImage = "/images/roomsbg-scifi.jpg";
+						break;
+				}
+
 				return res.view("tome/index", {
 					"layout": "layout",
 					"viewid": "rooms",
 
-					"bgImage": "/images/roomsbg.jpg",
+					"bgImage": bgImage,
 					"rooms": roomsResult
 				});
 			});
@@ -155,6 +168,7 @@ module.exports = {
 						post.number = ++skip;
 						return post;
 					});
+
 					return res.view("tome/room", {
 						"layout": "layout",
 						"viewid": "room",
@@ -165,105 +179,6 @@ module.exports = {
 						"pages": highestPage,
 						"page": pageNumber
 					});
-				});
-			});
-		});
-	},
-
-	/**
-	 * `TomeController.dmscreen()`
-	 */
-	dmscreen: function(req, res)
-	{
-		return res.view("dm/screen", {
-			"layout": "layout",
-			"viewid": "dmscreen",
-
-			"bgImage": "/images/dmscreen.png"
-		});
-	},
-
-	/**
-	 * `TomeController.roommanager()`
-	 */
-	roommanager: function(req, res)
-	{
-		Rooms.find().sort({ "visible": -1, "open": -1 }).exec(function(err, roomsResult)
-		{
-			if(err)
-			{
-				sails.log.error(err);
-				return res.serverError(err);
-			}
-
-			return res.view("dm/rooms", {
-				"layout": "layout",
-				"viewid": "roommanager",
-
-				"rooms": roomsResult,
-				"bgImage": "/images/roomsbg.jpg"
-			});
-		});
-	},
-
-	/**
-	 * `TomeController.newroom()`
-	 */
-	newroom: function(req, res)
-	{
-		return res.view("dm/newroom", {
-			"layout": "layout",
-			"viewid": "roommanager",
-
-			"bgImage": "/images/roomsbg.jpg"
-		});
-	},
-
-	/**
-	 * `TomeController.players()`
-	 */
-	players: function(req, res)
-	{
-		Users.find().exec(function(err, userResults)
-		{
-			if(err)
-			{
-				sails.log.error(err);
-				return res.serverError(err);
-			}
-
-			var characters = [];
-			userResults = _.map(userResults, function(user)
-			{
-				characters = _.union(characters, user.characters);
-				return user.toJSON();
-			});
-
-			Characters.find({
-				"id": characters
-			}).exec(function(err, characterResults)
-			{
-				if(err)
-				{
-					sails.log.error(err);
-					return res.serverError(err);
-				}
-
-				userResults = _.map(userResults, function(user)
-				{
-					user.characters = _.map(user.characters, function(char)
-					{
-						return _.find(characterResults, { "id": char });
-					});
-					return user;
-				});
-
-				return res.view("dm/players", {
-					"layout": "layout",
-					"viewid": "players",
-
-					"players": userResults,
-					"bgImage": "/images/playersbg.jpg"
 				});
 			});
 		});

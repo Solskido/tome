@@ -1,0 +1,214 @@
+body.scifi {
+
+  @font-face {
+    font-family: "Casanti";
+    src: url(/fonts/casanti_antique.ttf);
+  }
+
+  .roomContainer {
+
+    .frame {
+      -moz-border-image: url(/images/frame-scifi.png) 110 89 stretch;
+      -webkit-border-image: url(/images/frame-scifi.png) 110 89 stretch;
+      -o-border-image: url(/images/frame-scifi.png) 110 89 stretch;
+      border-image: url(/images/frame-scifi.png) 110 89 stretch;
+      border-width: 110px 89px;
+      border-width: 72px;
+      -webkit-box-shadow: 0 0 1em #000, -1em 1em 2em #000;
+      box-shadow: 0 0 1em #000, -1em 1em 2em #000;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+
+    .roomContainer {
+      .frame {
+        border-width: 57px;
+      }
+    }
+  }
+
+  .roomName {
+    font-family: "Casanti";
+    text-transform: uppercase;
+    color: #BBBBBB;
+  }
+
+  .roomSubheading {
+    color: #BBBBBB;
+  }
+
+  .themeFont {
+    font-family: "Casanti", Serif;
+    text-transform: uppercase;
+  }
+
+  .character {
+
+    &.wide {
+
+      &:not(.editable) {
+        background-image: url(/images/charcardbg-scifi.jpg);
+      }
+    }
+
+    &.newBox {
+
+      .selector {
+        color: rgba(204, 204, 204, 0.7);
+      }
+    }
+
+    .name {
+      font-family: "Casanti";
+      text-transform: uppercase;
+    }
+
+    .avatar {
+      border: 3px ridge #7B7B7B;
+    }
+  }
+
+  .post {
+    background-image: url(/images/postbg-scifi.jpg);
+
+    .message {
+
+      .timestamp {
+
+        small {
+          color: #7C7C7C;
+        }
+      }
+
+      .editPostButton {
+        color: #414141;
+
+        &:hover {
+          color: #666666;
+        }
+      }
+    }
+
+    &.dm {
+
+      .message {
+        font-family: "Casanti", serif;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  #newPostButton {
+
+    &[disabled] {
+      color: #AAAAAA;
+    }
+  }
+
+  &.login {
+    background-image: url(/images/loginbg-scifi.jpg);
+
+    .cover-heading {
+      font-family: "Casanti", Serif;
+      text-transform: uppercase;
+    }
+  }
+
+  .player {
+    color: #909090;
+  }
+
+  .btn-paper {
+    color: #FFFFFF;
+    background-color: #414141;
+    border-color: #646464;
+
+    &:hover {
+      background-color: #666666;
+      border-color: #444444;
+    }
+
+    &:focus {
+      background-color: #666666;
+      border-color: #444444;
+    }
+  }
+
+  .pagination {
+
+    > li {
+
+      > a,
+      > span {
+        color: #FFFFFF;
+        background-color: #414141;
+        border-color: #646464;
+
+        &:hover {
+          background-color: #666666;
+          border-color: #444444;
+        }
+      }
+
+      &.active {
+
+        > a,
+        > span,
+        > a:hover,
+        > span:hover,
+        > a:focus,
+        > span:focus {
+          background-color: #666666;
+          border-color: #444444;
+        }
+      }
+    }
+  }
+
+  .continue {
+
+    a {
+      color: #414141;
+
+      &:hover {
+        color: #646464;
+      }
+    }
+  }
+
+  .hr {
+    border-top-color: #D0D0D0;
+  }
+
+  .dmBoxContainer {
+
+    .dmBox {
+      color: #D6D6D6;
+
+      &.pcViewer {
+        background-image: url(/images/charactersbg-scifi.jpg);
+      }
+
+      &.roomCreator {
+        background-image: url(/images/roomsbg-scifi.jpg);
+      }
+
+      &.campaignManager {
+        background-image: url(/images/campaignbg.jpg);
+      }
+
+      h3 {
+        color: #D6D6D6;
+      }
+    }
+  }
+
+  .roomControl {
+    color: #D6D6D6;
+
+    &:hover {
+      color: #b3b3b3;
+    }
+  }
+}
