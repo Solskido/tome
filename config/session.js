@@ -23,7 +23,7 @@ module.exports.session = {
 
 	"adapter": "redis",
 	"host": process.env.SESSION_HOST,
-	"port": process.env.SESSION_PORT,
+	"port": parseInt(process.env.SESSION_PORT),
 	// 1 year
 	"ttl": 31536000000,
 	"db": 0,
