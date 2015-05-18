@@ -66,11 +66,6 @@ module.exports = {
 			return res.redirect("/");
 		}
 
-		Tokens.find().exec(function(err, tokens)
-		{
-			console.log(err, tokens);
-		});
-
 		LOOKUP.validInvitationToken(invitationToken, function(err, valid)
 		{
 			if(err)
