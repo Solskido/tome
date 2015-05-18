@@ -290,6 +290,10 @@ body {
       background-color: rgba(0, 0, 0, 0.6);
       text-shadow: 2px 2px 3px black, 0 0 1em black, 0 0 0.2em black;
 
+      .messageText {
+        white-space: pre-wrap;
+      }
+
       .action {
         margin: 0 0 10px;
         color: #758EB9;
@@ -302,6 +306,10 @@ body {
         small {
           font-family: Calibri, sans-serif;
         }
+      }
+
+      .editPostButton {
+        cursor: pointer;
       }
 
       .editPostInput {
@@ -320,7 +328,6 @@ body {
     }
 
     &.dm {
-      background-image: none;
       background-size: initial;
       background: none;
       -webkit-box-shadow: none;
@@ -335,7 +342,6 @@ body {
         padding-top: 0;
 
         .messageText {
-          white-space: pre-wrap;
 
           &.editable {
             margin: 0;
@@ -369,7 +375,6 @@ body {
     }
 
     &.ooc {
-      background-image: none;
       background-size: initial;
       background-color: none;
 
@@ -392,7 +397,6 @@ body {
 
           small {
             margin-left: 0.5em;
-            color: #696969;
           }
         }
       }
