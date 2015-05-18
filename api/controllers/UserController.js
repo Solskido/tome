@@ -25,6 +25,7 @@ module.exports = {
 		if(!email
 		|| !password)
 		{
+			console.log("NO EMAIL OR PASSWORD");
 			return res.badRequest();
 		}
 
@@ -41,10 +42,12 @@ module.exports = {
 			}
 			if(!userResult)
 			{
+				console.log("WRONG EMAIL");
 				return res.badRequest();
 			}
 			if(!bcrypt.compareSync(password, userResult.password))
 			{
+				console.log("WRONG PASSWORD");
 				return res.badRequest();
 			}
 
