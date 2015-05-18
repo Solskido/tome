@@ -10,7 +10,7 @@ module.exports = {
 	/**
 	 * `TomeController.index()`
 	 */
-	index: function(req, res)
+	"index": function(req, res)
 	{
 		req.session.theme = ["fantasy", "scifi"][Math.floor(Math.random() * 2)];
 
@@ -57,7 +57,7 @@ module.exports = {
 	/**
 	 * `TomeController.signup()`
 	 */
-	signup: function(req, res)
+	"signup": function(req, res)
 	{
 		var invitationToken = req.param("t") || null;
 		if(req.session.user
@@ -88,7 +88,7 @@ module.exports = {
 	/**
 	 * `TomeController.room()`
 	 */
-	room: function(req, res)
+	"room": function(req, res)
 	{
 		var roomTag = req.param("tag") || null;
 		var pageNumber = req.param("p") || null;
@@ -115,7 +115,9 @@ module.exports = {
 			options.visible = true;
 		}
 
-		Rooms.findOne(options).exec(function(err, roomResult)
+		Rooms.findOne(options)
+		.populate("posts")
+		.exec(function(err, roomResult)
 		{
 			if(err)
 			{
@@ -127,7 +129,30 @@ module.exports = {
 				return res.notFound();
 			}
 
-			Posts.count({ "id": roomResult.posts }).exec(function(err, postCount)
+			var highestPage = Math.ceil(roomResult.posts.length / LOOKUP.ROOM_PAGE_SIZE);
+			if(pageNumber)
+			{
+				if(pageNumber > highestPage)
+				{
+					return res.notFound();
+				}
+			}
+			else
+			{
+				pageNumber = highestPage;
+			}
+
+			var skip = ((pageNumber - 1) * LOOKUP.ROOM_PAGE_SIZE);
+
+			Posts.find({
+				"room": roomResult.id,
+				"skip": skip,
+				"limit": LOOKUP.ROOM_PAGE_SIZE
+			})
+			.populate("player")
+			.populate("character")
+			.sort({ "createdAt": 1 })
+			.exec(function(err, postResults)
 			{
 				if(err)
 				{
@@ -135,50 +160,21 @@ module.exports = {
 					return res.serverError(err);
 				}
 
-				var highestPage = Math.ceil(postCount / LOOKUP.ROOM_PAGE_SIZE);
-				if(pageNumber)
+				roomResult.posts = _.map(postResults, function(post)
 				{
-					if(pageNumber > highestPage)
-					{
-						return res.notFound();
-					}
-				}
-				else
-				{
-					pageNumber = highestPage;
-				}
+					post.number = ++skip;
+					return post;
+				});
 
-				var skip = ((pageNumber - 1) * LOOKUP.ROOM_PAGE_SIZE);
-				Posts.find({
-					"id": roomResult.posts
-				}).skip(skip)
-				.limit(LOOKUP.ROOM_PAGE_SIZE)
-				.populate("character")
-				.populate("player")
-				.exec(function(err, postResults)
-				{
-					if(err)
-					{
-						sails.log.error(err);
-						return res.serverError(err);
-					}
+				return res.view("tome/room", {
+					"layout": "layout",
+					"viewid": "room",
 
-					roomResult.posts = _.map(postResults, function(post)
-					{
-						post.number = ++skip;
-						return post;
-					});
+					"bgImage": roomResult.image,
+					"room": roomResult,
 
-					return res.view("tome/room", {
-						"layout": "layout",
-						"viewid": "room",
-
-						"bgImage": roomResult.image,
-						"room": roomResult,
-
-						"pages": highestPage,
-						"page": pageNumber
-					});
+					"pages": highestPage,
+					"page": pageNumber
 				});
 			});
 		});

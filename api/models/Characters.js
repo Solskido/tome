@@ -7,64 +7,64 @@
 
 module.exports = {
 
-	schema: true,
-	attributes: {
-		player: {
-			model: "Users"
+	"schema": true,
+	"attributes": {
+		"player": {
+			"model": "Users"
 		},
-		avatar: {
-			type: "string"
+		"avatar": {
+			"type": "string"
 		},
-		name: {
-			type: "string"
+		"name": {
+			"type": "string"
 		},
-		alignment: {
-			type: "string"
+		"alignment": {
+			"type": "string"
 		},
-		gender: {
-			type: "string"
+		"gender": {
+			"type": "string"
 		},
-		level: {
-			type: "string"
+		"level": {
+			"type": "string"
 		},
-		deity: {
-			type: "string"
+		"deity": {
+			"type": "string"
 		},
-		homeland: {
-			type: "string"
+		"homeland": {
+			"type": "string"
 		},
-		race: {
-			type: "string"
+		"race": {
+			"type": "string"
 		},
-		size: {
-			type: "string"
+		"size": {
+			"type": "string"
 		},
-		age: {
-			type: "string"
+		"age": {
+			"type": "string"
 		},
-		height: {
-			type: "string"
+		"height": {
+			"type": "string"
 		},
-		weight: {
-			type: "string"
+		"weight": {
+			"type": "string"
 		},
-		eyes: {
-			type: "string"
+		"eyes": {
+			"type": "string"
 		},
-		bio: {
-			type: "string"
+		"bio": {
+			"type": "string"
 		},
-		type: {
-			type: "string"
+		"type": {
+			"type": "string"
 		},
-		charsheet: {
-			type: "json"
+		"charsheet": {
+			"type": "json"
 		},
-		secrets: {
-			type: "json"
+		"secrets": {
+			"type": "json"
 		},
-		notes: {
-			type: "string"
+		"notes": {
+			"type": "string"
 		}
 	},
 
@@ -74,7 +74,7 @@ module.exports = {
 	 * @param options
 	 * @param done
 	 */
-	beforeDestroy: function(options, done)
+	"beforeDestroy": function(options, done)
 	{
 		if(options.where
 		&& options.where.id)

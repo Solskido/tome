@@ -5,14 +5,12 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var fs = require("fs");
-
 module.exports = {
 
 	/**
 	 * `RoomsController.createorupdate()`
 	 */
-	createorupdate: function(req, res)
+	"createorupdate": function(req, res)
 	{
 		var id = req.param("id") || null;
 		var name = req.param("name") || null;
@@ -148,7 +146,7 @@ module.exports = {
 	/**
 	 * `RoomsController.destroy()`
 	 */
-	destroy: function(req, res)
+	"destroy": function(req, res)
 	{
 		var roomID = req.param("id") || null;
 		if(!roomID)
@@ -184,7 +182,7 @@ module.exports = {
 	/**
 	 * `RoomsController.roomusability()`
 	 */
-	roomusability: function(req, res)
+	"roomusability": function(req, res)
 	{
 		var open = req.param("open") || null;
 		var roomID = req.param("id") || null;
@@ -228,7 +226,7 @@ module.exports = {
 	/**
 	 * `RoomsController.roomvisability()`
 	 */
-	roomvisability: function(req, res)
+	"roomvisability": function(req, res)
 	{
 		var visible = req.param("visible") || null;
 		var roomID = req.param("id") || null;

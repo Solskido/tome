@@ -12,7 +12,7 @@ module.exports = {
 	/**
 	 * `CharactersController.chars()`
 	 */
-	chars: function(req, res)
+	"chars": function(req, res)
 	{
 		var bgImage = "";
 		switch(req.session.theme)
@@ -36,7 +36,7 @@ module.exports = {
 	/**
 	 * `CharactersController.char()`
 	 */
-	char: function(req, res)
+	"char": function(req, res)
 	{
 		var characterID = req.param("charid") || null;
 		if(!characterID)
@@ -84,7 +84,7 @@ module.exports = {
 	/**
 	 * `CharactersController.newchar()`
 	 */
-	newchar: function(req, res)
+	"newchar": function(req, res)
 	{
 		var bgImage = "";
 		switch(req.session.theme)
@@ -108,7 +108,7 @@ module.exports = {
 	/**
 	 * `CharactersController.createorupdate()`
 	 */
-	createorupdate: function(req, res)
+	"createorupdate": function(req, res)
 	{
 		var id = req.param("id") || null;
 		var name = req.param("name") || null;
@@ -591,47 +591,17 @@ module.exports = {
 
 				function finish()
 				{
-					Characters.create(character).exec(function(err, savedChar)
+					Characters.create(character)
+					.exec(function(err, savedCharacter)
 					{
 						if(err)
 						{
 							sails.log.error(err);
-							return res.serverError(err);
+							return res.serverError();
 						}
 
-						if(!userResult.characters)
-						{
-							userResult.characters = [savedChar.id];
-						}
-						else
-						{
-							userResult.characters.push(savedChar.id);
-						}
-						userResult.save(function(err, savedUser)
-						{
-							if(err)
-							{
-								sails.log.error(err);
-								return res.serverError(err);
-							}
-
-							Characters.find({
-								"id": savedUser.characters
-							}).sort({ "createdAt": -1 }).exec(function(err, characterResults)
-							{
-								if(err)
-								{
-									sails.log.error(err);
-									return res.serverError(err);
-								}
-
-								savedUser.characters = characterResults;
-								savedUser.character = _.find(characterResults, { "type": "ooc" });
-								req.session.user = savedUser;
-
-								return res.json(savedChar);
-							});
-						});
+						req.session.user.characters.push(savedCharacter);
+						return res.ok();
 					});
 				}
 			}
@@ -722,7 +692,7 @@ module.exports = {
 								}
 								return char;
 							});
-							return res.json(savedChar);
+							return res.ok();
 						});
 					}
 				});
@@ -733,7 +703,7 @@ module.exports = {
 	/**
 	 * `CharactersController.destroy()`
 	 */
-	destroy: function(req, res)
+	"destroy": function(req, res)
 	{
 		var characterID = req.param("charid") || null;
 
@@ -744,7 +714,9 @@ module.exports = {
 
 		Users.findOne({
 			"id": req.session.user.id
-		}).exec(function(err, userResult)
+		})
+		.populate("characters")
+		.exec(function(err, userResult)
 		{
 			if(err)
 			{
@@ -776,18 +748,8 @@ module.exports = {
 						return res.serverError(err);
 					}
 
-					userResult.characters = _.without(userResult.characters, characterID);
-					userResult.save(function(err, savedUser)
-					{
-						if(err)
-						{
-							sails.log.error(err);
-							return res.serverError(err);
-						}
-
-						req.session.user.characters = _.reject(req.session.user.characters, { "id": characterID });
-						return res.ok();
-					});
+					req.session.user.characters = _.reject(req.session.user.characters, { "id": characterID });
+					return res.ok();
 				})
 			});
 		});
@@ -796,7 +758,7 @@ module.exports = {
 	/**
 	 * `CharactersController.select()`
 	 */
-	select: function(req, res)
+	"select": function(req, res)
 	{
 		var characterID = req.param("charid") || null;
 		if(!characterID)

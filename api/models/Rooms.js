@@ -7,34 +7,38 @@
 
 module.exports = {
 
-	schema: true,
-	attributes: {
-		name: {
-			type: "string"
+	"schema": true,
+	"attributes": {
+		"name": {
+			"type": "string"
 		},
-		tag: {
-			type: "string",
-			unique: true
+		"tag": {
+			"type": "string",
+			"unique": true
 		},
-		image: {
-			type: "string"
+		"image": {
+			"type": "string"
 		},
-		subheading: {
-			type: "string"
+		"subheading": {
+			"type": "string"
 		},
-		description: {
-			type: "string"
+		"description": {
+			"type": "string"
 		},
-		posts: {
-			type: "array"
+		"campaign": {
+			"model": "Campaigns"
 		},
-		open: {
-			type: "boolean",
-			defaultsTo: true
+		"posts": {
+			"collection": "Posts",
+			"via": "room"
 		},
-		visible: {
-			type: "boolean",
-			defaultsTo: false
+		"open": {
+			"type": "boolean",
+			"defaultsTo": true
+		},
+		"visible": {
+			"type": "boolean",
+			"defaultsTo": false
 		}
 	},
 
@@ -44,7 +48,7 @@ module.exports = {
 	 * @param attrs
 	 * @param next
 	 */
-	beforeCreate: function(attrs, next)
+	"beforeCreate": function(attrs, next)
 	{
 		attrs.tag = attrs.name.trim().replace(/[^A-Za-z ]/g, '').replace(/ /g, '-').toLowerCase();
 		next();
@@ -56,7 +60,7 @@ module.exports = {
 	 * @param options
 	 * @param done
 	 */
-	beforeDestroy: function(options, done)
+	"beforeDestroy": function(options, done)
 	{
 		if(options.where
 		&& options.where.id)

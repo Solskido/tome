@@ -22,6 +22,11 @@
 
 module.exports.routes = {
 
+	"GET /fixit": {
+		"controller": "DMController",
+		"action": "fixit"
+	},
+
 	////////////////////////////////////////////////
 	//	favicon.ico
 	////////////////////////////////////////////////

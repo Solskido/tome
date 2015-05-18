@@ -10,31 +10,32 @@ var _ = require("lodash");
 
 module.exports = {
 
-	schema: true,
-	attributes: {
-		name: {
-			type: "string",
-			required: true
+	"schema": true,
+	"attributes": {
+		"name": {
+			"type": "string",
+			"required": true
 		},
-		email: {
-			type: "email",
-			unique: true,
-			required: true
+		"email": {
+			"type": "email",
+			"unique": true,
+			"required": true
 		},
-		password: {
-			type: "string",
-			required: true
+		"password": {
+			"type": "string",
+			"required": true
 		},
-		characters: {
-			type: "array"
+		"characters": {
+			"collection": "Characters",
+			"via": "player"
 		},
-		dm: {
-			type: "boolean",
-			defaultsTo: false
+		"dm": {
+			"type": "boolean",
+			"defaultsTo": false
 		},
 
 		// Exclude secret information
-		toJSON: function()
+		"toJSON": function()
 		{
 			var obj = this.toObject();
 			var secrets = [
@@ -52,7 +53,7 @@ module.exports = {
 	 * @param attrs
 	 * @param next
 	 */
-	beforeCreate: function(attrs, next)
+	"beforeCreate": function(attrs, next)
 	{
 		bcrypt.hash(attrs.password, 10, function(err, hash)
 		{

@@ -9,10 +9,16 @@ var fs = require("fs");
 
 module.exports = {
 
+	"fixit": function(req, res)
+	{
+		console.log("fixit");
+
+	},
+
 	/**
 	 * `DMController.dmscreen()`
 	 */
-	dmscreen: function(req, res)
+	"dmscreen": function(req, res)
 	{
 		var bgImage = "";
 		switch(req.session.theme)
@@ -36,7 +42,7 @@ module.exports = {
 	/**
 	 * `DMController.roommanager()`
 	 */
-	roommanager: function(req, res)
+	"roommanager": function(req, res)
 	{
 		Rooms.find().sort({ "visible": -1, "open": -1 }).exec(function(err, roomsResult)
 		{
@@ -70,7 +76,7 @@ module.exports = {
 	/**
 	 * `DMController.newroom()`
 	 */
-	newroom: function(req, res)
+	"newroom": function(req, res)
 	{
 		var bgImage = "";
 		switch(req.session.theme)
@@ -94,9 +100,11 @@ module.exports = {
 	/**
 	 * `DMController.players()`
 	 */
-	players: function(req, res)
+	"players": function(req, res)
 	{
-		Users.find().exec(function(err, userResults)
+		Users.find()
+		.populate("characters")
+		.exec(function(err, userResults)
 		{
 			if(err)
 			{
@@ -104,50 +112,23 @@ module.exports = {
 				return res.serverError(err);
 			}
 
-			var characters = [];
-			userResults = _.map(userResults, function(user)
+			var bgImage = "";
+			switch(req.session.theme)
 			{
-				characters = _.union(characters, user.characters);
-				return user.toJSON();
-			});
+				case "fantasy":
+					bgImage = "/images/playersbg-fantasy.jpg";
+					break;
+				case "scifi":
+					bgImage = "/images/playersbg-scifi.jpg";
+					break;
+			}
 
-			Characters.find({
-				"id": characters
-			}).exec(function(err, characterResults)
-			{
-				if(err)
-				{
-					sails.log.error(err);
-					return res.serverError(err);
-				}
+			return res.view("dm/players", {
+				"layout": "layout",
+				"viewid": "players",
 
-				userResults = _.map(userResults, function(user)
-				{
-					user.characters = _.map(user.characters, function(char)
-					{
-						return _.find(characterResults, { "id": char });
-					});
-					return user;
-				});
-
-				var bgImage = "";
-				switch(req.session.theme)
-				{
-					case "fantasy":
-						bgImage = "/images/playersbg-fantasy.jpg";
-						break;
-					case "scifi":
-						bgImage = "/images/playersbg-scifi.jpg";
-						break;
-				}
-
-				return res.view("dm/players", {
-					"layout": "layout",
-					"viewid": "players",
-
-					"players": userResults,
-					"bgImage": bgImage
-				});
+				"players": userResults,
+				"bgImage": bgImage
 			});
 		});
 	},
@@ -155,7 +136,7 @@ module.exports = {
 	/**
 	 * `DMController.campaigns()`
 	 */
-	campaigns: function(req, res)
+	"campaigns": function(req, res)
 	{
 		return res.view("dm/campaigns", {
 			"layout": "layout",

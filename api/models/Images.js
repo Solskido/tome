@@ -7,13 +7,13 @@
 
 module.exports = {
 
-	schema: true,
-	attributes: {
-		data: {
-			type: "string"
+	"schema": true,
+	"attributes": {
+		"data": {
+			"type": "string"
 		},
-		mimeType: {
-			type: "string"
+		"mimeType": {
+			"type": "string"
 		}
 	}
 };

@@ -12,7 +12,7 @@ module.exports = {
 	/**
 	 * `UserController.login()`
 	 */
-	login: function(req, res)
+	"login": function(req, res)
 	{
 		if(!req.wantsJSON)
 		{
@@ -30,7 +30,9 @@ module.exports = {
 
 		Users.findOne({
 			"email": email
-		}).exec(function(err, userResult)
+		})
+		.populate("characters")
+		.exec(function(err, userResult)
 		{
 			if(err)
 			{
@@ -46,27 +48,15 @@ module.exports = {
 				return res.badRequest();
 			}
 
-			Characters.find({
-				"id": userResult.characters
-			}).sort({ "createdAt": -1 }).exec(function(err, characterResults)
-			{
-				if(err)
-				{
-					sails.log.error(err);
-					return res.serverError(err);
-				}
-
-				userResult.characters = characterResults;
-				req.session.user = userResult.toJSON();
-				return res.ok();
-			});
+			req.session.user = userResult;
+			return res.ok();
 		});
 	},
 
 	/**
 	 * `UserController.logout()`
 	 */
-	logout: function(req, res)
+	"logout": function(req, res)
 	{
 		delete req.session.user;
 
@@ -81,7 +71,7 @@ module.exports = {
 	/**
 	 * `UserController.signup()`
 	 */
-	signup: function(req, res)
+	"signup": function(req, res)
 	{
 		if(!req.wantsJSON)
 		{
@@ -119,7 +109,14 @@ module.exports = {
 			user.name = name;
 			user.email = email;
 			user.password = password;
-			user.characters = [];
+			user.characters = [
+				{
+					"name": "Out of character",
+					"type": "ooc",
+					"avatar": "/images/placeholder.jpg",
+					"player": userResult.id
+				}
+			];
 			Users.create(user).exec(function(err, userResult)
 			{
 				if(err)
@@ -128,52 +125,34 @@ module.exports = {
 					return res.serverError(err);
 				}
 
-				Characters.create({
-					"name": "Out of character",
-					"type": "ooc",
-					"avatar": "/images/placeholder.jpg",
-					"player": userResult.id
-				}).exec(function(err, character)
+				Tokens.destroy({ "token": req.session.invitationToken }).exec(function(err, destroyed)
 				{
 					if(err)
 					{
 						sails.log.error(err);
-						return res.serverError(err);
 					}
 
-					userResult.characters = [character.id];
-					userResult.save(function(err, userResult)
+					delete req.session.invitationToken;
+
+					Users.findOne({
+						"id": userResult.id
+					})
+					.populate("characters")
+					.exec(function(err, userResult)
 					{
 						if(err)
 						{
 							sails.log.error(err);
 							return res.serverError(err);
 						}
-
-						Tokens.destroy({ "token": req.session.invitationToken }).exec(function(err, destroyed)
+						else if(!userResult)
 						{
-							if(err)
-							{
-								sails.log.error();
-							}
+							return res.serverError();
+						}
 
-							delete req.session.invitationToken;
-
-							Characters.find({ "id": userResult.characters }).sort({ "createdAt": "-1" }).exec(function(err, characterResults)
-							{
-								if(err)
-								{
-									sails.log.error(err);
-									return res.serverError(err);
-								}
-
-								userResult.characters = characterResults;
-								req.session.user = userResult.toJSON();
-
-								return res.ok();
-							});
-						});
-					})
+						req.session.user = userResult;
+						return res.ok();
+					});
 				});
 			});
 		});

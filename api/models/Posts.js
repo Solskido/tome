@@ -7,22 +7,22 @@
 
 module.exports = {
 
-	schema: true,
-	attributes: {
-		player: {
-			model: "Users"
+	"schema": true,
+	"attributes": {
+		"player": {
+			"model": "Users"
 		},
-		character: {
-			model: "Characters"
+		"character": {
+			"model": "Characters"
 		},
-		room: {
-			model: "Rooms"
+		"room": {
+			"model": "Rooms"
 		},
-		message: {
-			type: "string"
+		"message": {
+			"type": "string"
 		},
-		rolls: {
-			type: "array"
+		"rolls": {
+			"type": "array"
 		}
 	}
 };

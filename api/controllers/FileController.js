@@ -13,7 +13,7 @@ module.exports = {
 	/**
 	 * `FileController.image()`
 	 */
-	image: function(req, res)
+	"image": function(req, res)
 	{
 		var image = req.file("image") || null;
 
@@ -84,7 +84,7 @@ module.exports = {
 	/**
 	 * `FileController.serve()`
 	 */
-	serve: function(req, res)
+	"serve": function(req, res)
 	{
 		var imageID = req.param("id") || null;
 		if(!imageID)
