@@ -11,5 +11,7 @@
 
 module.exports.models = {
 
+	"connections": "tomeMongoLab",
+
 	"migrate": "safe"
 };

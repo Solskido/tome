@@ -21,14 +21,12 @@
 
 module.exports.connections = {
 
-	/***************************************************************************
-	 *                                                                          *
-	 * Local disk storage for DEVELOPMENT ONLY                                  *
-	 *                                                                          *
-	 * Installed by default.                                                    *
-	 *                                                                          *
-	 ***************************************************************************/
-	localDiskDb: {
-		adapter: 'sails-disk'
+	"tomeMongoLab": {
+		"adapter": "sails-mongo",
+		"host": process.env.DB_HOST,
+		"port": process.env.DB_PORT,
+		"database": process.env.DB_ROOT,
+		"user": process.env.DB_USER,
+		"password": process.env.DB_PASSWORD
 	}
 };
