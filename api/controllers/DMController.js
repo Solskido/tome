@@ -9,12 +9,6 @@ var fs = require("fs");
 
 module.exports = {
 
-	"fixit": function(req, res)
-	{
-		console.log("fixit");
-
-	},
-
 	/**
 	 * `DMController.dmscreen()`
 	 */
