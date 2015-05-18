@@ -23,10 +23,28 @@ module.exports.session = {
 
 	"adapter": "redis",
 	"host": process.env.SESSION_HOST,
-	"port": parseInt(process.env.SESSION_PORT),
+	"port": process.env.SESSION_PORT,
 	// 1 year
 	"ttl": 31536000000,
 	"db": 0,
 	"pass": process.env.SESSION_PASSWORD,
 	"prefix": "sess:"
 };
+console.log("Test:", {
+
+	"secret": process.env.SESSION_SECRET,
+
+	"cookie": {
+		// 1 year
+		"maxAge": 31536000000
+	},
+
+	"adapter": "redis",
+	"host": process.env.SESSION_HOST,
+	"port": process.env.SESSION_PORT,
+	// 1 year
+	"ttl": 31536000000,
+	"db": 0,
+	"pass": process.env.SESSION_PASSWORD,
+	"prefix": "sess:"
+});
