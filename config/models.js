@@ -11,7 +11,7 @@
 
 module.exports.models = {
 
-	"connections": "tomeMongoLab",
+	"connection": "tomeMongoLab",
 
 	"migrate": "safe"
 };
