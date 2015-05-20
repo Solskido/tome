@@ -8,14 +8,12 @@
  * for matching multiple files.)
  */
 
-
-
 // CSS files to inject in order
 //
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-	'styles/**/*.css'
+	"styles/**/*.css"
 ];
 
 // Client-side javascript files to inject in order
@@ -23,14 +21,14 @@ var cssFilesToInject = [
 var jsFilesToInject = [
 
 	// Load sails.io before everything else
-	'js/dependencies/sails.io.js',
+	"js/dependencies/sails.io.js",
 
 	// Dependencies like jQuery, or Angular are brought in here
-	'js/dependencies/**/*.js',
+	"js/dependencies/**/*.js",
 
 	// All of the rest of your client-side js files
 	// will be injected here in no particular order.
-	'js/**/*.js'
+	"js/**/*.js"
 ];
 
 // Client-side HTML templates are injected using the sources below
@@ -43,7 +41,7 @@ var jsFilesToInject = [
 // templates get spit out to the same file.  Be sure and check out `tasks/README.md`
 // for information on customizing and installing new tasks.
 var templateFilesToInject = [
-	'templates/**/*.html'
+	"templates/**/*.html"
 ];
 
 // Prefix relative paths to source files so they point to the proper locations
@@ -51,13 +49,13 @@ var templateFilesToInject = [
 // they reside in the first place)
 module.exports.cssFilesToInject = cssFilesToInject.map(function(path)
 {
-	return '.tmp/public/' + path;
+	return ".tmp/public/" + path;
 });
 module.exports.jsFilesToInject = jsFilesToInject.map(function(path)
 {
-	return '.tmp/public/' + path;
+	return ".tmp/public/" + path;
 });
 module.exports.templateFilesToInject = templateFilesToInject.map(function(path)
 {
-	return 'assets/' + path;
+	return "assets/" + path;
 });
