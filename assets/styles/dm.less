@@ -10,6 +10,18 @@
     -webkit-box-shadow: inset 0 0 1em #000, 0 0 1em #000, -1em 1em 2em #000;
     box-shadow: inset 0 0 1em #000, 0 0 1em #000, -1em 1em 2em #000;
 
+    &.sci {
+      background-image: url(/images/roomsbg-fantasy.jpg);
+    }
+
+    &.fantasy {
+      background-image: url(/images/roomsbg-fantasy.jpg);
+    }
+
+    &.campaignManager {
+      background-image: url(/images/campaignbg.jpg);
+    }
+
     h3 {
       padding-top: 22px;
       font-family: "Ringbearer", serif;
@@ -49,6 +61,14 @@
     }
   }
 
+  &.edit {
+    right: 208px;
+
+    &:hover {
+      right: 204px;
+    }
+  }
+
   &.delete {
     right: -8px;
 
@@ -61,17 +81,6 @@
     font-size: 80px;
     top: -30px;
   }
-}
-
-.paintbrush {
-  position: absolute;
-  background-image: url(/images/paintbrush.png);
-  bottom: 0;
-  right: 45px;
-  background-size: cover;
-  height: 56px;
-  width: 165px;
-  transform: rotate(141deg);
 }
 
 .editable {

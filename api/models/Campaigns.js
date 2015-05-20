@@ -12,6 +12,9 @@ module.exports = {
 		"name": {
 			type: "string"
 		},
+		"tagline": {
+			"type": "string"
+		},
 		"tag": {
 			"type": "string",
 			"unique": true
@@ -19,6 +22,12 @@ module.exports = {
 		"rooms": {
 			"collection": "Rooms",
 			"via": "campaign"
+		},
+		"theme": {
+			"type": "string"
+		},
+		"dm": {
+			"model": "Users"
 		}
 	},
 

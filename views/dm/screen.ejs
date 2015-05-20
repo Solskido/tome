@@ -9,27 +9,26 @@
 <!-- /.row -->
 
 <div class="row">
+	<%
+	for(var i = 0; i < campaigns.length; i++)
+	{
+	%>
 	<div class="dmBoxContainer col-md-6">
-		<a href="/dm/rooms">
-			<div class="dmBox roomCreator">
+		<a href="/campaign/<%= campaigns[i].tag %>">
+			<div class="dmBox <%= campaigns[i].theme %>">
 				<div class="selector"></div>
-				<h3>Room Manager</h3>
+				<h3><%= campaigns[i].name %></h3>
 			</div>
 		</a>
 	</div>
+	<%
+	}
+	%>
 	<div class="dmBoxContainer col-md-6">
-		<a href="/dm/players">
-			<div class="dmBox pcViewer">
-				<div class="selector"></div>
-				<h3>Player Viewer</h3>
-			</div>
-		</a>
-	</div>
-	<div class="dmBoxContainer col-md-6">
-		<a href="/dm/campaigns">
+		<a href="/dm/newcampaign">
 			<div class="dmBox campaignManager">
 				<div class="selector"></div>
-				<h3>Campaign Manager</h3>
+				<h3>New Campaign</h3>
 			</div>
 		</a>
 	</div>

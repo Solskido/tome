@@ -1,69 +1,111 @@
 <!-- Page Heading -->
 <div class="row heading page-header">
 	<div class="col-lg-12">
-		<!--
-		<h1>The Hunt for Macguffins
+		<%
+		if(campaign.name)
+		{
+		%>
+		<h1><%= campaign.name %>
 			<small>Campaign</small>
 		</h1>
-		<h3>Finding all of the macguffins to save the day probably.</h3>
-		-->
+		<%
+			if(campaign.tagline)
+			{
+			%>
+			<h3><%= campaign.tagline %></h3>
+			<%
+			}
+		}
+		else
+		{
+		%>
 		<h1>
 			Campaign Rooms
 		</h1>
+		<%
+		}
+		%>
 	</div>
 </div>
 <!-- /.row -->
 
 <!-- Campaign Rooms -->
 <%
-for(var i = 0; i < rooms.length; i++)
+var rooms = campaign.rooms;
+if(rooms.length)
+{
+	for(var i = 0; i < rooms.length; i++)
+	{
+	%>
+	<div class="row roomContainer <%= rooms[i].open ? 'open' : 'closed' %>">
+		<div class="col-md-12">
+			<a href="/room/<%= rooms[i].tag %>">
+				<div class="frameContainer">
+					<div class="pictureContainer">
+						<img src="<%= rooms[i].image %>" alt="">
+					</div>
+					<span class="roomName"><%= rooms[i].name %></span>
+					<span class="roomSubheading"><%= rooms[i].subheading %></span>
+					<span class="frame"></span>
+					<%
+					if(session.user.dm)
+					{
+					%>
+					<span class="roomControl visibility" data-id="<%= rooms[i].id %>">
+						<i class="fa fa-<%= rooms[i].visible ? 'eye' : 'eye-slash' %>"></i>
+					</span>
+					<span class="roomControl usability" data-id="<%= rooms[i].id %>">
+						<i class="fa fa-<%= rooms[i].open ? 'chain' : 'chain-broken' %>"></i>
+					</span>
+					<span class="roomControl edit" data-id="<%= rooms[i].id %>">
+						<i class="fa fa-pencil-square-o"></i>
+					</span>
+					<span class="roomControl delete" data-id="<%= rooms[i].id %>">
+						<i class="fa fa-times"></i>
+					</span>
+					<%
+					}
+					%>
+				</div>
+			</a>
+		</div>
+	</div>
+	<%
+	}
+	%>
+
+	<%
+	if(session.user.dm)
+	{
+	%>
+	<div class="row roomContainer">
+		<div class="col-md-12">
+			<a href="/dm/newroom">
+				<div class="frameContainer">
+					<div class="pictureContainer">
+						<img src="/images/painting.jpg" alt="">
+					</div>
+					<span class="roomName">New Room</span>
+					<span class="frame"></span>
+				</div>
+			</a>
+		</div>
+	</div>
+	<%
+	}
+}
+else
 {
 %>
-<div class="row roomContainer <%= rooms[i].open ? 'open' : 'closed' %>">
-	<div class="col-md-12">
-		<a href="/room/<%= rooms[i].tag %>">
-			<div class="frameContainer">
-				<div class="pictureContainer">
-					<img src="<%= rooms[i].image %>" alt="">
-				</div>
-				<span class="roomName"><%= rooms[i].name %></span>
-				<span class="roomSubheading"><%= rooms[i].subheading %></span>
-				<span class="frame"></span>
-				<span class="roomControl visibility" data-id="<%= rooms[i].id %>">
-					<i class="fa fa-<%= rooms[i].visible ? 'eye' : 'eye-slash' %>"></i>
-				</span>
-				<span class="roomControl usability" data-id="<%= rooms[i].id %>">
-					<i class="fa fa-<%= rooms[i].open ? 'chain' : 'chain-broken' %>"></i>
-				</span>
-				<span class="roomControl delete" data-id="<%= rooms[i].id %>">
-					<i class="fa fa-times"></i>
-				</span>
-			</div>
-		</a>
-	</div>
-</div>
+	<h1 class="emptyMessage">There are no rooms! Ask your DM to create some.</h1>
 <%
 }
 %>
 
-<div class="row roomContainer">
-	<div class="col-md-12">
-		<a href="/dm/newroom">
-			<div class="frameContainer">
-				<div class="pictureContainer">
-					<img src="/images/painting.jpg" alt="">
-				</div>
-				<span class="roomName">New Room</span>
-				<span class="frame"></span>
-			</div>
-		</a>
-	</div>
-</div>
-
 <!-- Pagination -->
 <hr />
 <%
-if(false)//rooms.length > 6)
+if(rooms.length > 6)
 {
 %>
 <div class="row text-center">
@@ -98,8 +140,10 @@ if(false)//rooms.length > 6)
 <hr />
 <%
 }
-%>
 
+if(session.user.dm)
+{
+%>
 <script>
 	$(document).ready(function()
 	{
@@ -215,3 +259,6 @@ if(false)//rooms.length > 6)
 		});
 	});
 </script>
+<%
+}
+%>

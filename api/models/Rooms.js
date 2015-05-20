@@ -32,6 +32,9 @@ module.exports = {
 			"collection": "Posts",
 			"via": "room"
 		},
+		"lastPost": {
+			"type": "date"
+		},
 		"open": {
 			"type": "boolean",
 			"defaultsTo": true

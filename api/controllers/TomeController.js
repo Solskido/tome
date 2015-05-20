@@ -12,7 +12,10 @@ module.exports = {
 	 */
 	"index": function(req, res)
 	{
-		req.session.theme = ["fantasy", "scifi"][Math.floor(Math.random() * 2)];
+		if(!req.session.theme)
+		{
+			req.session.theme = "fantasy";
+		}
 
 		if(req.session.user)
 		{
@@ -176,6 +179,58 @@ module.exports = {
 					"pages": highestPage,
 					"page": pageNumber
 				});
+			});
+		});
+	},
+
+	/**
+	 * `TomeController.campaign()`
+	 */
+	"campaign": function(req, res)
+	{
+		var tag = req.param("tag") || null;
+		if(!tag)
+		{
+			return res.notFound();
+		}
+
+		Campaigns.findOne({
+			"tag": tag
+		})
+		.populate("rooms")
+		.exec(function(err, campaignResult)
+		{
+			if(err)
+			{
+				sails.log.error(err);
+				return res.serverError(err);
+			}
+			else if(!campaignResult)
+			{
+				return res.notFound();
+			}
+
+			req.session.theme = campaignResult.theme;
+
+			// Players can't see invisible rooms, silly
+			if(!req.session.user.dm)
+			{
+				campaignResult.rooms = _.filter(campaignResult.rooms, { "visible": true });
+			}
+
+			campaignResult.rooms = _.sortBy(campaignResult.rooms, function(room)
+			{
+				return _.max(_.pluck(room, "lastPost"));
+			});
+			campaignResult.rooms = _.sortBy(campaignResult.rooms, "open");
+			campaignResult.rooms = _.sortBy(campaignResult.rooms, "visible").reverse();
+
+			return res.view("tome/campaign", {
+				"layout": "layout",
+				"viewid": "room",
+
+				"bgImage": "/images/roomsbg-" + campaignResult.theme +  ".jpg",
+				"campaign": campaignResult
 			});
 		});
 	}

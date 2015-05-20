@@ -33,6 +33,10 @@ module.exports = {
 			"type": "boolean",
 			"defaultsTo": false
 		},
+		"campaigns": {
+			"collection": "Campaigns",
+			"via": "dm"
+		},
 
 		// Exclude secret information
 		"toJSON": function()

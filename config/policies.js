@@ -40,5 +40,7 @@ module.exports.policies = {
 	"UserController": {
 		"login": true,
 		"signup": true
-	}
+	},
+
+	"DMController": ["loggedIn", "dm"]
 };

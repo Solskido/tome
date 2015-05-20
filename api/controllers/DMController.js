@@ -14,22 +14,35 @@ module.exports = {
 	 */
 	"dmscreen": function(req, res)
 	{
-		var bgImage = "";
-		switch(req.session.theme)
+		Campaigns.find({
+			"dm": req.session.user.id
+		}).exec(function(err, campaignResults)
 		{
-			case "fantasy":
-				bgImage = "/images/dmscreen-fantasy.png";
-				break;
-			case "scifi":
-				bgImage = "/images/dmscreen-scifi.jpg";
-				break;
-		}
+			if(err)
+			{
+				sails.log.error(err);
+				return res.serverError(err);
+			}
 
-		return res.view("dm/screen", {
-			"layout": "layout",
-			"viewid": "dmscreen",
+			var bgImage = "";
+			switch(req.session.theme)
+			{
+				case "fantasy":
+					bgImage = "/images/dmscreen-fantasy.png";
+					break;
+				case "scifi":
+					bgImage = "/images/dmscreen-scifi.jpg";
+					break;
+			}
 
-			"bgImage": bgImage
+			return res.view("dm/screen", {
+				"layout": "layout",
+				"viewid": "dmscreen",
+
+				"campaigns": campaignResults,
+
+				"bgImage": bgImage
+			});
 		});
 	},
 
@@ -132,9 +145,35 @@ module.exports = {
 	 */
 	"campaigns": function(req, res)
 	{
-		return res.view("dm/campaigns", {
+		Campaigns.find({
+			"dm": req.session.user.id
+		}).exec(function(err, campaignResults)
+		{
+			if(err)
+			{
+				sails.log.error(err);
+				return res.serverError(err);
+			}
+
+			return res.view("dm/campaigns", {
+				"layout": "layout",
+				"viewid": "campaigns",
+
+				"campaigns": campaignResults,
+
+				"bgImage": "/images/campaignbg.jpg"
+			});
+		});
+	},
+
+	/**
+	 * `DMController.newcampaign()`
+	 */
+	"newcampaign": function(req, res)
+	{
+		return res.view("dm/newcampaign", {
 			"layout": "layout",
-			"viewid": "campaigns",
+			"viewid": "newcampaign",
 
 			"bgImage": "/images/campaignbg.jpg"
 		});
