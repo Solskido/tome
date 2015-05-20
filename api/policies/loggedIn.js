@@ -13,5 +13,11 @@ module.exports = function(req, res, next)
 		return next();
 	}
 
+	if(req.isSocket)
+	{
+		console.log("This is a socket");
+		return res.ok();
+	}
+
 	return res.redirect("/");
 };

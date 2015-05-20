@@ -3,7 +3,9 @@ Tome.controller("SplashController", [
 	"$scope",
 	"Say",
 	"Validate",
-	function($rootScope, $scope, Say, Validate)
+	"Sync",
+	"IO",
+	function($rootScope, $scope, Say, Validate, Sync, IO)
 	{
 		$rootScope.pageTitle = "Tome";
 
@@ -22,6 +24,7 @@ Tome.controller("SplashController", [
 			"login": function()
 			{
 				Say.sup("login()");
+				Sync.start("me");
 
 				$scope.login.errors = [];
 
@@ -30,9 +33,30 @@ Tome.controller("SplashController", [
 					"password": $scope.login.password
 				});
 
-				if(!$scope.login.errors.length)
+				if($scope.login.errors.length)
 				{
-					//io.socket.get("/testing");
+					Sync.stop("me");
+				}
+				else
+				{
+					IO.post("/me/login",
+					{
+						"email": $scope.login.email,
+						"password": $scope.login.password
+					},
+					function(err, res)
+					{
+						Sync.stop("me");
+
+						if(!err)
+						{
+							window.location.href = "/campaigns";
+						}
+						else
+						{
+							$scope.login.errors.push("error");
+						}
+					});
 				}
 			},
 
