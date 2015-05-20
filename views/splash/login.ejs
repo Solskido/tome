@@ -1,0 +1,36 @@
+<div class="site-wrapper">
+	<div class="site-wrapper-inner">
+		<div class="cover-container">
+			<div class="inner cover">
+				<h1 class="cover-heading">Tome</h1>
+
+				<div class="lead text-center">
+					<form id="loginForm" class="floatMid loginBox" role="form">
+						<input
+							id="email"
+							name="email"
+							type="email"
+							ng-model="login.email"
+							class="form-control"
+							placeholder="Email address"
+							tabindex="1"
+							ng-class="{ error: INTENT.isInvalid(login.errors, 'email') }"
+							autofocus
+							required>
+						<input
+							id="password"
+							name="password"
+							type="password"
+							ng-model="login.password"
+							class="form-control"
+							placeholder="Password"
+							tabindex="2"
+							ng-class="{ error: INTENT.isInvalid(login.errors, 'password') }"
+							required>
+						<button id="loginButton" class="btn btn-lg btn-paper btn-block" type="submit" ng-click="INTENT.login()">Login</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

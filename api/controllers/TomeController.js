@@ -51,8 +51,8 @@ module.exports = {
 		}
 		else
 		{
-			return res.view("tome/login", {
-				"layout": "tome/loginlayout"
+			return res.view("splash/login", {
+				"layout": "splash/loginlayout"
 			});
 		}
 	},
