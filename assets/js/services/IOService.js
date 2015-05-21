@@ -23,11 +23,18 @@ Tome.factory("IO", [
 			 * Make a GET request
 			 *
 			 * @param url {string}
+			 * @param data {object}
 			 * @param cb {function}
 			 */
-			"get": function(url, cb)
+			"get": function(url, data, cb)
 			{
-				io.socket.get(url, function serverResponded(body, JWR)
+				if(_.isFunction(data))
+				{
+					cb = data;
+					data = {};
+				}
+
+				io.socket.get(url, data, function serverResponded(body, JWR)
 				{
 					cb();
 				});
@@ -42,6 +49,12 @@ Tome.factory("IO", [
 			 */
 			"post": function(url, data, cb)
 			{
+				if(_.isFunction(data))
+				{
+					cb = data;
+					data = {};
+				}
+
 				io.socket.post(url, data, function serverResponded(body, JWR)
 				{
 					cb();
