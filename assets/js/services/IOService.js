@@ -9,13 +9,13 @@
 /*													*/
 /****************************************************/
 
+io.sails.environment = "production";
+
 Tome.factory("IO", [
 	"Say",
 	function(Say)
 	{
 		Say = new Say("IOService");
-
-		io.sails.environment = "production";
 
 		return {
 
