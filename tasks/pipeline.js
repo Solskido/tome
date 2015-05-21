@@ -20,20 +20,16 @@ var cssFilesToInject = [
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
 
-	// Load sails.io before everything else
-	"js/dependencies/sails.io.js",
-
-	// Dependencies like jQuery, or Angular are brought in here
-	"js/dependencies/**/*.js",
-
-	// Angular files
-	"js/services/*.js",
-	"js/directives/*.js",
-	"js/controllers/*.js",
-
-	// All of the rest of your client-side js files
-	// will be injected here in no particular order.
-	"js/**/*.js"
+	"/js/dist/sails.io.js",
+	"/js/lodash.js",
+	"/js/jquery-2.1.1.js",
+	"/js/bootstrap.js",
+	"/js/bootbox.min.js",
+	"/js/angular.js",
+	"/js/app.js",
+	"/js/services/*.js",
+	"/js/controllers/SplashController.js",
+	"/js/controllers/TomeController.js"
 ];
 
 // Client-side HTML templates are injected using the sources below
