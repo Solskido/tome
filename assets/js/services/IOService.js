@@ -17,6 +17,24 @@ Tome.factory("IO", [
 	{
 		Say = new Say("IOService");
 
+		/**
+		 * Handle the socket response
+		 *
+		 * @param JWR {object}
+		 * @param cb {function}
+		 */
+		function handleResponse(JWR, cb)
+		{
+			if(JWR.statusCode !== 200)
+			{
+				cb(JWR.error || JWR.body);
+			}
+			else
+			{
+				cb(null, JWR.body);
+			}
+		}
+
 		return {
 
 			/**
@@ -36,7 +54,7 @@ Tome.factory("IO", [
 
 				io.socket.get(url, data, function serverResponded(body, JWR)
 				{
-					cb();
+					handleResponse(JWR, cb);
 				});
 			},
 
@@ -57,7 +75,7 @@ Tome.factory("IO", [
 
 				io.socket.post(url, data, function serverResponded(body, JWR)
 				{
-					cb();
+					handleResponse(JWR, cb);
 				});
 			}
 		};
