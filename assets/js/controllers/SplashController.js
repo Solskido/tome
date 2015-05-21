@@ -50,7 +50,7 @@ Tome.controller("SplashController", [
 
 						if(!err)
 						{
-							window.location.href = "/campaigns";
+							window.location.href = "/";
 						}
 						else
 						{
