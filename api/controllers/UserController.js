@@ -10,6 +10,19 @@ var bcrypt = require("bcryptjs");
 module.exports = {
 
 	/**
+	 * `UserController.me()`
+	 */
+	"me": function(req, res)
+	{
+		if(!req.session.user)
+		{
+			return res.forbidden();
+		}
+
+		return res.json(req.session.user);
+	},
+
+	/**
 	 * `UserController.login()`
 	 */
 	"login": function(req, res)
@@ -46,6 +59,11 @@ module.exports = {
 			if(!bcrypt.compareSync(password, userResult.password))
 			{
 				return res.badRequest();
+			}
+
+			if(!req.session.theme)
+			{
+				req.session.theme = "scifi";
 			}
 
 			req.session.user = userResult;

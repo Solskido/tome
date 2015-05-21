@@ -12,11 +12,6 @@ module.exports = {
 	 */
 	"index": function(req, res)
 	{
-		if(!req.session.theme)
-		{
-			req.session.theme = "fantasy";
-		}
-
 		if(req.session.user)
 		{
 			Rooms.find({

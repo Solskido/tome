@@ -35,8 +35,9 @@ module.exports.routes = {
 	////////////////////////////////////////////////
 	//	User Management
 	////////////////////////////////////////////////
+	"GET /me": "UserController.me",
 	"POST /me/login": "UserController.login",
-	"GET /me/logout": "UserController.logout",
+	"POST /me/logout": "UserController.logout",
 	"POST /me/selectchar/:charid": "CharactersController.select",
 	"GET /signup": "TomeController.signup",
 	"POST /me/signup": "UserController.signup",
