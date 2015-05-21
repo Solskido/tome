@@ -29,7 +29,7 @@ module.exports = {
 		}
 
 		Users.findOne({
-			"email": "mattftacek@yahoo.com"//email
+			"email": email
 		})
 		.populate("characters")
 		.exec(function(err, userResult)
@@ -43,10 +43,10 @@ module.exports = {
 			{
 				return res.badRequest();
 			}
-			//if(!bcrypt.compareSync(password, userResult.password))
-			//{
-			//	return res.badRequest();
-			//}
+			if(!bcrypt.compareSync(password, userResult.password))
+			{
+				return res.badRequest();
+			}
 
 			req.session.user = userResult;
 			return res.ok();
