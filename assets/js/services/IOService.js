@@ -13,7 +13,8 @@ io.sails.environment = "production";
 
 Tome.factory("IO", [
 	"Say",
-	function(Say)
+	"Sync",
+	function(Say, Sync)
 	{
 		Say = new Say("IOService");
 
@@ -25,6 +26,8 @@ Tome.factory("IO", [
 		 */
 		function handleResponse(JWR, cb)
 		{
+			Sync.stop("_IO");
+
 			if(JWR.statusCode !== 200)
 			{
 				cb(JWR.error || JWR.body);
@@ -46,6 +49,8 @@ Tome.factory("IO", [
 			 */
 			"get": function(url, data, cb)
 			{
+				Sync.start("_IO");
+
 				if(_.isFunction(data))
 				{
 					cb = data;
@@ -67,6 +72,8 @@ Tome.factory("IO", [
 			 */
 			"post": function(url, data, cb)
 			{
+				Sync.start("_IO");
+
 				if(_.isFunction(data))
 				{
 					cb = data;

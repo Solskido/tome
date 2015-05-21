@@ -74,9 +74,18 @@ Tome.factory("Sync", [
 			 */
 			"syncing": function(id)
 			{
-				if(!id)
+				if(_.isUndefined(id))
 				{
-					return false;
+					var anything = false;
+					_.forOwn(_syncing, function(value, key)
+					{
+						if(value > 0)
+						{
+							anything = true;
+						}
+					});
+
+					return anything;
 				}
 
 				if(_.isUndefined(_syncing[id]))
