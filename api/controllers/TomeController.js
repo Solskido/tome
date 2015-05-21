@@ -14,9 +14,11 @@ module.exports = {
 	{
 		if(req.session.user)
 		{
-			Rooms.find({
-				"visible": true
-			}).sort({ "open": -1 }).exec(function(err, roomsResult)
+			Characters.find({
+				"id": _.pluck(req.session.user.characters, "id")
+			})
+			.populate("campaigns")
+			.exec(function(err, characterResults)
 			{
 				if(err)
 				{
@@ -24,14 +26,26 @@ module.exports = {
 					return res.serverError(err);
 				}
 
+				// For each character, retrieve their campaigns
+				var campaigns =_.map(characterResults, function(character)
+				{
+					return character.campaigns;
+				});
+
+				// Combine the character's campaigns into a single list
+				campaigns = _.flatten(campaigns);
+
+				// Ensure there are no duplicate entries
+				campaigns = _.uniq(campaigns, "id");
+
 				var bgImage = "";
 				switch(req.session.theme)
 				{
 					case "fantasy":
-						bgImage = "/images/roomsbg-fantasy.jpg";
+						bgImage = "/images/dmscreen-fantasy.png";
 						break;
 					case "scifi":
-						bgImage = "/images/roomsbg-scifi.jpg";
+						bgImage = "/images/dmscreen-scifi.jpg";
 						break;
 				}
 
@@ -39,8 +53,9 @@ module.exports = {
 					"layout": "layout",
 					"viewid": "rooms",
 
-					"bgImage": bgImage,
-					"rooms": roomsResult
+					"campaigns": campaigns,
+
+					"bgImage": bgImage
 				});
 			});
 		}

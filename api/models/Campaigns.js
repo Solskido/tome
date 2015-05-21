@@ -28,6 +28,11 @@ module.exports = {
 		},
 		"dm": {
 			"model": "Users"
+		},
+		"characters": {
+			"collection": "Characters",
+			"via": "campaigns",
+			"dominant": true
 		}
 	},
 

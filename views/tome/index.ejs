@@ -1,3 +1,52 @@
 <div id="tome">
-	Stuff here.
+	<div class="row">
+		<%
+		for(var i = 0; i < campaigns.length; i++)
+		{
+		%>
+		<div class="dmBoxContainer col-md-6">
+			<a href="/campaign/<%= campaigns[i].tag %>">
+				<div class="dmBox <%= campaigns[i].theme %>">
+					<div class="selector"></div>
+					<h3><%= campaigns[i].name %></h3>
+				</div>
+			</a>
+		</div>
+		<%
+		}
+		%>
+		<div class="dmBoxContainer col-md-6">
+			<a href="/dm/newcampaign">
+				<div class="dmBox campaignManager">
+					<div class="selector"></div>
+					<h3>New Campaign</h3>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="row">
+		<%
+		if(session.user && session.user.dm)
+		{
+		%>
+		<div class="dmBoxContainer col-md-6">
+			<a href="/dm/players">
+				<div class="dmBox playerViewer">
+					<div class="selector"></div>
+					<h3>Players</h3>
+				</div>
+			</a>
+		</div>
+		<%
+		}
+		%>
+		<div class="dmBoxContainer col-md-6">
+			<a href="/dm/characters">
+				<div class="dmBox playerViewer">
+					<div class="selector"></div>
+					<h3>Characters</h3>
+				</div>
+			</a>
+		</div>
+	</div>
 </div>

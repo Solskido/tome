@@ -12,6 +12,10 @@ module.exports = {
 		"player": {
 			"model": "Users"
 		},
+		"campaigns": {
+			"collection": "Campaigns",
+			"via": "characters"
+		},
 		"avatar": {
 			"type": "string"
 		},
