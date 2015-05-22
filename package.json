@@ -1,8 +1,8 @@
 {
   "name": "tome",
   "private": true,
-  "version": "0.0.0",
-  "description": "a Sails application",
+  "version": "0.1.0",
+  "description": "Tome is a place for pen and paper roleplaying games, without the pen and paper.",
   "engines": {
     "node": "0.12.2"
   },
@@ -46,6 +46,6 @@
     "type": "git",
     "url": "git://github.com/anonymous node/sails user/tome.git"
   },
-  "author": "anonymous node/sails user",
+  "author": "Max \"Solskido\" Stahl <solskido@gmail.com>",
   "license": ""
 }
