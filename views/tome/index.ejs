@@ -1,4 +1,106 @@
 <div id="tome">
+	<div class="row dashboard">
+		<div class="col-md-6">
+			<div class="row">
+
+				<!-- Account -->
+				<div class="col-md-12 cardContainer">
+					<div class="card">
+						<h1><span ng-bind="user.name"></span> <small ng-bind="user.email"></small></h1>
+
+						<!-- Characters -->
+						<ul class="characterList">
+							<li ng-repeat="char in user.characters | filter:{ type: 'char' }">
+								<div class="charAvatar">
+									<img ng-src="{{ char.avatar }}" />
+								</div>
+								<div class="charDetails">
+									<div class="charName" ng-bind="char.name"></div>
+									<div class="charText" ng-bind="char.level"></div>
+								</div>
+							</li>
+
+							<!-- New character -->
+							<li>
+								<div class="charAvatar">
+									<img class="greyscale" src="/images/placeholder.jpg" />
+								</div>
+								<div class="charDetails">
+									<div class="charName">
+										New Character
+									</div>
+									<div class="charText">
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Statistics -->
+				<div class="col-md-12 cardContainer">
+					<div class="card">
+						<h1>Statistics</h1>
+						<div class="stats">
+							<div class="stat">
+								<div class="statName">Characters</div>
+								<div class="statNumber">X</div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Posts</div>
+								<div class="statNumber">XXX</div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Average posts per character</div>
+								<div class="statNumber">XX</div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="row campaigns">
+
+				<!-- Campaigns -->
+				<%
+				for(var i = 0; i < campaigns.length; i++)
+				{
+				%>
+				<div class="cardContainer col-md-12">
+					<a href="/campaign/<%= campaigns[i].tag %>">
+						<div class="card campaign <%= campaigns[i].theme %>">
+							<div class="campaignInner">
+								<div class="selector"></div>
+								<div class="campaignName"><%= campaigns[i].name %></div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<%
+				}
+				%>
+				<div class="cardContainer col-md-12">
+					<a href="/dm/newcampaign">
+						<div class="card campaign newCampaign">
+							<div class="campaignInner">
+								<div class="selector"></div>
+								<div class="campaignName">New Campaign</div>
+							</div>
+						</div>
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!--
 	<div class="row">
 		<%
 		for(var i = 0; i < campaigns.length; i++)
@@ -41,12 +143,13 @@
 		}
 		%>
 		<div class="dmBoxContainer col-md-6">
-			<a href="/dm/characters">
-				<div class="dmBox playerViewer">
+			<a href="/chars">
+				<div class="dmBox characterList">
 					<div class="selector"></div>
 					<h3>Characters</h3>
 				</div>
 			</a>
 		</div>
 	</div>
+	-->
 </div>

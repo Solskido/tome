@@ -19,7 +19,19 @@ module.exports = {
 			return res.forbidden();
 		}
 
-		return res.json(req.session.user);
+		if(req.wantsJSON)
+		{
+			return res.json(req.session.user);
+		}
+		else
+		{
+			return res.view("player/account", {
+				"layout": "layout",
+				"viewid": "account",
+
+				"bgImage": "/images/blacksmiths.jpg"
+			});
+		}
 	},
 
 	/**

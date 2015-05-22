@@ -35,22 +35,9 @@
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<%
-						if(session.user && session.user.dm)
-						{
-						%>
-						<li<%= (viewid === "dmscreen") ? ' class=active' : '' %>>
-							<a href="/dm/screen">DM Screen</a>
-						</li>
-						<%
-						}
-						%>
-						<li<%= (viewid === "rooms") ? ' class=active' : '' %>>
-							<a href="/">Rooms</a>
-						</li>
-						<li<%= (viewid === "chars") ? ' class=active' : '' %>>
-							<a href="/chars">Characters</a>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="/me">Account</a>
 						</li>
 						<li>
 							<a href="" ng-click="INTENT.logout()">Logout</a>
