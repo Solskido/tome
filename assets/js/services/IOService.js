@@ -12,9 +12,10 @@
 io.sails.environment = "production";
 
 Tome.factory("IO", [
+	"$rootScope",
 	"Say",
 	"Sync",
-	function(Say, Sync)
+	function($rootScope, Say, Sync)
 	{
 		Say = new Say("IOService");
 
@@ -30,11 +31,11 @@ Tome.factory("IO", [
 
 			if(JWR.statusCode !== 200)
 			{
-				cb(JWR.error || JWR.body);
+				$rootScope.$apply(cb(JWR.error || JWR.body));
 			}
 			else
 			{
-				cb(null, JWR.body);
+				$rootScope.$apply(cb(null, JWR.body));
 			}
 		}
 
