@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "description": "a Sails application",
   "engines": {
-	  "node": "0.12.2"
+    "node": "0.12.2"
   },
   "keywords": [],
   "dependencies": {
     "bcryptjs": "2.1.0",
+    "bower": "^1.4.1",
     "connect-redis": "1.4.5",
     "ejs": "~0.8.4",
     "fs": "0.0.2",
