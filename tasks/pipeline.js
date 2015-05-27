@@ -29,6 +29,7 @@ var jsFilesToInject = [
 	"/js/app.js",
 	"/js/services/*.js",
 	"/js/controllers/SplashController.js",
+	"/js/controllers/IndexController.js",
 	"/js/controllers/TomeController.js"
 ];
 

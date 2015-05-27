@@ -36,6 +36,7 @@ module.exports.routes = {
 	//	User Management
 	////////////////////////////////////////////////
 	"GET /me": "UserController.me",
+	"GET /me/stats": "UserController.stats",
 	"POST /me/login": "UserController.login",
 	"POST /me/logout": "UserController.logout",
 	"POST /me/selectchar/:charid": "CharactersController.select",
@@ -71,13 +72,13 @@ module.exports.routes = {
 	//	Campaigns
 	////////////////////////////////////////////////
 	"GET /campaign/:tag": "TomeController.campaign",
+	"GET /campaigns": "CampaignsController.campaigns",
+	"GET /newcampaign": "CampaignsController.newcampaign",
 
 	////////////////////////////////////////////////
 	//	Dungeon Master
 	////////////////////////////////////////////////
 	"GET /dm/screen": "DMController.dmscreen",
-	"GET /dm/campaigns": "DMController.campaigns",
-	"GET /dm/newcampaign": "DMController.newcampaign",
 	"GET /dm/rooms": "DMController.roommanager",
 	"GET /dm/players": "DMController.players",
 	"GET /dm/newroom": "DMController.newroom",

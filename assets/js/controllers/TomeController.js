@@ -12,7 +12,6 @@ Tome.controller("TomeController", [
 		IO.get("/me", function(err, res)
 		{
 			$rootScope.user = res;
-			console.log(res);
 		});
 
 		$scope.INTENT = angular.extend($scope.INTENT || {},

@@ -37,9 +37,6 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<a href="/me">Account</a>
-						</li>
-						<li>
 							<a href="" ng-click="INTENT.logout()">Logout</a>
 						</li>
 					</ul>
@@ -50,21 +47,24 @@
 		</nav>
 
 		<!-- Page Content -->
-		<div class="container bg" style="position: absolute; left: 0; right: 0; background: #333; background-image: url(<%= bgImage %>); background-image: -webkit-gradient(linear, left top, left bottom, from(#333), to(#333)), url(<%= bgImage %>); background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), #333, #333), url(<%= bgImage %>); background-image: -moz-linear-gradient(to bottom, rgba(0, 0, 0, 0), #333, #333), url(<%= bgImage %>); background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), #333, #333), url(<%= bgImage %>); background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), #333, #333), url(<%= bgImage %>); background-repeat: no-repeat; background-size: 100%;">
+		<div class="container bg" style="position: absolute; left: 0; right: 0; background: #333; background-image: url(<%= bgImage %>);">
+			<div class="container bg" style="position: absolute; left: 0; right: 0; background-image: url('/images/bg-gradient.png');">
+				<div class="bg-cover"></div>
 
-			<%- body %>
+				<%- body %>
 
-			<!-- Footer -->
-			<footer>
-				<div class="row">
-					<div class="col-lg-12">
-						<p>
-							<span class="themeFont">Copyright</span> &copy; <span class="themeFont">Tome <%= new Date().getFullYear() %></span>
-						</p>
+				<!-- Footer -->
+				<footer>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<span class="themeFont">Copyright</span> &copy; <span class="themeFont">Tome <%= new Date().getFullYear() %></span>
+							</p>
+						</div>
 					</div>
-				</div>
-				<!-- /.row -->
-			</footer>
+					<!-- /.row -->
+				</footer>
+			</div>
 		</div>
 		<!-- /.container -->
 
@@ -91,6 +91,7 @@
 <script src="/js/services/SyncService.js"></script>
 <script src="/js/services/ValidateService.js"></script>
 <script src="/js/controllers/SplashController.js"></script>
+<script src="/js/controllers/IndexController.js"></script>
 <script src="/js/controllers/TomeController.js"></script>
 <!--SCRIPTS END-->
 

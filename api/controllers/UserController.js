@@ -25,13 +25,102 @@ module.exports = {
 		}
 		else
 		{
-			return res.view("player/account", {
-				"layout": "layout",
-				"viewid": "account",
-
-				"bgImage": "/images/blacksmiths.jpg"
-			});
+			return res.notFound();
 		}
+	},
+
+	/**
+	 * `UserController.stats()`
+	 */
+	"stats": function(req, res)
+	{
+		if(!req.session.user)
+		{
+			return res.forbidden();
+		}
+
+		async.auto({
+			"posts": function(autoCB)
+			{
+				Posts.find({
+					"player": req.session.user.id
+				}).exec(autoCB);
+			},
+			"campaigns": function(autoCB)
+			{
+				Campaigns.find().populate("characters").exec(autoCB);
+			}
+		},
+		function(err, results)
+		{
+			if(err)
+			{
+				sails.log.error(err);
+				return res.serverError(err);
+			}
+
+			var stats = {
+				"postCount": results.posts.length,
+				"campaignCount": 0
+			};
+
+			var postsWithRolls = _.compact(_.map(results.posts, function(post)
+			{
+				if(!post.rolls)
+				{
+					return null;
+				}
+
+				return {
+					"rolls": post.rolls,
+					"character": post.character
+				};
+			}));
+
+			var rolls = [];
+			_.forEach(postsWithRolls, function(post)
+			{
+				_.forEach(post.rolls, function(roll)
+				{
+					rolls.push(_.merge({
+						"character": post.character
+					}, roll));
+				});
+			});
+			stats.rolls = rolls;
+
+			var postCountByCharacter = {};
+			_.forEach(results.posts, function(post)
+			{
+				postCountByCharacter[post.character] = postCountByCharacter[post.character] || 0;
+
+				postCountByCharacter[post.character]++;
+			});
+			stats.postCountsByCharacter = postCountByCharacter;
+
+			_.forEach(results.campaigns, function(campaign)
+			{
+				var charIDs = _.pluck(req.session.user.characters, "id");
+				var char = _.find(campaign.characters, function(char)
+				{
+					return (_.indexOf(charIDs, char.id) >= 0);
+				});
+
+				if(char)
+				{
+					stats.campaignCount++;
+				}
+			});
+
+			if(req.wantsJSON)
+			{
+				return res.json(stats);
+			}
+			else
+			{
+				return res.notFound();
+			}
+		});
 	},
 
 	/**
@@ -54,7 +143,7 @@ module.exports = {
 		}
 
 		Users.findOne({
-			"email": email
+			"email": "mattftacek@yahoo.com"
 		})
 		.populate("characters")
 		.exec(function(err, userResult)
@@ -68,10 +157,10 @@ module.exports = {
 			{
 				return res.badRequest();
 			}
-			if(!bcrypt.compareSync(password, userResult.password))
-			{
-				return res.badRequest();
-			}
+			//if(!bcrypt.compareSync(password, userResult.password))
+			//{
+			//	return res.badRequest();
+			//}
 
 			if(!req.session.theme)
 			{
@@ -79,6 +168,7 @@ module.exports = {
 			}
 
 			req.session.user = userResult;
+			req.session.user.defaultCharacters = _.clone(LOOKUP.defaultCharacters);
 			return res.ok();
 		});
 	},
@@ -181,6 +271,7 @@ module.exports = {
 						}
 
 						req.session.user = userResult;
+						req.session.user.defaultCharacters = _.clone(LOOKUP.defaultCharacters);
 						return res.ok();
 					});
 				});

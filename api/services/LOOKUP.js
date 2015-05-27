@@ -4,7 +4,7 @@ module.exports = LOOKUP = {
 
 	ROOM_PAGE_SIZE: 20,
 
-	fsdelimiter: function()
+	"fsdelimiter": function()
 	{
 		if(process.env.NODE_ENV === "production")
 		{
@@ -16,7 +16,7 @@ module.exports = LOOKUP = {
 		}
 	},
 
-	ownsCharacter: function(player, characterID)
+	"ownsCharacter": function(player, characterID)
 	{
 		if(!player
 		|| !characterID
@@ -37,7 +37,7 @@ module.exports = LOOKUP = {
 		}
 	},
 
-	validInvitationToken: function(token, done)
+	"validInvitationToken": function(token, done)
 	{
 		Tokens.findOne({ "token": token }).exec(function(err, tokenResult)
 		{
@@ -57,9 +57,11 @@ module.exports = LOOKUP = {
 		});
 	},
 
-	formatDate: function(date)
+	"formatDate": function(date)
 	{
 		var string = humanize.relativeTime(new Date(date).getTime() / 1000);
 		return string.substr(0, 1).toUpperCase() + string.substr(1);
-	}
+	},
+
+	"defaultCharacters": []
 };

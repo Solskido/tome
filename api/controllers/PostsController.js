@@ -43,6 +43,7 @@ module.exports = {
 			}
 
 			req.session.user = userResult;
+			req.session.user.defaultCharacters = _.clone(LOOKUP.defaultCharacters);
 
 			if(!LOOKUP.ownsCharacter(req.session.user, characterID))
 			{

@@ -1,4 +1,4 @@
-<div id="tome">
+<div id="tome" ng-controller="IndexController">
 	<div class="row dashboard">
 		<div class="col-md-6">
 			<div class="row">
@@ -11,19 +11,21 @@
 						<!-- Characters -->
 						<ul class="characterList">
 							<li ng-repeat="char in user.characters | filter:{ type: 'char' }">
-								<div class="charAvatar">
-									<img ng-src="{{ char.avatar }}" />
-								</div>
-								<div class="charDetails">
-									<div class="charName" ng-bind="char.name"></div>
-									<div class="charText" ng-bind="char.level"></div>
-								</div>
+								<a href="/char/{{ char.id }}">
+									<div class="charAvatar">
+										<div class="imageBoundingBox" ng-style="{ 'background-image': 'url({{ char.avatar }})' }"></div>
+									</div>
+									<div class="charDetails">
+										<div class="charName" ng-bind="char.name"></div>
+										<div class="charText" ng-bind="char.level"></div>
+									</div>
+								</a>
 							</li>
 
 							<!-- New character -->
 							<li>
 								<div class="charAvatar">
-									<img class="greyscale" src="/images/placeholder.jpg" />
+									<div class="imageBoundingBox greyscale" style="background-image: url('/images/placeholder.jpg')"></div>
 								</div>
 								<div class="charDetails">
 									<div class="charName">
@@ -44,19 +46,91 @@
 						<div class="stats">
 							<div class="stat">
 								<div class="statName">Characters</div>
-								<div class="statNumber">X</div>
+								<div class="statNumber" ng-bind="user.characters.length"></div>
 								<div class="statLine">&nbsp;</div>
 							</div>
 
 							<div class="stat">
 								<div class="statName">Posts</div>
-								<div class="statNumber">XXX</div>
+								<div class="statNumber" ng-bind="stats.postCount"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Campaigns participated in</div>
+								<div class="statNumber" ng-bind="stats.campaignCount"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Average posts per campaign</div>
+								<div class="statNumber" ng-bind="INTENT.Math.round(stats.postCount / stats.campaignCount)"></div>
 								<div class="statLine">&nbsp;</div>
 							</div>
 
 							<div class="stat">
 								<div class="statName">Average posts per character</div>
-								<div class="statNumber">XX</div>
+								<div class="statNumber" ng-bind="INTENT.Math.round(stats.postCount / user.characters.length)"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Quietest character</div>
+								<div class="statNumber" ng-bind="INTENT.quietestCharacter().name + ' (' + INTENT.quietestCharacter().posts + ')'"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Quietest non-default character</div>
+								<div class="statNumber" ng-bind="INTENT.quietestCharacter(true).name + ' (' + INTENT.quietestCharacter(true).posts + ')'"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Loudest character</div>
+								<div class="statNumber" ng-bind="INTENT.loudestCharacter().name + ' (' + INTENT.loudestCharacter().posts + ')'"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Loudest non-default character</div>
+								<div class="statNumber" ng-bind="INTENT.loudestCharacter(true).name + ' (' + INTENT.loudestCharacter(true).posts + ')'"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Die rolls</div>
+								<div class="statNumber" ng-bind="stats.rolls.length"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Average d20 roll</div>
+								<div class="statNumber" ng-bind="INTENT.averageRoll('d20')"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Critical failures (d20)</div>
+								<div class="statNumber" ng-bind="INTENT.numberOfRolls('d20', 1) + ' (' + INTENT.Math.round(INTENT.numberOfRolls('d20', 1) / stats.rolls.length * 100) + '%)'"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Critical successes (d20)</div>
+								<div class="statNumber" ng-bind="INTENT.numberOfRolls('d20', 20) + ' (' + INTENT.Math.round(INTENT.numberOfRolls('d20', 20) / stats.rolls.length * 100) + '%)'"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Luckiest character</div>
+								<div class="statNumber" ng-bind="INTENT.luckiestCharacter().name + ' (' + INTENT.luckiestCharacter().luck + '%)'"></div>
+								<div class="statLine">&nbsp;</div>
+							</div>
+
+							<div class="stat">
+								<div class="statName">Luckiest non-default character</div>
+								<div class="statNumber" ng-bind="INTENT.luckiestCharacter(true).name + ' (' + INTENT.luckiestCharacter(true).luck + '%)'"></div>
 								<div class="statLine">&nbsp;</div>
 							</div>
 						</div>
@@ -69,29 +143,39 @@
 			<div class="row campaigns">
 
 				<!-- Campaigns -->
-				<%
-				for(var i = 0; i < campaigns.length; i++)
-				{
-				%>
-				<div class="cardContainer col-md-12">
-					<a href="/campaign/<%= campaigns[i].tag %>">
-						<div class="card campaign <%= campaigns[i].theme %>">
-							<div class="campaignInner">
-								<div class="selector"></div>
-								<div class="campaignName"><%= campaigns[i].name %></div>
-							</div>
+				<div class="cardContainer col-md-12" ng-repeat="campaign in campaigns | orderBy:INTENT.sortCampaignsByActivity">
+					<div class="card campaign {{ campaign.theme }}">
+						<div class="campaignInner">
+							<a href="/campaign/{{ campaign.tag }}">
+								<div class="campaignName" ng-bind="campaign.name"></div>
+							</a>
+							<ul class="rooms">
+								<li ng-repeat="room in campaign.rooms | orderBy:'lastPost':true | limitTo:3">
+									<a href="/room/{{ room.tag }}">
+										<div class="roomImage">
+											<div class="imageBoundingBox" ng-style="{ 'background-image': 'url({{ room.image }})' }"></div>
+										</div>
+										<div class="name">
+											<div class="major" ng-bind="room.name"></div>
+											<div class="minor" ng-bind="room.lastPost | date"></div>
+										</div>
+									</a>
+								</li>
+								<li class="empty" ng-show="campaign.rooms.length > 3">
+									<a href="/campaign/{{ campaign.tag }}">
+										<div class="name empty" ng-bind="(campaign.rooms.length - 3) + ' more...'"></div>
+									</a>
+								</li>
+							</ul>
 						</div>
-					</a>
+					</div>
 				</div>
-				<%
-				}
-				%>
+
 				<div class="cardContainer col-md-12">
-					<a href="/dm/newcampaign">
+					<a href="/newcampaign">
 						<div class="card campaign newCampaign">
 							<div class="campaignInner">
-								<div class="selector"></div>
-								<div class="campaignName">New Campaign</div>
+								<div class="campaignName newCampaign">New Campaign</div>
 							</div>
 						</div>
 					</a>
