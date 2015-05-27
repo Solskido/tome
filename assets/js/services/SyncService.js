@@ -60,10 +60,10 @@ Tome.factory("Sync", [
 				}
 				else
 				{
-					_syncing[id]--;
+					_syncing[id] -= 1;
 				}
 
-				_syncing[id] = _.max(_syncing[id], 0);
+				_syncing[id] = Math.max(_syncing[id], 0);
 			},
 
 			/**

@@ -23,6 +23,7 @@ Tome.factory("IO", [
 		{
 			Say.whoops("Connection to Tome lost.");
 			Sync.start("_IOReconnect");
+			$rootScope.$apply();
 		});
 
 		Sync.start("_IOReconnect");
@@ -30,6 +31,7 @@ Tome.factory("IO", [
 		{
 			Say.hello("Connection to Tome established.");
 			Sync.stop("_IOReconnect");
+			$rootScope.$apply();
 		});
 
 		/**
