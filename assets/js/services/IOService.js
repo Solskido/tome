@@ -19,6 +19,19 @@ Tome.factory("IO", [
 	{
 		Say = new Say("IOService");
 
+		io.socket.on("disconnect", function()
+		{
+			Say.whoops("Connection to Tome lost.");
+			Sync.start("_IOReconnect");
+		});
+
+		Sync.start("_IOReconnect");
+		io.socket.on("connect", function()
+		{
+			Say.hello("Connection to Tome established.");
+			Sync.stop("_IOReconnect");
+		});
+
 		/**
 		 * Handle the socket response
 		 *

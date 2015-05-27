@@ -2,8 +2,9 @@ Tome.controller("TomeController", [
 	"$rootScope",
 	"$scope",
 	"Say",
+	"Sync",
 	"IO",
-	function($rootScope, $scope, Say, IO)
+	function($rootScope, $scope, Say, Sync, IO)
 	{
 		Say = new Say("TomeController");
 		Say.hello("loaded.");
@@ -16,6 +17,8 @@ Tome.controller("TomeController", [
 
 		$scope.INTENT = angular.extend($scope.INTENT || {},
 		{
+
+			"Sync": Sync,
 
 			"logout": function()
 			{
