@@ -23,7 +23,6 @@ Tome.controller("SplashController", [
 
 			"login": function()
 			{
-				Say.sup("login()");
 				Sync.start("me");
 
 				$scope.login.errors = [];
