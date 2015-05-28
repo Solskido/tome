@@ -10,13 +10,11 @@ Tome.controller("IndexController", [
 
 		IO.get("/me/stats", function(err, res)
 		{
-			console.log(res);
 			$scope.stats = res;
 		});
 
 		IO.get("/campaigns", function(err, res)
 		{
-			console.log(res);
 			$scope.campaigns = res;
 		});
 
@@ -120,58 +118,48 @@ Tome.controller("IndexController", [
 
 				if($scope.stats)
 				{
-					if($rootScope.user.characters.length === 1)
+					var aggregate = {};
+					_.forEach($scope.stats.rolls, function(roll)
 					{
-						return $rootScope.user.characters[0].name;
-					}
-					else
+						aggregate[roll.character] = aggregate[roll.character] || {};
+						aggregate[roll.character].rolls = aggregate[roll.character].rolls || 0;
+						aggregate[roll.character].totalSuccessPercentage = aggregate[roll.character].totalSuccessPercentage || 0;
+
+						aggregate[roll.character].rolls++;
+						aggregate[roll.character].totalSuccessPercentage += (roll.roll / roll.die * 100);
+					});
+
+					var luckiestCharacterID = "";
+					var luckiestCharactersSuccessPercentage = 0;
+					_.forOwn(aggregate, function(stat, character)
 					{
-						var aggregate = {};
-						_.forEach($scope.stats.rolls, function(roll)
+						var successPercentage = (stat.totalSuccessPercentage / stat.rolls);
+						if(successPercentage > luckiestCharactersSuccessPercentage)
 						{
-							aggregate[roll.character] = aggregate[roll.character] || {};
-							aggregate[roll.character].rolls = aggregate[roll.character].rolls || 0;
-							aggregate[roll.character].totalSuccessPercentage = aggregate[roll.character].totalSuccessPercentage || 0;
+							if(standard
+							&& _.find($rootScope.user.defaultCharacters, { "id": character }))
+							{
+								return;
+							}
 
-							aggregate[roll.character].rolls++;
-							aggregate[roll.character].totalSuccessPercentage += (roll.roll / roll.die * 100);
-						});
+							luckiestCharacterID = character;
+							luckiestCharactersSuccessPercentage = successPercentage;
+						}
+					});
 
-						var luckiestCharacterID = "";
-						var luckiestCharactersSuccessPercentage = 0;
-						_.forOwn(aggregate, function(stat, character)
+					if(luckiestCharacterID)
+					{
+						luckiestCharacter = _.find($rootScope.user.characters, { "id": luckiestCharacterID });
+						if(!luckiestCharacter)
 						{
-							var successPercentage = (stat.totalSuccessPercentage / stat.rolls);
-							if(successPercentage > luckiestCharactersSuccessPercentage)
-							{
-								if(standard
-								&& _.find($rootScope.user.defaultCharacters, { "id": character }))
-								{
-									return;
-								}
-
-								luckiestCharacterID = character;
-								luckiestCharactersSuccessPercentage = successPercentage;
-							}
-						});
-
-						if(luckiestCharacterID)
-						{
-							luckiestCharacter = _.find($rootScope.user.characters, { "id": luckiestCharacterID });
-							if(!luckiestCharacter)
-							{
-								luckiestCharacter = _.find($rootScope.user.defaultCharacters, { "id": luckiestCharacterID });
-								if(luckiestCharacter)
-								{
-									luckiestCharacter.luck = luckiestCharactersSuccessPercentage;
-								}
-							}
-							else
-							{
-								luckiestCharacter.luck = luckiestCharactersSuccessPercentage;
-							}
+							luckiestCharacter = _.find($rootScope.user.defaultCharacters, { "id": luckiestCharacterID });
 						}
 					}
+				}
+
+				if(luckiestCharacter)
+				{
+					luckiestCharacter.luck = Math.round(luckiestCharactersSuccessPercentage);
 				}
 
 				return luckiestCharacter || {

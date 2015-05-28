@@ -14,18 +14,11 @@ module.exports = {
 	 */
 	"campaigns": function(req, res)
 	{
-		Campaigns.find({
-			"or": [
-				{
-					"dm": req.session.user.id
-				},
-				{
-					"characters": _.pluck(req.session.user.characters, "id")
-				}
-			]
+		Characters.find({
+			"id": _.pluck(req.session.user.characters, "id")
 		})
-		.populate("rooms")
-		.exec(function(err, campaignResults)
+		.populate("campaigns")
+		.exec(function(err, characterResults)
 		{
 			if(err)
 			{
@@ -33,29 +26,54 @@ module.exports = {
 				return res.serverError(err);
 			}
 
-			_.map(campaignResults, function(campaign)
+			var campaigns = [];
+			_.forEach(characterResults, function(character)
 			{
-				if(campaign.dm !== req.session.user.id)
+				if(character.campaigns
+				&& character.campaigns.length)
 				{
-					campaign.rooms = _.reject(campaign.rooms, { "visible": false });
+					campaigns = _.union(campaigns, _.pluck(character.campaigns, "id"));
 				}
 			});
+			campaigns = _.uniq(campaigns);
 
-			if(req.wantsJSON)
+			Campaigns.find({
+				"or": [
+					{
+						"id": campaigns
+					},
+					{
+						"dm": req.session.user.id
+					}
+				]
+			})
+			.populate("rooms")
+			.exec(function(err, campaignResults)
 			{
-				return res.json(campaignResults);
-			}
-			else
-			{
-				return res.view("dm/campaigns", {
-					"layout": "layout",
-					"viewid": "campaigns",
-
-					"campaigns": campaignResults,
-
-					"bgImage": "/images/campaignbg.jpg"
+				_.map(campaignResults, function(campaign)
+				{
+					if(campaign.dm !== req.session.user.id)
+					{
+						campaign.rooms = _.reject(campaign.rooms, { "visible": false });
+					}
 				});
-			}
+
+				if(req.wantsJSON)
+				{
+					return res.json(campaignResults);
+				}
+				else
+				{
+					return res.view("dm/campaigns", {
+						"layout": "layout",
+						"viewid": "campaigns",
+
+						"campaigns": campaignResults,
+
+						"bgImage": "/images/campaignbg.jpg"
+					});
+				}
+			});
 		});
 	},
 
