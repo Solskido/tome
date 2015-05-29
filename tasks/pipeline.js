@@ -26,10 +26,12 @@ var jsFilesToInject = [
 	"/js/bootstrap.js",
 	"/js/bootbox.min.js",
 	"/js/angular.js",
+	"/js/angucomplete.js",
 	"/js/app.js",
 	"/js/services/*.js",
 	"/js/controllers/SplashController.js",
 	"/js/controllers/IndexController.js",
+	"/js/controllers/DMController.js",
 	"/js/controllers/TomeController.js"
 ];
 

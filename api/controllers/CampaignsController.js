@@ -88,5 +88,20 @@ module.exports = {
 
 			"bgImage": "/images/campaignbg.jpg"
 		});
+	},
+
+	/**
+	 * `CampaignController.createcampaign()`
+	 */
+	"createcampaign": function(req, res)
+	{
+		var campaign = {};
+		campaign.name = req.param("name") || null;
+		campaign.tagline = req.param("tagline") || null;
+		campaign.description = req.param("description") || null;
+		campaign.theme = req.param("theme") || null;
+
+		sails.log.info(campaign);
+		return res.serverError();
 	}
 };

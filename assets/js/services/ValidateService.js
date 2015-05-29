@@ -22,17 +22,42 @@ Tome.factory("Validate", [
 				"password": {
 					"required": true
 				}
+			},
+			"campaign": {
+				"name": {
+					"required": true
+				},
+				"tagline": {
+					"required": false
+				},
+				"description": {
+					"required": false
+				},
+				"theme": {
+					"required": true
+				}
 			}
 		};
 
 		var rules = {
+			"theme": {
+				"choice": [
+					"fantasy",
+					"scifi"
+				]
+			}
 		};
 
 		var evaluate = {
 
 			"required": function(required, value)
 			{
-				return (required && !!value);
+				return (required ? (required && !!value) : true);
+			},
+
+			"choice": function(choices, choice)
+			{
+				return (_.indexOf(choices, choice) >= 0);
 			}
 		};
 

@@ -83,5 +83,11 @@ module.exports.routes = {
 	"GET /dm/players": "DMController.players",
 	"GET /dm/newroom": "DMController.newroom",
 	"POST /dm/roomusability": "RoomsController.roomusability",
-	"POST /dm/roomvisability": "RoomsController.roomvisability"
+	"POST /dm/roomvisability": "RoomsController.roomvisability",
+	"POST /dm/campaign": "CampaignsController.newcampaign",
+
+	////////////////////////////////////////////////
+	//	Searches
+	////////////////////////////////////////////////
+	"GET /playersAndCharacters": "SearchController.playersandcharacters"
 };

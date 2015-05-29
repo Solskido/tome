@@ -1,1 +1,4 @@
-var Tome = angular.module("Tome", []);
+var Tome = angular.module("Tome",
+[
+	"angucomplete"
+]);

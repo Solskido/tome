@@ -1,44 +1,89 @@
-<!-- Page Heading -->
-<div class="row heading page-header">
-	<div class="col-lg-12">
-		<h1>
-			<span id="mirroredName">Name</span>
-			<small>Room</small>
-		</h1>
-	</div>
-</div>
-<!-- /.row -->
-
-<div class="row">
-	<div class="col-xs-12">
-
-		<div class="row roomContainer open editable">
-			<div class="col-md-12">
-				<div class="frameContainer">
-					<div class="pictureContainer">
-						<img id="image" src="/images/painting.jpg" alt="">
-						<div class="uploadReminder">Click<br />to<br />Upload</div>
-						<div class="imageError"></div>
-					</div>
-					<span id="name" class="roomName" contenteditable data-placeholder="Name">Name</span>
-					<span id="subheading" class="roomSubheading" contenteditable data-placeholder="Subheading">Subheading</span>
-					<span class="frame"></span>
-				</div>
-			</div>
+<div id="tome" class="new-campaign" ng-controller="DMController">
+	<!-- Page Heading -->
+	<div class="row heading page-header">
+		<div class="col-lg-12">
+			<h1>
+				<span ng-bind="campaign.name"></span>
+				<small>Campaign</small>
+			</h1>
 		</div>
+	</div>
+	<!-- /.row -->
 
-		<form id="uploadPainting">
-			<input id="imageUpload" class="hidden" type="file" accept="image/*" />
-		</form>
+	<div class="row">
+		<div class="cardContainer col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
 
-		<h4 id="description" contenteditable data-placeholder="Description">Description</h4>
+			<div class="card">
+				<form class="form-horizontal">
 
-		<div class="spacer-80"></div>
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'image') }">
+						<label for="campaign-name" class="col-sm-2 control-label">Image</label>
+						<div class="col-sm-10">
+							<img id="image" src="/images/painting.jpg" alt="" ng-click="INTENT.chooseImageUpload()">
 
-		<button id="createButton" class="btn btn-lg btn-paper">Create</button>
+							<input id="image-upload" type="file" accept="image/*" onchange="angular.element(this).scope().INTENT.beginImageUpload(this)" />
+						</div>
+					</div>
+
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'name') }">
+						<label for="campaign-name" class="col-sm-2 control-label">Name</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="campaign-name" ng-model="campaign.name">
+						</div>
+					</div>
+
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'tagline') }">
+						<label for="campaign-subheading" class="col-sm-2 control-label">Subheading</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="campaign-subheading" ng-model="campaign.tagline">
+						</div>
+					</div>
+
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'description') }">
+						<label for="campaign-description" class="col-sm-2 control-label">Description</label>
+						<div class="col-sm-10">
+							<textarea id="campaign-description" class="form-control" rows="3" ng-model="campaign.description"></textarea>
+						</div>
+					</div>
+
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'theme') }">
+						<label for="campaign-theme" class="col-sm-2 control-label">Theme</label>
+						<div class="col-sm-10">
+							<select id="campaign-theme" class="form-control" ng-model="campaign.theme">
+								<option value="fantasy">Fantasy</option>
+								<option value="scifi">Sci-fi</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group invitations">
+						<label for="campaign-invites" class="col-sm-2 control-label">Invite</label>
+						<div class="col-sm-10 invitation" ng-repeat="invitation in campaign.invitations">
+							<angucomplete
+								placeholder="Start typing..."
+								pause="250"
+								selectedobject="campaign.invitationChars[invitation]"
+								url="/playersAndCharacters?s="
+								titlefield="name"
+								imagefield="avatar"
+								minlength="1"
+								inputclass="form-control" />
+						</div>
+						<div class="invitation-buttons">
+							<button class="btn btn-danger" ng-disabled="campaign.invitations.length < 2" ng-click="INTENT.removeInvitation()">-</button>
+							<button class="btn btn-primary" ng-click="INTENT.addInvitation()">+</button>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-12">
+							<button type="submit" class="btn btn-default" ng-click="INTENT.createCampaign()">Create campaign</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+
+		</div>
 	</div>
 </div>
-
-<hr />
-
-<%- partial('../ce/js/createorupdatecampaign.ejs') %>

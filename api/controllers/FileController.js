@@ -15,7 +15,12 @@ module.exports = {
 	 */
 	"image": function(req, res)
 	{
-		var image = req.file("image") || null;
+		console.log(req.params.all());
+		console.log(req.file);
+		console.log(req.files);
+//		var image = req.file("image") || null;
+//		console.log(image);
+		return res.ok();
 
 		if(!image)
 		{
