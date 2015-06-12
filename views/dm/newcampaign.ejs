@@ -19,7 +19,7 @@
 					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'image') }">
 						<label for="campaign-name" class="col-sm-2 control-label">Image</label>
 						<div class="col-sm-10">
-							<img id="image" src="/images/painting.jpg" alt="" ng-click="INTENT.chooseImageUpload()">
+							<img id="image" ng-src="{{ campaign.imageSrc }}" alt="" ng-click="INTENT.chooseImageUpload()">
 
 							<input id="image-upload" type="file" accept="image/*" onchange="angular.element(this).scope().INTENT.beginImageUpload(this)" />
 						</div>

@@ -15,13 +15,7 @@ module.exports = {
 	 */
 	"image": function(req, res)
 	{
-		console.log(req.params.all());
-		console.log(req.file);
-		console.log(req.files);
-//		var image = req.file("image") || null;
-//		console.log(image);
-		return res.ok();
-
+		var image = req.file("file") || null;
 		if(!image)
 		{
 			return res.badRequest();
@@ -40,8 +34,12 @@ module.exports = {
 				file = file[0];
 			}
 
-			if(!file
-			|| (file.type.split("/")[0] !== "image"))
+			console.log(file);
+			if(!file)
+			{
+				return res.serverError();
+			}
+			else if(file.type.split("/")[0] !== "image")
 			{
 				try
 				{

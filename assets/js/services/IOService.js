@@ -13,9 +13,10 @@ io.sails.environment = "production";
 
 Tome.factory("IO", [
 	"$rootScope",
+	"$http",
 	"Say",
 	"Sync",
-	function($rootScope, Say, Sync)
+	function($rootScope, $http, Say, Sync)
 	{
 		Say = new Say("IOService");
 
@@ -99,6 +100,30 @@ Tome.factory("IO", [
 				io.socket.post(url, data, function serverResponded(body, JWR)
 				{
 					handleResponse(JWR, cb);
+				});
+			},
+
+			"file": function(url, file, cb)
+			{
+				Sync.start("_IO");
+
+				var fd = new FormData();
+				fd.append("file", file);
+
+				$http.post(url, fd, {
+					"withCredentials": true,
+					"headers": { "Content-Type": undefined },
+					"transformRequest": angular.identity
+				}).success(function(data)
+				{
+					Sync.stop("_IO");
+
+					cb(null, data);
+				}).error(function(data)
+				{
+					Sync.stop("_IO");
+
+					cb(data);
 				});
 			}
 		};

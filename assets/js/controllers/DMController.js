@@ -20,8 +20,7 @@ Tome.controller("DMController", [
 			"theme": "fantasy",
 			"invitations": [0],
 			"invitationChars": [""],
-			"imageFile": "",
-			"imageData": ""
+			"imageSrc": "/images/painting.jpg"
 		};
 
 		$scope.INTENT = angular.extend($scope.INTENT || {},
@@ -85,21 +84,20 @@ Tome.controller("DMController", [
 
 			"beginImageUpload": function(element)
 			{
-				$scope.campaign.imageFile = element.files[0];
-				var data = $("#image-form").serialize();
-				console.log(data);
-
 				Sync.start("image");
-				IO.post("/file/image",
-				data,
+				IO.file("/file/image",
+				element.files[0],
 				function(err, res)
 				{
 					Sync.stop("image");
-					console.log(err, res);
 
-					if(err)
+					if(!err)
 					{
-						$scope.campaign.errors.push("images");
+						$scope.campaign.imageSrc = res.uri;
+					}
+					else
+					{
+						Say.sup("Nope");
 					}
 				});
 			},
