@@ -19,6 +19,7 @@ Tome.factory("IO", [
 	function($rootScope, $http, Say, Sync)
 	{
 		Say = new Say("IOService");
+		Sync.start("_IOReconnect");
 
 		io.socket.on("disconnect", function()
 		{
@@ -27,8 +28,14 @@ Tome.factory("IO", [
 			$rootScope.$apply();
 		});
 
-		Sync.start("_IOReconnect");
 		io.socket.on("connect", function()
+		{
+			Say.hello("Connection to Tome established.");
+			Sync.stop("_IOReconnect");
+			$rootScope.$apply();
+		});
+
+		io.socket.on("reconnect", function()
 		{
 			Say.hello("Connection to Tome established.");
 			Sync.stop("_IOReconnect");
@@ -51,6 +58,7 @@ Tome.factory("IO", [
 			}
 			else
 			{
+				Sync.stop("_IOReconnect");
 				$rootScope.$apply(cb(null, JWR.body));
 			}
 		}
