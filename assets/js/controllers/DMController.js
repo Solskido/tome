@@ -33,7 +33,6 @@ Tome.controller("DMController", [
 				$scope.campaign.errors = [];
 
 				$scope.campaign.errors = Validate("campaign", $scope.campaign);
-				console.log($scope.campaign.errors);
 
 				if($scope.campaign.errors.length)
 				{
@@ -41,20 +40,31 @@ Tome.controller("DMController", [
 				}
 				else
 				{
+					var data = {
+						"name": $scope.campaign.name,
+						"tagline": $scope.campaign.tagline,
+						"description": $scope.campaign.description,
+						"theme": $scope.campaign.theme,
+						"characters": _.pluck(_.pluck($scope.campaign.invitationChars, "originalObject"), "id"),
+						"image": $scope.campaign.imageSrc
+					};
+
 					IO.post("/campaign",
-					$scope.campaign,
+					data,
 					function(err, res)
 					{
 						Sync.stop("dm");
 
 						if(!err)
 						{
-							Say.sup("Okay");
+							if(res.tag)
+							{
+								window.location.href = "/campaign/" + res.tag;
+							}
 						}
 						else
 						{
-							Say.sup("Nope");
-							$scope.login.errors.push("error");
+							$scope.campaign.errors.push("error");
 						}
 					});
 				}
@@ -84,6 +94,11 @@ Tome.controller("DMController", [
 
 			"beginImageUpload": function(element)
 			{
+				if(!element.files[0])
+				{
+					return;
+				}
+
 				Sync.start("image");
 				IO.file("/file/image",
 				element.files[0],
@@ -97,7 +112,7 @@ Tome.controller("DMController", [
 					}
 					else
 					{
-						Say.sup("Nope");
+						Say.sup("Image upload error.");
 					}
 				});
 			},

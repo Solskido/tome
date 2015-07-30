@@ -5,6 +5,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
+var internals = {};
+
 module.exports = {
 
 	"schema": true,
@@ -25,6 +27,9 @@ module.exports = {
 		"rooms": {
 			"collection": "Rooms",
 			"via": "campaign"
+		},
+		"image": {
+			"model": "Images"
 		},
 		"theme": {
 			"type": "string"
@@ -64,36 +69,36 @@ module.exports = {
 			}
 			else
 			{
-				function incrementTagIndex(tag)
-				{
-					var lastHyphen = _.lastIndexOf(tag, "-");
-					if(lastHyphen >= 0)
-					{
-						var index = parseInt(tag.substr(lastHyphen + 1));
-						if(_.isNaN(index))
-						{
-							tag += "-2";
-						}
-						else
-						{
-							tag = (tag.substr(0, lastHyphen) + "-" + (index + 1));
-						}
-					}
-					else
-					{
-						tag += "-2";
-					}
-
-					return tag;
-				}
-
 				while(_.find(existingCampaigns, { "tag": attrs.tag }))
 				{
-					attrs.tag = incrementTagIndex(attrs.tag);
+					attrs.tag = internals.incrementTagIndex(attrs.tag);
 				}
 
 				next();
 			}
 		});
 	}
+};
+
+internals.incrementTagIndex = function(tag)
+{
+	var lastHyphen = _.lastIndexOf(tag, "-");
+	if(lastHyphen >= 0)
+	{
+		var index = parseInt(tag.substr(lastHyphen + 1));
+		if(_.isNaN(index))
+		{
+			tag += "-2";
+		}
+		else
+		{
+			tag = (tag.substr(0, lastHyphen) + "-" + (index + 1));
+		}
+	}
+	else
+	{
+		tag += "-2";
+	}
+
+	return tag;
 };

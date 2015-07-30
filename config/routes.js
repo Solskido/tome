@@ -74,6 +74,7 @@ module.exports.routes = {
 	"GET /campaign/:tag": "TomeController.campaign",
 	"GET /campaigns": "CampaignsController.campaigns",
 	"GET /newcampaign": "CampaignsController.newcampaign",
+	"POST /campaign": "CampaignsController.createcampaign",
 
 	////////////////////////////////////////////////
 	//	Dungeon Master
@@ -84,7 +85,6 @@ module.exports.routes = {
 	"GET /dm/newroom": "DMController.newroom",
 	"POST /dm/roomusability": "RoomsController.roomusability",
 	"POST /dm/roomvisability": "RoomsController.roomvisability",
-	"POST /dm/campaign": "CampaignsController.newcampaign",
 
 	////////////////////////////////////////////////
 	//	Searches

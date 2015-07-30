@@ -100,8 +100,22 @@ module.exports = {
 		campaign.tagline = req.param("tagline") || null;
 		campaign.description = req.param("description") || null;
 		campaign.theme = req.param("theme") || null;
+		campaign.image = req.param("image") || null;
+		campaign.image = {
+			"mimeType": campaign.image.split(";")[0].substr(5),
+			"data": campaign.image.split(",")[1]
+		};
+		campaign.characters = req.param("characters") || null;
+		campaign.dm = req.session.user.id;
 
-		sails.log.info(campaign);
-		return res.serverError();
+		Campaigns.create(campaign)
+		.exec(function(err, newCampaign) {
+			if(err)
+			{
+				return res.serverError(err);
+			}
+
+			return res.json(newCampaign);
+		});
 	}
 };
