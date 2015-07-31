@@ -1,4 +1,3 @@
-var Tome = angular.module("Tome",
-[
-	"angucomplete"
+var Tome = angular.module("Tome", [
+	"ngTagsInput"
 ]);

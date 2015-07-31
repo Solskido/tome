@@ -25,12 +25,17 @@ module.exports = {
 					"or": [
 						{
 							"name": {
-								"contains": search
+								"startsWith": search
+							}
+						},
+						{
+							"name": {
+								"contains": " " + search
 							}
 						},
 						{
 							"email": {
-								"contains": search
+								"startsWith": search
 							}
 						}
 					]
@@ -48,9 +53,18 @@ module.exports = {
 			function(parallelCB)
 			{
 				Characters.find({
-					"name": {
-						"contains": search
-					}
+					"or": [
+						{
+							"name": {
+								"startsWith": search
+							}
+						},
+						{
+							"name": {
+								"contains": " " + search
+							}
+						}
+					]
 				})
 				.populate("player")
 				.exec(function(err, characterResults)
@@ -71,6 +85,15 @@ module.exports = {
 			}
 
 			var players = _.reject(results[0], { "id": req.session.user.id });
+			players = _.map(players, function(player)
+			{
+				player.characters = _.map(player.characters, function(character)
+				{
+					character.player = player;
+					return character;
+				});
+				return player;
+			});
 			var characters = _.flatten(_.pluck(players, "characters"));
 			characters = _.union(characters, _.reject(results[1], { "player": req.session.user.id }));
 			characters = _.map(_.uniq(characters, "id"), function(char)
@@ -78,7 +101,8 @@ module.exports = {
 				return {
 					"id": char.id,
 					"name": char.name,
-					"avatar": char.avatar
+					"avatar": char.avatar,
+					"player": char.player.name
 				};
 			});
 

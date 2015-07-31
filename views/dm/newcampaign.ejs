@@ -58,20 +58,23 @@
 
 					<div class="form-group invitations">
 						<label for="campaign-invites" class="col-sm-2 control-label">Invite</label>
-						<div class="col-sm-10 invitation" ng-repeat="invitation in campaign.invitations">
-							<angucomplete
-								placeholder="Start typing..."
-								pause="250"
-								selectedobject="campaign.invitationChars[invitation]"
-								url="/playersAndCharacters?s="
-								titlefield="name"
-								imagefield="avatar"
-								minlength="1"
-								inputclass="form-control" />
-						</div>
-						<div class="invitation-buttons">
-							<button class="btn btn-danger" ng-disabled="campaign.invitations.length < 2" ng-click="INTENT.removeInvitation()">-</button>
-							<button class="btn btn-primary" ng-click="INTENT.addInvitation()">+</button>
+						<div class="col-sm-10 invitation">
+							<%- partial("../../assets/templates/characterPickerTag.html") %>
+							<%- partial("../../assets/templates/characterPickerSuggestion.html") %>
+
+							<tags-input ng-model="campaign.invitations"
+										display-property="name"
+										placeholder="Search..."
+										replace-spaces-with-dashes="false"
+										template="character-picker-tag">
+								<auto-complete source="INTENT.characterPickerAutoComplete($query)"
+									min-length="2"
+									load-on-focus="true"
+									load-on-empty="true"
+									max-results-to-show="6"
+									template="character-picker-suggestion">
+								</auto-complete>
+							</tags-input>
 						</div>
 					</div>
 

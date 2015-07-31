@@ -38,23 +38,21 @@ Tome.controller("SplashController", [
 				}
 				else
 				{
-					IO.post("/me/login",
-					{
+					IO.post("/me/login", {
 						"email": $scope.login.email,
 						"password": $scope.login.password
-					},
-					function(err, res)
+					})
+					.then(function(data)
+					{
+						window.location.href = "/";
+					})
+					.catch(function(err)
+					{
+						$scope.login.errors.push("error");
+					})
+					.finally(function()
 					{
 						Sync.stop("me");
-
-						if(!err)
-						{
-							window.location.href = "/";
-						}
-						else
-						{
-							$scope.login.errors.push("error");
-						}
 					});
 				}
 			},

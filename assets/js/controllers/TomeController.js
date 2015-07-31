@@ -10,9 +10,10 @@ Tome.controller("TomeController", [
 		Say.hello("loaded.");
 
 		$rootScope.pageTitle = "Tome";
-		IO.get("/me", function(err, res)
+		IO.get("/me")
+		.then(function(data)
 		{
-			$rootScope.user = res;
+			$rootScope.user = data;
 		});
 
 		$scope.INTENT = angular.extend($scope.INTENT || {},
@@ -22,12 +23,10 @@ Tome.controller("TomeController", [
 
 			"logout": function()
 			{
-				IO.post("/me/logout", function(err, res)
+				IO.post("/me/logout")
+				.then(function(data)
 				{
-					if(!err)
-					{
-						window.location.href = "/";
-					}
+					window.location.href = "/";
 				});
 			}
 		});

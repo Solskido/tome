@@ -7,10 +7,10 @@ module.exports = function(grunt)
 			"css_dest": ".tmp/public/styles",
 			"options": {
 				"packageSpecific": {
-					"angucomplete": {
+					"ng-tags-input": {
 						"files": [
-							"angucomplete.js",
-							"angucomplete.css"
+							"ng-tags-input.js",
+							"ng-tags-input.css"
 						]
 					},
 					"angular": {

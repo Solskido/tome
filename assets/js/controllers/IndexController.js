@@ -8,14 +8,24 @@ Tome.controller("IndexController", [
 		Say = new Say("IndexController");
 		Say.hello("loaded.");
 
-		IO.get("/me/stats", function(err, res)
+		IO.get("/me/stats")
+		.then(function(data)
 		{
-			$scope.stats = res;
+			$scope.stats = data;
+		})
+		.catch(function(err)
+		{
+			Say.whoops(err);
 		});
 
-		IO.get("/campaigns", function(err, res)
+		IO.get("/campaigns")
+		.then(function(data)
 		{
-			$scope.campaigns = res;
+			$scope.campaigns = data;
+		})
+		.catch(function(err)
+		{
+			Say.whoops(err);
 		});
 
 		$scope.INTENT = angular.extend($scope.INTENT || {},

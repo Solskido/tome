@@ -5,7 +5,8 @@ Tome.controller("DMController", [
 	"Validate",
 	"Sync",
 	"IO",
-	function($rootScope, $scope, Say, Validate, Sync, IO)
+	"$http",
+	function($rootScope, $scope, Say, Validate, Sync, IO, $http)
 	{
 		$rootScope.pageTitle = "Tome";
 
@@ -18,8 +19,7 @@ Tome.controller("DMController", [
 			"tagline": "",
 			"description": "",
 			"theme": "fantasy",
-			"invitations": [0],
-			"invitationChars": [""],
+			"invitations": [],
 			"imageSrc": "/images/painting.jpg"
 		};
 
@@ -45,46 +45,34 @@ Tome.controller("DMController", [
 						"tagline": $scope.campaign.tagline,
 						"description": $scope.campaign.description,
 						"theme": $scope.campaign.theme,
-						"characters": _.pluck(_.pluck($scope.campaign.invitationChars, "originalObject"), "id"),
+						"characters": _.pluck($scope.campaign.invitations, "id"),
 						"image": $scope.campaign.imageSrc
 					};
 
-					IO.post("/campaign",
-					data,
-					function(err, res)
+					IO.post("/campaign", data)
+					.then(function(data)
+					{
+						if(data.tag)
+						{
+							window.location.href = "/campaign/" + data.tag;
+						}
+					})
+					.catch(function(err)
+					{
+						$scope.campaign.errors.push("error");
+					})
+					.finally(function()
 					{
 						Sync.stop("dm");
-
-						if(!err)
-						{
-							if(res.tag)
-							{
-								window.location.href = "/campaign/" + res.tag;
-							}
-						}
-						else
-						{
-							$scope.campaign.errors.push("error");
-						}
 					});
 				}
 			},
 
-			"removeInvitation": function()
+			"characterPickerAutoComplete": function(query)
 			{
-				if($scope.campaign.invitations.length < 2)
-				{
-					return;
-				}
-
-				$scope.campaign.invitations = $scope.campaign.invitations.slice(0, ($scope.campaign.invitations.length - 1));
-				$scope.campaign.invitationChars = $scope.campaign.invitationChars.slice(0, ($scope.campaign.invitationChars.length - 1));
-			},
-
-			"addInvitation": function()
-			{
-				$scope.campaign.invitations.push(_.max($scope.campaign.invitations) + 1);
-				$scope.campaign.invitationChars.push({});
+				return IO.get("/playersAndCharacters", {
+					"s": query
+				});
 			},
 
 			"chooseImageUpload": function()
@@ -100,20 +88,18 @@ Tome.controller("DMController", [
 				}
 
 				Sync.start("image");
-				IO.file("/file/image",
-				element.files[0],
-				function(err, res)
+				IO.post("/file/image", element.files[0])
+				.then(function(data)
+				{
+					$scope.campaign.imageSrc = res.uri;
+				})
+				.catch(function(err)
+				{
+					Say.sup("Image upload error.");
+				})
+				.finally(function()
 				{
 					Sync.stop("image");
-
-					if(!err)
-					{
-						$scope.campaign.imageSrc = res.uri;
-					}
-					else
-					{
-						Say.sup("Image upload error.");
-					}
 				});
 			},
 

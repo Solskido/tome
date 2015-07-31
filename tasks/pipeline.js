@@ -26,7 +26,7 @@ var jsFilesToInject = [
 	"/js/bootstrap.js",
 	"/js/bootbox.min.js",
 	"/js/angular.js",
-	"/js/angucomplete.js",
+	"/js/ng-tags-input.js",
 	"/js/app.js",
 	"/js/services/*.js",
 	"/js/controllers/SplashController.js",
