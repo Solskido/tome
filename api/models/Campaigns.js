@@ -52,7 +52,7 @@ module.exports = {
 	 */
 	"beforeCreate": function(attrs, next)
 	{
-		attrs.tag = attrs.name.trim().replace(/[^A-Za-z ]/g, '').replace(/ /g, '-').toLowerCase();
+		attrs.tag = attrs.name.replace(/[^A-Za-z0-9 ]/g, '').trim().replace(/ /g, '-').toLowerCase();
 		Campaigns.find({
 			"tag": {
 				"contains": attrs.tag
