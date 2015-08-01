@@ -88,10 +88,10 @@ Tome.controller("DMController", [
 				}
 
 				Sync.start("image");
-				IO.post("/file/image", element.files[0])
+				IO.file("/file/image", element.files[0])
 				.then(function(data)
 				{
-					$scope.campaign.imageSrc = res.uri;
+					$scope.campaign.imageSrc = data.uri;
 				})
 				.catch(function(err)
 				{
