@@ -19,6 +19,8 @@ Tome.factory("Say", function()
 		"meh": "color: black",
 		"bad": "color: red",
 
+		"trace": "color: #BBBBBB",
+
 		"big": "font-size: 16px",
 		"normal": "font-size: 12px"
 	};
@@ -43,7 +45,7 @@ Tome.factory("Say", function()
 	 */
 	function hello(words)
 	{
-		console.log("%c✓%c " + this.identity + " →", s("good", "big"), s("meh", "normal"), words);
+		console.log("%c✓%c " + this.identity + " →" + words + "%c:" + _getSource(), s("good", "big"), s("meh", "normal"), s("trace", "normal"));
 	}
 
 	/**
@@ -53,7 +55,7 @@ Tome.factory("Say", function()
 	 */
 	function sup(words)
 	{
-		console.log("%c→%c " + this.identity + " →", s("meh", "big"), s("meh", "normal"), words);
+		console.log("%c→%c " + this.identity + " →" + words + "%c:" + _getSource(), s("meh", "big"), s("meh", "normal"), s("trace", "normal"));
 	}
 
 	/**
@@ -63,7 +65,7 @@ Tome.factory("Say", function()
 	 */
 	function whoops(words)
 	{
-		console.log("%c✗%c " + this.identity + " → broke", s("bad", "big"), s("bad", "normal"), words);
+		console.log("%c✗%c " + this.identity + " → broke" + words + "%c:" + _getSource(), s("bad", "big"), s("bad", "normal"), s("meh", "normal"));
 	}
 
 	/**
@@ -74,7 +76,13 @@ Tome.factory("Say", function()
 	 */
 	function clean(words)
 	{
-		console.log(this.identity + " => " + words);
+		console.log(this.identity + " => " + words, ":" + _getSource());
+	}
+
+	function _getSource()
+	{
+		var source = _.takeRight((new Error).stack.split("\n")[3].split("/"))[0];
+		return source.substr(0, source.length - 1);
 	}
 
 	return function(name)
