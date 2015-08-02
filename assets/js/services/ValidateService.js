@@ -36,6 +36,17 @@ Tome.factory("Validate", [
 				"theme": {
 					"required": true
 				}
+			},
+			"room": {
+				"name": {
+					"required": true
+				},
+				"subheading": {
+					"required": false
+				},
+				"description": {
+					"required": false
+				}
 			}
 		};
 
@@ -57,7 +68,7 @@ Tome.factory("Validate", [
 
 			"choice": function(choices, choice)
 			{
-				return (_.indexOf(choices, choice) >= 0);
+				return (_.indexOf(choices, choice) > -1);
 			}
 		};
 
