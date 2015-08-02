@@ -53,8 +53,22 @@ module.exports = {
 	 */
 	"beforeCreate": function(attrs, next)
 	{
-		attrs.tag = attrs.name.trim().replace(/[^A-Za-z ]/g, '').replace(/ /g, '-').toLowerCase();
-		next();
+		TagService.convertNameToTag({
+			"model": "Rooms",
+			"name": attrs.name
+		},
+		function(err, tag)
+		{
+			if(err)
+			{
+				sails.log.error(err);
+			}
+			else
+			{
+				attrs.tag = tag;
+				next();
+			}
+		});
 	},
 
 	/**
