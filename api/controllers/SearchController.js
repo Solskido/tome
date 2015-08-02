@@ -94,16 +94,24 @@ module.exports = {
 				});
 				return player;
 			});
+
 			var characters = _.flatten(_.pluck(players, "characters"));
 			characters = _.union(characters, _.reject(results[1], { "player": req.session.user.id }));
 			characters = _.map(_.uniq(characters, "id"), function(char)
 			{
-				return {
+				var character = {
 					"id": char.id,
 					"name": char.name,
 					"avatar": char.avatar,
-					"player": char.player.name
+					"player": ""
 				};
+
+				if(char.player)
+				{
+					character.player = char.player.name;
+				}
+
+				return character;
 			});
 
 			return res.json(characters);
