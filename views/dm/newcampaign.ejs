@@ -3,7 +3,7 @@
 	<div class="row heading page-header">
 		<div class="col-lg-12">
 			<h1>
-				<span ng-bind="campaign.name"></span>
+				<span ng-bind="newCampaign.name"></span>
 				<small>Campaign</small>
 			</h1>
 		</div>
@@ -16,40 +16,40 @@
 			<div class="card">
 				<form class="form-horizontal">
 
-					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'image') }">
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(newCampaign.errors, 'image') }">
 						<label for="campaign-name" class="col-sm-2 control-label">Image</label>
 						<div class="col-sm-10">
-							<img id="image" ng-src="{{ campaign.imageSrc }}" alt="" ng-click="INTENT.chooseImageUpload()">
+							<img id="image" ng-src="{{ newCampaign.imageSrc }}" alt="" ng-click="INTENT.chooseImageUpload()">
 
 							<input id="image-upload" type="file" accept="image/*" onchange="angular.element(this).scope().INTENT.beginImageUpload(this)" />
 						</div>
 					</div>
 
-					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'name') }">
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(newCampaign.errors, 'name') }">
 						<label for="campaign-name" class="col-sm-2 control-label">Name</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="campaign-name" ng-model="campaign.name">
+							<input type="text" class="form-control" id="campaign-name" ng-model="newCampaign.name">
 						</div>
 					</div>
 
-					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'tagline') }">
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(newCampaign.errors, 'tagline') }">
 						<label for="campaign-subheading" class="col-sm-2 control-label">Subheading</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="campaign-subheading" ng-model="campaign.tagline">
+							<input type="text" class="form-control" id="campaign-subheading" ng-model="newCampaign.tagline">
 						</div>
 					</div>
 
-					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'description') }">
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(newCampaign.errors, 'description') }">
 						<label for="campaign-description" class="col-sm-2 control-label">Description</label>
 						<div class="col-sm-10">
-							<textarea id="campaign-description" class="form-control" rows="3" ng-model="campaign.description"></textarea>
+							<textarea id="campaign-description" class="form-control" rows="3" ng-model="newCampaign.description"></textarea>
 						</div>
 					</div>
 
-					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(campaign.errors, 'theme') }">
+					<div class="form-group" ng-class="{ 'has-error': INTENT.isInvalid(newCampaign.errors, 'theme') }">
 						<label for="campaign-theme" class="col-sm-2 control-label">Theme</label>
 						<div class="col-sm-10">
-							<select id="campaign-theme" class="form-control" ng-model="campaign.theme">
+							<select id="campaign-theme" class="form-control" ng-model="newCampaign.theme">
 								<option value="fantasy">Fantasy</option>
 								<option value="scifi">Sci-fi</option>
 							</select>
@@ -62,7 +62,7 @@
 							<%- partial("../../assets/templates/characterPickerTag.html") %>
 							<%- partial("../../assets/templates/characterPickerSuggestion.html") %>
 
-							<tags-input ng-model="campaign.invitations"
+							<tags-input ng-model="newCampaign.invitations"
 										display-property="name"
 										placeholder="Search..."
 										replace-spaces-with-dashes="false"
