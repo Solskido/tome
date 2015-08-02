@@ -45,7 +45,7 @@ Tome.factory("Say", function()
 	 */
 	function hello(words)
 	{
-		console.log("%c✓%c " + this.identity + " →" + words + "%c:" + _getSource(), s("good", "big"), s("meh", "normal"), s("trace", "normal"));
+		console.log("%c✓%c " + this.identity + " → " + words + "%c:" + _getSource(), s("good", "big"), s("meh", "normal"), s("trace", "normal"));
 	}
 
 	/**
@@ -55,7 +55,7 @@ Tome.factory("Say", function()
 	 */
 	function sup(words)
 	{
-		console.log("%c→%c " + this.identity + " →" + words + "%c:" + _getSource(), s("meh", "big"), s("meh", "normal"), s("trace", "normal"));
+		console.log("%c→%c " + this.identity + " → " + words + "%c:" + _getSource(), s("meh", "big"), s("meh", "normal"), s("trace", "normal"));
 	}
 
 	/**
@@ -65,7 +65,7 @@ Tome.factory("Say", function()
 	 */
 	function whoops(words)
 	{
-		console.log("%c✗%c " + this.identity + " → broke" + words + "%c:" + _getSource(), s("bad", "big"), s("bad", "normal"), s("meh", "normal"));
+		console.log("%c✗%c " + this.identity + " → broke. " + words + "%c:" + _getSource(), s("bad", "big"), s("bad", "normal"), s("meh", "normal"));
 	}
 
 	/**
