@@ -1,264 +1,50 @@
-<!-- Page Heading -->
-<div class="row heading page-header">
-	<div class="col-lg-12">
-		<%
-		if(campaign.name)
-		{
-		%>
-		<h1><%= campaign.name %>
-			<small>Campaign</small>
-		</h1>
-		<%
-			if(campaign.tagline)
-			{
-			%>
-			<h3><%= campaign.tagline %></h3>
-			<%
-			}
-		}
-		else
-		{
-		%>
-		<h1>
-			Campaign Rooms
-		</h1>
-		<%
-		}
-		%>
-	</div>
-</div>
-<!-- /.row -->
-
-<!-- Campaign Rooms -->
-<%
-var rooms = campaign.rooms;
-if(rooms.length)
-{
-	for(var i = 0; i < rooms.length; i++)
-	{
-	%>
-	<div class="row roomContainer <%= rooms[i].open ? 'open' : 'closed' %>">
-		<div class="col-md-12">
-			<a href="/room/<%= rooms[i].tag %>">
-				<div class="frameContainer">
-					<div class="pictureContainer">
-						<img src="<%= rooms[i].image %>" alt="">
-					</div>
-					<span class="roomName"><%= rooms[i].name %></span>
-					<span class="roomSubheading"><%= rooms[i].subheading %></span>
-					<span class="frame"></span>
-					<%
-					if(session.user.dm)
-					{
-					%>
-					<span class="roomControl visibility" data-id="<%= rooms[i].id %>">
-						<i class="fa fa-<%= rooms[i].visible ? 'eye' : 'eye-slash' %>"></i>
-					</span>
-					<span class="roomControl usability" data-id="<%= rooms[i].id %>">
-						<i class="fa fa-<%= rooms[i].open ? 'chain' : 'chain-broken' %>"></i>
-					</span>
-					<span class="roomControl edit" data-id="<%= rooms[i].id %>">
-						<i class="fa fa-pencil-square-o"></i>
-					</span>
-					<span class="roomControl delete" data-id="<%= rooms[i].id %>">
-						<i class="fa fa-times"></i>
-					</span>
-					<%
-					}
-					%>
-				</div>
-			</a>
+<div id="tome" class="campaign ng-cloak">
+	<!-- Page Heading -->
+	<div class="row heading page-header">
+		<div class="col-lg-12">
+			<h1 ng-if="campaign.name">
+				<span ng-bind="campaign.name"></span>
+				<small>Campaign</small>
+			</h1>
+			<h1 ng-if="!campaign.name">Campaign Rooms</h1>
+			<h3 ng-if="campaign.tagline" ng-bind="campaign.tagline"></h3>
 		</div>
 	</div>
-	<%
-	}
-	%>
 
-	<%
-	if(session.user.dm)
-	{
-	%>
-	<div class="row roomContainer">
-		<div class="col-md-12">
-			<a href="/dm/newroom">
-				<div class="frameContainer">
-					<div class="pictureContainer">
-						<img src="/images/painting.jpg" alt="">
+	<!-- Campaign Rooms -->
+	<div class="campaignRooms">
+
+		<div class="row roomContainer"
+			 ng-repeat="room in campaign.rooms"
+			 ng-class="{ open: room.open, closed: !room.open }">
+			<div class="col-md-12">
+				<a href="/room/{{ room.tag }}">
+					<div class="frameContainer">
+						<div class="pictureContainer">
+							<img ng-src="{{ room.image }}" alt="">
+						</div>
+						<span class="roomName" ng-bind="room.name"></span>
+						<span class="roomSubheading" ng-bind="room.subheading"></span>
+						<span class="frame"></span>
 					</div>
-					<span class="roomName">New Room</span>
-					<span class="frame"></span>
-				</div>
-			</a>
+				</a>
+			</div>
 		</div>
-	</div>
-	<%
-	}
-}
-else
-{
-%>
-	<h1 class="emptyMessage">There are no rooms! Ask your DM to create some.</h1>
-<%
-}
-%>
 
-<!-- Pagination -->
-<hr />
-<%
-if(rooms.length > 6)
-{
-%>
-<div class="row text-center">
-	<div class="col-lg-12">
-		<ul class="pagination">
-			<li>
-				<a href="#">&laquo;</a>
-			</li>
-			<li class="active">
-				<a href="#">1</a>
-			</li>
-			<li>
-				<a href="#">2</a>
-			</li>
-			<li>
-				<a href="#">3</a>
-			</li>
-			<li>
-				<a href="#">4</a>
-			</li>
-			<li>
-				<a href="#">5</a>
-			</li>
-			<li>
-				<a href="#">&raquo;</a>
-			</li>
-		</ul>
+		<div ng-if="INTENT.dmsCampaign()" class="row roomContainer">
+			<div class="col-md-12">
+				<a href="/dm/newroom">
+					<div class="frameContainer">
+						<div class="pictureContainer">
+							<img src="/images/painting.jpg" alt="">
+						</div>
+						<span class="roomName">New Room</span>
+						<span class="frame"></span>
+					</div>
+				</a>
+			</div>
+		</div>
+
+		<h1 ng-if="!campaign.rooms.length && !INTENT.dmsCampaign()" class="emptyMessage">There are no rooms! Ask your DM to create some.</h1>
 	</div>
 </div>
-<!-- /.row -->
-
-<hr />
-<%
-}
-
-if(session.user.dm)
-{
-%>
-<script>
-	$(document).ready(function()
-	{
-		var loading = false;
-
-		$(".roomControl.usability").click(function(e)
-		{
-			e.stopPropagation();
-			e.preventDefault();
-
-			if(!loading)
-			{
-				loading = true;
-				var button = $(e.currentTarget);
-				var icon = button.children("i");
-				$.ajax({
-					url: "/dm/roomusability",
-					method: "POST",
-					data: {
-						"id": button.data("id"),
-						"open": icon.hasClass("fa-chain-broken")
-					},
-					success: function(data, jqXHR, textStatus)
-					{
-						if(data.open)
-						{
-							icon.removeClass("fa-chain-broken").addClass("fa-chain");
-							button.closest(".roomContainer").removeClass("closed").addClass("open");
-						}
-						else
-						{
-							icon.removeClass("fa-chain").addClass("fa-chain-broken");
-							button.closest(".roomContainer").removeClass("open").addClass("closed");
-						}
-					},
-					complete: function(jqXHR, textStatus)
-					{
-						loading = false;
-					}
-				});
-			}
-		});
-
-		$(".roomControl.visibility").click(function(e)
-		{
-			e.stopPropagation();
-			e.preventDefault();
-
-			if(!loading)
-			{
-				loading = true;
-				var button = $(e.currentTarget);
-				var icon = button.children("i");
-				$.ajax({
-					url: "/dm/roomvisability",
-					method: "POST",
-					data: {
-						"id": button.data("id"),
-						"visible": icon.hasClass("fa-eye-slash")
-					},
-					success: function(data, jqXHR, textStatus)
-					{
-						if(data.visible)
-						{
-							icon.removeClass("fa-eye-slash").addClass("fa-eye");
-						}
-						else
-						{
-							icon.removeClass("fa-eye").addClass("fa-eye-slash");
-						}
-					},
-					complete: function(jqXHR, textStatus)
-					{
-						loading = false;
-					}
-				});
-			}
-		});
-
-		$(".roomControl.delete").click(function(e)
-		{
-			e.stopPropagation();
-			e.preventDefault();
-
-			bootbox.dialog({
-				message: "Deleting the room \"" + $(e.currentTarget).siblings(".roomName").text() + "\" cannot be undone. Really delete it?",
-				title: "Are you sure?",
-				buttons: {
-					success: {
-						label: "Cancel",
-						className: "btn-paper"
-					},
-					danger: {
-						label: "Delete",
-						className: "btn-danger",
-						callback: function()
-						{
-							$.ajax({
-								url: "/room",
-								method: "DELETE",
-								data: {
-									"id": $(e.currentTarget).data("id")
-								},
-								success: function(data, jqXHR, textStatus)
-								{
-									$(e.currentTarget).closest(".row").remove();
-								}
-							});
-						}
-					}
-				}
-			});
-		});
-	});
-</script>
-<%
-}
-%>

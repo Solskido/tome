@@ -5,15 +5,14 @@ Tome.controller("DMController", [
 	"Validate",
 	"Sync",
 	"IO",
-	"$http",
-	function($rootScope, $scope, Say, Validate, Sync, IO, $http)
+	function($rootScope, $scope, Say, Validate, Sync, IO)
 	{
 		$rootScope.pageTitle = "Tome";
 
 		Say = new Say("DMController");
 		Say.hello("loaded.");
 
-		$scope.campaign = {
+		$scope.newCampaign = {
 			"errors": [],
 			"name": "",
 			"tagline": "",
@@ -23,6 +22,36 @@ Tome.controller("DMController", [
 			"imageSrc": "/images/painting.jpg"
 		};
 
+		$scope.newRoom = {
+			"errors": [],
+			"name": "",
+			"subheading": "",
+			"description": "",
+			"theme": "fantasy",
+			"invitations": [],
+			"imageSrc": "/images/painting.jpg"
+		};
+
+		function beginImageUpload(element, callback)
+		{
+			if(!element.files[0])
+			{
+				return;
+			}
+
+			Sync.start("image");
+			IO.file("/file/image", element.files[0])
+			.then(callback)
+			.catch(function(err)
+			{
+				Say.sup("Image upload error.");
+			})
+			.finally(function()
+			{
+				Sync.stop("image");
+			});
+		}
+
 		$scope.INTENT = angular.extend($scope.INTENT || {},
 		{
 
@@ -30,23 +59,23 @@ Tome.controller("DMController", [
 			{
 				Sync.start("dm");
 
-				$scope.campaign.errors = [];
+				$scope.newCampaign.errors = [];
 
-				$scope.campaign.errors = Validate("campaign", $scope.campaign);
+				$scope.newCampaign.errors = Validate("campaign", $scope.newCampaign);
 
-				if($scope.campaign.errors.length)
+				if($scope.newCampaign.errors.length)
 				{
 					Sync.stop("dm");
 				}
 				else
 				{
 					var data = {
-						"name": $scope.campaign.name,
-						"tagline": $scope.campaign.tagline,
-						"description": $scope.campaign.description,
-						"theme": $scope.campaign.theme,
-						"characters": _.pluck($scope.campaign.invitations, "id"),
-						"image": $scope.campaign.imageSrc
+						"name": $scope.newCampaign.name,
+						"tagline": $scope.newCampaign.tagline,
+						"description": $scope.newCampaign.description,
+						"theme": $scope.newCampaign.theme,
+						"characters": _.pluck($scope.newCampaign.invitations, "id"),
+						"image": $scope.newCampaign.imageSrc
 					};
 
 					IO.post("/campaign", data)
@@ -59,7 +88,47 @@ Tome.controller("DMController", [
 					})
 					.catch(function(err)
 					{
-						$scope.campaign.errors.push("error");
+						$scope.newCampaign.errors.push("error");
+					})
+					.finally(function()
+					{
+						Sync.stop("dm");
+					});
+				}
+			},
+
+			"createRoom": function()
+			{
+				Sync.start("dm");
+
+				$scope.newRoom.errors = [];
+
+				$scope.newRoom.errors = Validate("room", $scope.newRoom);
+
+				if($scope.newRoom.errors.length)
+				{
+					Sync.stop("dm");
+				}
+				else
+				{
+					var data = {
+						"name": $scope.newRoom.name,
+						"subheading": $scope.newRoom.subheading,
+						"description": $scope.newRoom.description,
+						"image": $scope.newRoom.imageSrc
+					};
+
+					IO.post("/room", data)
+					.then(function(data)
+					{
+						if(data.tag)
+						{
+							window.location.href = "/room/" + data.tag;
+						}
+					})
+					.catch(function(err)
+					{
+						$scope.newRoom.errors.push("error");
 					})
 					.finally(function()
 					{
@@ -80,32 +149,20 @@ Tome.controller("DMController", [
 				$("#image-upload").trigger("click");
 			},
 
-			"beginImageUpload": function(element)
+			"beginCampaignImageUpload": function(element)
 			{
-				if(!element.files[0])
+				beginImageUpload(element, function(data)
 				{
-					return;
-				}
-
-				Sync.start("image");
-				IO.file("/file/image", element.files[0])
-				.then(function(data)
-				{
-					$scope.campaign.imageSrc = data.uri;
-				})
-				.catch(function(err)
-				{
-					Say.sup("Image upload error.");
-				})
-				.finally(function()
-				{
-					Sync.stop("image");
+					$scope.newCampaign.imageSrc = data.uri;
 				});
 			},
 
-			"isInvalid": function(form, key)
+			"beginRoomImageUpload": function(element)
 			{
-				return (_.indexOf(form, key) > -1);
+				beginImageUpload(element, function(data)
+				{
+					$scope.newRoom.imageSrc = data.uri;
+				});
 			}
 		});
 	}
