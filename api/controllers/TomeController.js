@@ -27,12 +27,12 @@ module.exports = {
 				}
 
 				// For each character, retrieve their campaigns
-				var campaigns =_.map(characterResults, function(character)
+				var campaigns = _.map(characterResults, function(character)
 				{
 					return character.campaigns;
 				});
 
-				// Combine the character's campaigns into a single list
+				// Combine the characters' campaigns into a single list
 				campaigns = _.flatten(campaigns);
 
 				// Ensure there are no duplicate entries
@@ -198,14 +198,21 @@ module.exports = {
 	 */
 	"campaign": function(req, res)
 	{
-		var tag = req.param("tag") || null;
-		if(!tag)
+		var tagOrID = req.param("tag") || null;
+		if(!tagOrID)
 		{
 			return res.notFound();
 		}
 
 		Campaigns.findOne({
-			"tag": tag
+			"or": [
+				{
+					"tag": tagOrID
+				},
+				{
+					"id": tagOrID
+				}
+			]
 		})
 		.populate("rooms")
 		.exec(function(err, campaignResult)
@@ -220,11 +227,9 @@ module.exports = {
 				return res.notFound();
 			}
 
-			req.session.theme = campaignResult.theme;
-
-			// Players can't see invisible rooms, silly
 			if(!req.session.user.dm)
 			{
+				// Silly player, invisible rooms are for DMs
 				campaignResult.rooms = _.filter(campaignResult.rooms, { "visible": true });
 			}
 
@@ -235,12 +240,22 @@ module.exports = {
 			campaignResult.rooms = _.sortBy(campaignResult.rooms, "open");
 			campaignResult.rooms = _.sortBy(campaignResult.rooms, "visible").reverse();
 
+			if(req.wantsJSON)
+			{
+				return res.ok(campaignResult);
+			}
+
+			req.session.theme = campaignResult.theme;
+
 			return res.view("tome/campaign", {
 				"layout": "layout",
 				"viewid": "room",
 
-				"bgImage": "/images/roomsbg-" + campaignResult.theme +  ".jpg",
-				"campaign": campaignResult
+				"bgImage": "/images/roomsbg-" + campaignResult.theme + ".jpg",
+
+				"data": {
+					"campaign": campaignResult.id
+				}
 			});
 		});
 	}
